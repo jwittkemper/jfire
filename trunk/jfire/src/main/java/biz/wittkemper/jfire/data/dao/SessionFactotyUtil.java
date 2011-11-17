@@ -19,7 +19,7 @@ public class SessionFactotyUtil {
 	static{
 				
 		Properties properties = new Properties();
-		properties.setProperty("hibernate.connection.url", "jdbc:derby:Database;create=true");
+		properties.setProperty("hibernate.connection.url", "jdbc:derby:../jfire-Database;create=true");
 	
 		sessionFactory = new AnnotationConfiguration()
 			.addProperties(properties)
