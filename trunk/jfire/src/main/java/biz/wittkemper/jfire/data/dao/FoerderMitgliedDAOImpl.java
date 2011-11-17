@@ -1,0 +1,27 @@
+package biz.wittkemper.jfire.data.dao;
+
+import java.util.List;
+
+import biz.wittkemper.jfire.data.entity.FoerderMitglied;
+import biz.wittkemper.jfire.data.entity.Mitglied;
+
+public class FoerderMitgliedDAOImpl extends
+		AbstractDAOImpl<FoerderMitglied, Long> implements FoerderMitgliedDAO {
+
+	@Override
+	protected Class<FoerderMitglied> getDomainClass() {
+		return FoerderMitglied.class;
+	}
+
+	@Override
+	public int getAll() {
+		String hsql = "FROM FoerderMitglied ";
+		List<FoerderMitglied> list = super.findByQueryString(hsql);
+
+		if (list.size() > 0) {
+			return list.size();
+		}
+		return 0;
+	}
+
+}
