@@ -24,6 +24,9 @@ public class MitgliedModel extends Mitglied {
 		this.setName(mitglied.getName());
 		this.setVorname(mitglied.getVorname());
 		this.setEintritt(mitglied.getEintritt());
+		this.setStrasseNr(mitglied.getStrasseNr());
+		this.setPlz(mitglied.getPlz());
+		this.setOrt(mitglied.getOrt());
 		
 	}
 	@Transient
@@ -48,6 +51,24 @@ public class MitgliedModel extends Mitglied {
 		super.setVorname(vorname);
 		System.out.println(super.getVorname());
 		changeSupport.firePropertyChange("vorname", old, vorname);
+	}
+	
+	public void setStrasse(String strasse){
+		String old = super.getStrasseNr();
+		super.setStrasseNr(strasse);
+		changeSupport.firePropertyChange("strasseNr", old, strasse);
+	}
+	
+	public void setPlz(int plz){
+		int old = super.getPlz();
+		super.setPlz(plz);
+		changeSupport.firePropertyChange("plz", old, plz);
+	}
+	
+	public void setOrt(String ort){
+		String old = super.getOrt();
+		super.setOrt(ort);
+		changeSupport.firePropertyChange("ort", old, ort);
 	}
 
 }
