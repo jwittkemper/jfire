@@ -13,11 +13,13 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
 import com.jgoodies.binding.PresentationModel;
+import com.jgoodies.binding.adapter.BasicComponentFactory;
 import com.jgoodies.binding.adapter.Bindings;
 import com.jgoodies.binding.beans.BeanAdapter;
 import com.jgoodies.binding.value.Trigger;
 import com.jgoodies.binding.value.ValueModel;
 import com.jgoodies.validation.ValidationResultModel;
+import com.sun.xml.internal.org.jvnet.staxex.NamespaceContextEx.Binding;
 
 import biz.wittkemper.jfire.data.entity.Mitglied;
 import javax.swing.JTabbedPane;
@@ -25,7 +27,11 @@ import javax.swing.JPanel;
 import javax.swing.text.JTextComponent;
 import javax.swing.UIManager;
 import javax.swing.JToolBar;
+
+import org.hibernate.cfg.ImprovedNamingStrategy;
+
 import java.awt.event.ActionEvent;
+import java.awt.BorderLayout;
 
 public class FMitgliederVerwaltungView extends JInternalFrame {
 	/**
@@ -34,9 +40,6 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 	MitgliedModel model = new MitgliedModel();
 
 	private static final long serialVersionUID = -8498808806506779920L;
-	private JButton btnbeenden;
-	private JButton btnSave;
-	private JButton btnSuche;
 	public PresentationModel<MitgliedModel> pmodel;
 	ValueModel name;
 	ValueModel vorname;
@@ -44,19 +47,19 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 	ValueModel plz;
 	ValueModel ort;
 	public Trigger trigger;
-	private JTabbedPane tabbedPane;
-	private JPanel stammdaten = new JPanel();
+	private JToolBar TBMain;
 	private JPanel panel;
+	JButton btnSave;
+	JButton btnbeenden;
+	private JTextField Iname = new JTextField();
+	private JLabel lblVorname;
+	private JTextField IVorname;
 	private JLabel lblStrasse;
+	private JTextField IStrasse;
 	private JLabel lblPlz;
-	private JTextField iStrasse;
-	private JTextField iPlz;
-	private JLabel lblOrt;
-	private JTextField iOrt;
-	private JToolBar toolBar;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
+	private JTextField IPlz;
+	private JLabel lblWohnort;
+	private JTextField Iort;
 
 	/**
 	 * Create the frame.
@@ -64,11 +67,11 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 	 * @throws PropertyVetoException
 	 */
 	public FMitgliederVerwaltungView() throws PropertyVetoException {
-
+		
 		setMaximizable(true);
 		setIcon(true);
 		setTitle("Mitgliederverwaltung");
-		setResizable(false);
+		setResizable(true);
 		setBounds(100, 100, 893, 555);
 		putClientProperty("JInternalFrame.isPalette", true);
 		this.trigger = new Trigger();
@@ -79,170 +82,146 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 		strasse = pmodel.getBufferedModel("strasseNr");
 		plz = pmodel.getBufferedModel("plz");
 		ort = pmodel.getBufferedModel("ort");
-
-		btnbeenden = new JButton("beenden");
-
-		btnSave = new JButton("speichern");
-
-		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-
-		panel = new JPanel();
-		panel.setBorder(UIManager.getBorder("EditorPane.border"));
-
-		iOrt = new JTextField();
-		iOrt.setColumns(10);
-
-		iStrasse = new JTextField();
-		iStrasse.setColumns(10);
-
-		iPlz = new JTextField();
-		iPlz.setColumns(10);
-		Bindings.bind(iStrasse, strasse);
-//		Bindings.bind(iPlz, plz);
-		Bindings.bind(iOrt, ort);
-
-		GroupLayout groupLayout = new GroupLayout(getContentPane());
-		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(panel, GroupLayout.PREFERRED_SIZE, 857, GroupLayout.PREFERRED_SIZE)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(205)
-							.addComponent(btnSave)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnbeenden))
-						.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
-							.addGap(6)
-							.addComponent(tabbedPane, GroupLayout.DEFAULT_SIZE, 839, Short.MAX_VALUE)
-							.addGap(12)))
-					.addGap(14))
-		);
-		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.TRAILING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)
-					.addGap(100)
-					.addComponent(tabbedPane, GroupLayout.DEFAULT_SIZE, 328, Short.MAX_VALUE)
-					.addGap(18)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnbeenden)
-						.addComponent(btnSave))
-					.addGap(6))
-		);
+		Iname.setColumns(10);
+		Bindings.bind(Iname, name);
 		
-		toolBar = new JToolBar();
-		toolBar.setFloatable(false);
+		IVorname = new JTextField();
+		IVorname.setColumns(10);
+		Bindings.bind(IVorname,vorname);
+		
+		IStrasse = new JTextField();
+		IStrasse.setColumns(10);
+		
+		Bindings.bind(IStrasse,strasse);
+		
+		
+		Iort = new JTextField();
+		Iort.setColumns(10);
+		Bindings.bind(Iort, ort);
+		
+		IPlz = new JTextField();
+		IPlz.setColumns(10);
+//		Bindings.bind(IPlz, plz);
+		
+		getContentPane().setLayout(new BorderLayout(0, 0));
+		
+		TBMain = new JToolBar();
+		getContentPane().add(TBMain, BorderLayout.NORTH);
+		
+		panel = new JPanel();
+		getContentPane().add(panel, BorderLayout.CENTER);
+		
+		btnbeenden = new JButton("beenden");
+		btnSave = new JButton("speichern");
+		
+		JTabbedPane tbStammdaten = new JTabbedPane(JTabbedPane.TOP);
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel.createSequentialGroup()
+				.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(toolBar, GroupLayout.DEFAULT_SIZE, 833, Short.MAX_VALUE)
+					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+						.addComponent(tbStammdaten, GroupLayout.DEFAULT_SIZE, 859, Short.MAX_VALUE)
+						.addGroup(gl_panel.createSequentialGroup()
+							.addComponent(btnSave)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnbeenden)))
 					.addContainerGap())
 		);
 		gl_panel.setVerticalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel.createSequentialGroup()
-					.addComponent(toolBar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(27, Short.MAX_VALUE))
+				.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(tbStammdaten, GroupLayout.DEFAULT_SIZE, 437, Short.MAX_VALUE)
+					.addGap(18)
+					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(btnbeenden)
+						.addComponent(btnSave))
+					.addContainerGap())
 		);
 		
-		textField = new JTextField();
-		toolBar.add(textField);
-		textField.setColumns(10);
-		textField.setMaximumSize(new Dimension(150, toolBar.getPreferredSize().height)); 
+		JPanel panel_1 = new JPanel();
+		tbStammdaten.addTab("Stammdaten" +"", null, panel_1, null);
 		
-		btnSuche = new JButton("suche");
-
-		toolBar.add(btnSuche);
-		panel.setLayout(gl_panel);
-		stammdaten.setBorder(UIManager.getBorder("EditorPane.border"));
-
-		tabbedPane.addTab("Adresse", null, stammdaten, null);
-
-		lblStrasse = new JLabel("Strasse");
-
+		JLabel lblName = new JLabel("Name:");
+		
+		lblVorname = new JLabel("Vorname:");
+		
+		
+		
+		lblStrasse = new JLabel("Strasse:");
+		
 		lblPlz = new JLabel("Plz.:");
-
-		lblOrt = new JLabel("Ort:");
 		
-		JLabel label = new JLabel("Vorname:");
 		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
 		
-		JLabel label_1 = new JLabel("Name:");
+		lblWohnort = new JLabel("Wohnort:");
 		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
-
-		GroupLayout gl_stammdaten = new GroupLayout(stammdaten);
-		gl_stammdaten.setHorizontalGroup(
-			gl_stammdaten.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_stammdaten.createSequentialGroup()
+		
+		
+		
+		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
+		gl_panel_1.setHorizontalGroup(
+			gl_panel_1.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_1.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(gl_stammdaten.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_stammdaten.createSequentialGroup()
-							.addGroup(gl_stammdaten.createParallelGroup(Alignment.LEADING)
-								.addComponent(label, GroupLayout.PREFERRED_SIZE, 68, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblStrasse))
-							.addGap(12)
-							.addGroup(gl_stammdaten.createParallelGroup(Alignment.TRAILING, false)
-								.addGroup(Alignment.LEADING, gl_stammdaten.createSequentialGroup()
-									.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, 114, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(label_1, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, 114, GroupLayout.PREFERRED_SIZE))
-								.addGroup(Alignment.LEADING, gl_stammdaten.createParallelGroup(Alignment.TRAILING)
-									.addGroup(Alignment.LEADING, gl_stammdaten.createSequentialGroup()
-										.addComponent(iPlz, GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE)
-										.addPreferredGap(ComponentPlacement.RELATED)
-										.addComponent(lblOrt)
-										.addPreferredGap(ComponentPlacement.RELATED)
-										.addComponent(iOrt, GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
-										.addPreferredGap(ComponentPlacement.RELATED))
-									.addComponent(iStrasse, GroupLayout.DEFAULT_SIZE, 296, Short.MAX_VALUE))))
-						.addComponent(lblPlz))
-					.addContainerGap(445, Short.MAX_VALUE))
+					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panel_1.createSequentialGroup()
+							.addComponent(lblName)
+							.addGap(27)
+							.addComponent(Iname, GroupLayout.PREFERRED_SIZE, 162, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(lblVorname)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(IVorname, GroupLayout.PREFERRED_SIZE, 155, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_panel_1.createSequentialGroup()
+							.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblStrasse)
+								.addComponent(lblPlz))
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING, false)
+								.addGroup(gl_panel_1.createSequentialGroup()
+									.addComponent(IPlz, GroupLayout.PREFERRED_SIZE, 61, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+									.addComponent(lblWohnort))
+								.addComponent(IStrasse, 162, 162, 162))
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(Iort, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap(355, Short.MAX_VALUE))
 		);
-		gl_stammdaten.setVerticalGroup(
-			gl_stammdaten.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_stammdaten.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_stammdaten.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_stammdaten.createSequentialGroup()
-							.addGap(2)
-							.addComponent(label))
-						.addGroup(gl_stammdaten.createParallelGroup(Alignment.BASELINE)
-							.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addComponent(label_1)
-							.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_stammdaten.createParallelGroup(Alignment.LEADING)
+		gl_panel_1.setVerticalGroup(
+			gl_panel_1.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_1.createSequentialGroup()
+					.addGap(20)
+					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
+							.addComponent(Iname, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addComponent(lblVorname)
+							.addComponent(IVorname, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(lblName))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblStrasse)
-						.addComponent(iStrasse, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(IStrasse, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_stammdaten.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_stammdaten.createParallelGroup(Alignment.BASELINE)
-							.addComponent(lblPlz)
-							.addComponent(iPlz, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addComponent(lblOrt))
-						.addComponent(iOrt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(220, Short.MAX_VALUE))
+					.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblPlz)
+						.addComponent(IPlz, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblWohnort)
+						.addComponent(Iort, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(315, Short.MAX_VALUE))
 		);
-		stammdaten.setLayout(gl_stammdaten);
-		getContentPane().setLayout(groupLayout);
+		panel_1.setLayout(gl_panel_1);
+		panel.setLayout(gl_panel);
 
 
 	}
 
-	protected void setSeachListener(ActionListener al){
-		btnSuche.addActionListener(al);
-		btnSuche.setActionCommand("seach");
+	protected void setSeachListener(ActionListener al) {
+//		btnSuche.addActionListener(al);
+//		btnSuche.setActionCommand("seach");
 	}
+
 	protected void setSaveListener(ActionListener al) {
 		btnSave.addActionListener(al);
 	}

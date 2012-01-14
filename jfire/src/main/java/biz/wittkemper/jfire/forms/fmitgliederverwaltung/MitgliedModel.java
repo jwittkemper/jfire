@@ -53,10 +53,11 @@ public class MitgliedModel extends Mitglied {
 		changeSupport.firePropertyChange("vorname", old, vorname);
 	}
 	
-	public void setStrasse(String strasse){
+	public void setStrasseNr(String strasseNr){
 		String old = super.getStrasseNr();
-		super.setStrasseNr(strasse);
-		changeSupport.firePropertyChange("strasseNr", old, strasse);
+		super.setStrasseNr(strasseNr);
+		System.out.println(super.getStrasseNr());
+		changeSupport.firePropertyChange("strasseNr", old, strasseNr);
 	}
 	
 	public void setPlz(int plz){
