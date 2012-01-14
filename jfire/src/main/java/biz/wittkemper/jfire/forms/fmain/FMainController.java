@@ -1,22 +1,28 @@
 package biz.wittkemper.jfire.forms.fmain;
 
-import java.awt.BorderLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.HierarchyBoundsListener;
+import java.awt.event.HierarchyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.awt.image.BufferedImage;
 import java.beans.PropertyVetoException;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import biz.wittkemper.jfire.data.dao.DAOFactory;
-import biz.wittkemper.jfire.utils.FrameUtils;
 import biz.wittkemper.jfire.forms.fmitgliederverwaltung.FMitgliederVerwaltungController;
+import biz.wittkemper.jfire.utils.FrameUtils;
 
 public class FMainController {
 	FrameUtils frameUtils = new FrameUtils();
 	FMitgliederVerwaltungController mitgliederVerwaltungController;
-
 	FMainView view;
 
 	public FMainController() {
@@ -35,11 +41,27 @@ public class FMainController {
 		this.view.setBeendenListener(new BeendenListener());
 		this.view.setMitgliederListener(new MitgliederListener());
 		this.view.addWindowListener(new WindowList());
+		
+		this.view.getContentPane().addHierarchyBoundsListener(new HierarchyBoundsListener() {
+			
+			@Override
+			public void ancestorResized(HierarchyEvent e) {
+				showView();
+				
+			}
+			
+			@Override
+			public void ancestorMoved(HierarchyEvent e) {
+				showView();
+				
+			}
+		});
 	}
 
 	public void showView() {
 		this.view.setSize(1024, 768);
 		this.view.setVisible(true);
+		this.view.setResizable(false);
 
 	}
 
