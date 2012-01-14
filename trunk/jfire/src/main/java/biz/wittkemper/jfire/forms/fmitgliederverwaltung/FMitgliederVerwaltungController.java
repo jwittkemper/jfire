@@ -54,6 +54,7 @@ public class FMitgliederVerwaltungController {
 	private void initListener() {
 		this.view.setBeendenListener(new BeendenListener());
 		this.view.setSaveListener(new SaveListener());
+		this.view.setSeachListener(new SeachListener());
 
 	}
 
@@ -70,6 +71,15 @@ public class FMitgliederVerwaltungController {
 		return this.view;
 	}
 
+	class SeachListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+						System.out.println(e.getActionCommand());
+		}
+		
+	}
+	
 	class SaveListener implements ActionListener{
 
 		@Override

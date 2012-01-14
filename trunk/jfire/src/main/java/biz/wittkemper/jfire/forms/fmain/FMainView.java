@@ -3,6 +3,7 @@ package biz.wittkemper.jfire.forms.fmain;
 import java.awt.event.ActionListener;
 import java.beans.PropertyVetoException;
 
+import javax.swing.ImageIcon;
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
@@ -19,6 +20,8 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.BorderLayout;
+import java.awt.Image;
+import java.awt.Toolkit;
 
 public class FMainView extends JFrame {
 
@@ -40,6 +43,9 @@ public class FMainView extends JFrame {
 	 * Create the frame.
 	 */
 	public FMainView() {
+		setResizable(false);
+		Image icon = new ImageIcon( "chrome-icon.png" ).getImage();
+		super.setIconImage(icon);
 		initForm();
 	}
 
@@ -48,7 +54,7 @@ public class FMainView extends JFrame {
 	}
 	private void initForm() {
 		setTitle("StationManager");
-		setBounds(100, 100, 972, 617);
+		setBounds(100, 100, 1190, 767);
 		setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -65,9 +71,8 @@ public class FMainView extends JFrame {
 		mntmMitgliederverwaltung = new JMenuItem("Mitgliederverwaltung");
 		mnVerwaltung.add(mntmMitgliederverwaltung);
 		frameUtils.MaximiseFrame(this);
-		setContentPane(pane);
-		pane.setLayout(new BorderLayout(0, 0));
-		
+		getContentPane().setLayout(new BorderLayout());
+		getContentPane().add(pane, "Center");		
 		getContentPane().add(statusBar, BorderLayout.SOUTH);
 		statusBar.add(lbMitglieder);
 	}
