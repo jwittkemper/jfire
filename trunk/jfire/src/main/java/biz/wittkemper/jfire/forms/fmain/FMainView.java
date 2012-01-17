@@ -1,27 +1,23 @@
 package biz.wittkemper.jfire.forms.fmain;
 
+import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
 import java.beans.PropertyVetoException;
 
-import javax.swing.ImageIcon;
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.WindowConstants;
 
-import biz.wittkemper.jfire.utils.FrameUtils;
-
 import org.jdesktop.swingx.JXStatusBar;
-import javax.swing.JLabel;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import java.awt.BorderLayout;
-import java.awt.Image;
-import java.awt.Toolkit;
+
+import biz.wittkemper.jfire.utils.FrameUtils;
+import biz.wittkemper.jfire.utils.IconService;
+import biz.wittkemper.jfire.utils.IconService.ICONSERVICE;
 
 public class FMainView extends JFrame {
 
@@ -29,7 +25,7 @@ public class FMainView extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = -2863693692877441385L;
-
+	IconService iconService = new IconService();
 	FrameUtils frameUtils = new FrameUtils();
 	JMenuBar menuBar;
 	JMenu mnDatei;
@@ -44,8 +40,8 @@ public class FMainView extends JFrame {
 	 */
 	public FMainView() {
 		setResizable(false);
-		Image icon = new ImageIcon( "chrome-icon.png" ).getImage();
-		super.setIconImage(icon);
+		
+		super.setIconImage(iconService.getImageService(ICONSERVICE.main));
 		initForm();
 	}
 

@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Proxy;
 
@@ -49,5 +50,10 @@ public class MitgliedStatus implements Serializable {
 
 	public void setBezeichnungKurz(String bezeichnungKurz) {
 		this.bezeichnungKurz = bezeichnungKurz;
+	}
+	
+	@Transient
+	public String toString(){
+		return this.bezeichnungLang;
 	}
 }
