@@ -39,6 +39,7 @@ public class MitgliedModel extends Mitglied {
 		this.setGebDatum(mitglied.getGebDatum());
 		this.setStatus(mitglied.getStatus());
 		this.setEintritt(mitglied.getEintritt());
+		this.setId(mitglied.getId());
 		
 	}
 	@Transient
