@@ -2,6 +2,7 @@ package biz.wittkemper.jfire.forms.fmitgliederverwaltung;
 
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyListener;
 import java.beans.PropertyVetoException;
 import java.text.DecimalFormat;
 import java.util.List;
@@ -50,6 +51,7 @@ import org.jdesktop.swingx.JXDatePicker;
 import javax.swing.JComboBox;
 import javax.swing.SwingConstants;
 import java.awt.Component;
+import javax.swing.JSeparator;
 
 public class FMitgliederVerwaltungView extends JInternalFrame {
 	/**
@@ -105,6 +107,9 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 	private JXDatePicker IEintritt;
 	private JLabel lblMitgliedstatus;
 	private JComboBox cbStatus;
+	private JSeparator separator;
+	private JButton btnLeft;
+	private JButton btnRight;
 
 	/**
 	 * Create the frame.
@@ -170,7 +175,24 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 		
 		bsearch = new JButton("");
 		bsearch.setIcon(iconService.getButtonIcon(ICONSERVICE.search));
+		bsearch.setMaximumSize(new Dimension(23, 23)); 
 		TBMain.add(bsearch);
+
+		TBMain.addSeparator();
+		TBMain.addSeparator();
+		
+		btnLeft = new JButton("");
+		btnLeft.setToolTipText("ein Mitglied zurück");
+		btnLeft.setIcon(iconService.getButtonIcon(ICONSERVICE.left));
+		btnLeft.setMaximumSize(new Dimension(23, 23)); 
+		TBMain.add(btnLeft);
+		
+		btnRight = new JButton("");
+		btnRight.setToolTipText("nächstes Mitglies");
+		btnRight.setIcon(iconService.getButtonIcon(ICONSERVICE.right));
+		btnRight.setMaximumSize(new Dimension(23, 23));
+		TBMain.add(btnRight);
+
 		
 		panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.CENTER);
@@ -408,6 +430,10 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 	protected void setSeachListener(ActionListener al) {
 		bsearch.addActionListener(al);
 		bsearch.setActionCommand("seach");
+		btnLeft.addActionListener(al);
+		btnLeft.setActionCommand("left");
+		btnRight.addActionListener(al);
+		btnRight.setActionCommand("right");
 	}
 
 	protected void setSaveListener(ActionListener al) {
@@ -418,11 +444,18 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 		btnbeenden.addActionListener(al);
 	}
 
+	protected void setSeachKeyListener(KeyListener listener){
+		ISearch.addKeyListener(listener);
+	}
 	public MitgliedModel getModel() {
-		return model;
+		return this.model;
 	}
 
 	public void setModel(MitgliedModel model) {
 		this.model = model;
+	}
+	
+	public String getSearchText(){
+		return ISearch.getText();
 	}
 }

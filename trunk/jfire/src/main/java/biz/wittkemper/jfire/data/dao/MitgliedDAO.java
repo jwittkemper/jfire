@@ -10,5 +10,9 @@ public interface MitgliedDAO extends
 	int getAktive();
 
 	int getReserve();
+	
+	Mitglied getNext(long id);
+	
+	Mitglied getPrev(long id);
 
 }

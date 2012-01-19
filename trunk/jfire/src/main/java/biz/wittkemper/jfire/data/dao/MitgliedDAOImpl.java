@@ -74,4 +74,34 @@ public class MitgliedDAOImpl extends AbstractDAOImpl<Mitglied, Long> implements
 		return 0;
 	}
 
+	@Override
+	public Mitglied getNext(long id) {
+		String hql;
+		
+		hql="";
+		hql += " FROM Mitglied a where a.id >=" + id;
+		hql += " Order by id asc ";	
+		
+		List<Mitglied> list = super.findByQueryString(hql);
+		if (list.size()>1){
+			return list.get(1);
+		}
+		return list.get(0);
+	}
+
+	@Override
+	public Mitglied getPrev(long id) {
+		String hql;
+		
+		hql="";
+		hql += " FROM Mitglied a where a.id <=" + id;
+		hql += " Order by id desc ";	
+		
+		List<Mitglied> list = super.findByQueryString(hql);
+		if (list.size()> 1){
+			return list.get(1);
+		}
+		return list.get(0);
+	}
+
 }
