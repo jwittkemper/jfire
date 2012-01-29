@@ -13,6 +13,7 @@ import com.jgoodies.validation.ValidationResult;
 import biz.wittkemper.jfire.data.dao.DAOFactory;
 import biz.wittkemper.jfire.data.entity.Mitglied;
 import biz.wittkemper.jfire.data.validation.MitgliedValidator;
+import biz.wittkemper.jfire.forms.fmitgliedersearch.FmitgliederSearch;
 import biz.wittkemper.jfire.utils.FrameUtils;
 import biz.wittkemper.jfire.utils.NumberUtils;
 
@@ -21,7 +22,7 @@ public class FMitgliederVerwaltungController {
 	FrameUtils frameUtils = new FrameUtils();
 	NumberUtils numberUtils = new NumberUtils();
 	FMitgliederVerwaltungView view;
-	MitgliedModel model;
+	MitgliedModel model = new MitgliedModel();
 	
 	KeyListener searchKey = new KeyListener(){
 
@@ -43,21 +44,11 @@ public class FMitgliederVerwaltungController {
 		
 	};
 	
-	public FMitgliederVerwaltungController(Long id) {
-		super();
-		try {
-			initClass();
-		} catch (PropertyVetoException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		loadData(id);
-	}
-
 	public FMitgliederVerwaltungController() {
 
 		try {
 			initClass();
+			view.enableImput(false);
 		} catch (PropertyVetoException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -76,8 +67,10 @@ public class FMitgliederVerwaltungController {
 		if (mitglied != null) {
 			model.setMitglied(DAOFactory.getInstance().getMitgliedDAO()
 					.load(id));
+			view.setMitgliedLabel("(" + model.getId() +") " + model.getVorname() +" " + model.getName());
 		} else {
 			model.setMitglied(new Mitglied());
+			view.setMitgliedLabel("");
 		}
 	}
 
@@ -102,9 +95,22 @@ public class FMitgliederVerwaltungController {
 	}
 
 	private void sucheMitglied(){
-		if(numberUtils.isLongValue(view.getSearchText())){
-			loadData(Long.parseLong(view.getSearchText()));
+		String lsearch = view.getSearchText();
+		if (lsearch.trim()==""){
+			lsearch="0";
 		}
+		if(numberUtils.isLongValue(lsearch)){
+			loadData(Long.parseLong(lsearch));
+		}else{
+			loadByName(lsearch);
+		}
+	}
+	private void loadByName(String lsearch) {
+		
+		FmitgliederSearch search = new FmitgliederSearch();
+		search.setModal(true);
+		search.setVisible(true);
+		
 	}
 	class SeachListener implements ActionListener {
 
@@ -120,10 +126,16 @@ public class FMitgliederVerwaltungController {
 		}
 
 		private void sucheNaechstesMitglied(String richtung) {
+			long id;
+			if(model.getId()==null){
+				id=0;
+			}else{
+				id = model.getId();
+			}
 			if (richtung.equals("left")){
-				loadData(DAOFactory.getInstance().getMitgliedDAO().getPrev(view.getModel().getId()).getId());
+				loadData(DAOFactory.getInstance().getMitgliedDAO().getPrev(id).getId());
 			}else if(richtung.equals("right")){
-				loadData(DAOFactory.getInstance().getMitgliedDAO().getNext(view.getModel().getId()).getId());
+				loadData(DAOFactory.getInstance().getMitgliedDAO().getNext(id).getId());
 			}
 			
 			
