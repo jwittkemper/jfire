@@ -1,5 +1,7 @@
 package biz.wittkemper.jfire.data.dao;
 
+import java.util.List;
+
 import biz.wittkemper.jfire.data.entity.Mitglied;
 
 public interface MitgliedDAO extends
@@ -15,4 +17,5 @@ public interface MitgliedDAO extends
 	
 	Mitglied getPrev(long id);
 
+	List<Mitglied> searchByName(String[] names);
 }

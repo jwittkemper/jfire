@@ -134,8 +134,7 @@ public class FMainController {
 		public void actionPerformed(ActionEvent e) {
 
 			if (mitgliederVerwaltungController == null) {
-				mitgliederVerwaltungController = new FMitgliederVerwaltungController(
-						10L);
+				mitgliederVerwaltungController = new FMitgliederVerwaltungController();
 			}
 
 			try {

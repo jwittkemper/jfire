@@ -1,5 +1,7 @@
 package biz.wittkemper.jfire.forms.fmitgliederverwaltung;
 
+import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
@@ -7,51 +9,34 @@ import java.beans.PropertyVetoException;
 import java.text.DecimalFormat;
 import java.util.List;
 
-import javax.swing.ComboBoxModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
+import javax.swing.JToolBar;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.border.BevelBorder;
 
-import com.jgoodies.binding.PresentationModel;
-import com.jgoodies.binding.adapter.BasicComponentFactory;
-import com.jgoodies.binding.adapter.Bindings;
-import com.jgoodies.binding.adapter.ComboBoxAdapter;
-import com.jgoodies.binding.beans.BeanAdapter;
-import com.jgoodies.binding.value.ConverterFactory;
-import com.jgoodies.binding.value.Trigger;
-import com.jgoodies.binding.value.ValueModel;
-import com.jgoodies.validation.ValidationResultModel;
-import com.sun.xml.internal.org.jvnet.staxex.NamespaceContextEx.Binding;
+import org.jdesktop.swingx.JXDatePicker;
 
-import biz.wittkemper.jfire.data.entity.Mitglied;
 import biz.wittkemper.jfire.data.entity.MitgliedStatus;
-import biz.wittkemper.jfire.data.validation.MitgliedValidator;
 import biz.wittkemper.jfire.utils.IconService;
 import biz.wittkemper.jfire.utils.IconService.ICONSERVICE;
 
-
-import javax.swing.JTabbedPane;
-import javax.swing.JPanel;
-import javax.swing.text.JTextComponent;
-import javax.swing.UIManager;
-import javax.swing.JToolBar;
-
-import org.hibernate.cfg.ImprovedNamingStrategy;
-
-import java.awt.event.ActionEvent;
-import java.awt.BorderLayout;
-import javax.swing.ImageIcon;
-import javax.swing.border.BevelBorder;
-import org.jdesktop.swingx.JXDatePicker;
-import javax.swing.JComboBox;
-import javax.swing.SwingConstants;
-import java.awt.Component;
-import javax.swing.JSeparator;
+import com.jgoodies.binding.PresentationModel;
+import com.jgoodies.binding.adapter.Bindings;
+import com.jgoodies.binding.adapter.ComboBoxAdapter;
+import com.jgoodies.binding.value.ConverterFactory;
+import com.jgoodies.binding.value.Trigger;
+import com.jgoodies.binding.value.ValueModel;
+import java.awt.Font;
 
 public class FMitgliederVerwaltungView extends JInternalFrame {
 	/**
@@ -110,6 +95,7 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 	private JSeparator separator;
 	private JButton btnLeft;
 	private JButton btnRight;
+	private JLabel lbMitglied;
 
 	/**
 	 * Create the frame.
@@ -201,24 +187,34 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 		btnSave = new JButton("speichern");
 		
 		JTabbedPane tbStammdaten = new JTabbedPane(JTabbedPane.TOP);
+		
+		lbMitglied = new JLabel(" ");
+		lbMitglied.setFont(new Font("Dialog", Font.BOLD, 14));
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_panel.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
-						.addComponent(tbStammdaten, GroupLayout.DEFAULT_SIZE, 859, Short.MAX_VALUE)
+					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+						.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(tbStammdaten, GroupLayout.DEFAULT_SIZE, 859, Short.MAX_VALUE))
 						.addGroup(gl_panel.createSequentialGroup()
+							.addContainerGap(664, Short.MAX_VALUE)
 							.addComponent(btnSave)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnbeenden)))
+							.addComponent(btnbeenden))
+						.addGroup(gl_panel.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(lbMitglied, GroupLayout.PREFERRED_SIZE, 335, GroupLayout.PREFERRED_SIZE)))
 					.addContainerGap())
 		);
 		gl_panel.setVerticalGroup(
 			gl_panel.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_panel.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(tbStammdaten, GroupLayout.DEFAULT_SIZE, 433, Short.MAX_VALUE)
+					.addGap(6)
+					.addComponent(lbMitglied)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(tbStammdaten, GroupLayout.DEFAULT_SIZE, 418, Short.MAX_VALUE)
 					.addGap(18)
 					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(btnbeenden)
@@ -456,6 +452,30 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 	}
 	
 	public String getSearchText(){
-		return ISearch.getText();
+		String lsearch = ISearch.getText();
+		ISearch.setText("");
+		return lsearch;
+	}
+	
+	public void setMitgliedLabel(String text){
+		lbMitglied.setText(text);
+	}
+	
+	public void enableImput(boolean value){
+	
+		IDienstl.setEnabled(value);
+		IEintritt.setEnabled(value);
+		Iemail.setEnabled(value);
+		IFestnetz.setEnabled(value);
+		IHandy.setEnabled(value);
+		Iname.setEnabled(value);
+		Iort.setEnabled(value);
+		IPlz.setEnabled(value);
+		IVorname.setEnabled(value);
+		IStrasse.setEnabled(value);
+		datePicker.setEnabled(value);
+		cbStatus.setEnabled(value);
+		btnSave.setEnabled(value);
+
 	}
 }

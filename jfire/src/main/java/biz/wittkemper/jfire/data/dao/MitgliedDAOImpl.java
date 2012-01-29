@@ -83,8 +83,10 @@ public class MitgliedDAOImpl extends AbstractDAOImpl<Mitglied, Long> implements
 		hql += " Order by id asc ";	
 		
 		List<Mitglied> list = super.findByQueryString(hql);
-		if (list.size()>1){
+		if (list.size()>1 && id >0){
 			return list.get(1);
+		}else if (list.size()>1 && id ==0){
+			return list.get(0);
 		}
 		return list.get(0);
 	}
@@ -102,6 +104,28 @@ public class MitgliedDAOImpl extends AbstractDAOImpl<Mitglied, Long> implements
 			return list.get(1);
 		}
 		return list.get(0);
+	}
+
+	@Override
+	public List<Mitglied> searchByName(String[] names) {
+		String hql;
+		
+		hql="";
+		hql += " FROM Mitglied a where ";
+		if (names.length==1){
+			hql += " a.name like '" + names[0].trim() +"%' ";
+			hql +=" OR a.vorname like '"+ names[0].trim() +"%' ";
+		}else if (names.length==2){
+			hql += " a.name like '" + names[1].trim() +"%' ";
+			hql +=" AND a.vorname like '"+ names[0].trim() +"%' ";
+		}
+		
+		hql += " Order by vorname, name desc ";	
+		
+		List<Mitglied> list = super.findByQueryString(hql);
+		
+		return list;
+
 	}
 
 }

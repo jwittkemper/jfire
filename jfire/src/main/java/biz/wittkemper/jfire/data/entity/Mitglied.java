@@ -9,7 +9,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.Proxy;
 
@@ -187,5 +189,6 @@ public class Mitglied implements Serializable {
 	public void setAnrede(Anrede anrede) {
 		this.anrede = anrede;
 	}
+
 
 }
