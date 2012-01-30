@@ -1,7 +1,7 @@
 package biz.wittkemper.jfire.utils;
 
 import java.awt.Image;
-import java.awt.Toolkit;
+import java.net.URL;
 
 import javax.swing.ImageIcon;
 
@@ -12,13 +12,17 @@ public class IconService {
 
 	public ImageIcon getButtonIcon(ICONSERVICE picture) {
 
-		ImageIcon img = new ImageIcon(getImageService(picture));
+		ImageIcon img = getImageService(picture);
 
 		return img;
 
 	}
+	
+	public Image getImage(ICONSERVICE picture){
+		return getImageService(picture).getImage();
+	}
 
-	public Image getImageService(ICONSERVICE picture) {
+	public ImageIcon getImageService(ICONSERVICE picture) {
 
 		String pic = "";
 
@@ -32,7 +36,8 @@ public class IconService {
 		case main:pic="main.png";
 			break;
 		}
-		Image im = Toolkit.getDefaultToolkit().getImage("picture/" + pic);
+		URL img = ClassLoader.getSystemResource("picture/" + pic);
+		ImageIcon im = new ImageIcon(img);
 
 		return im;
 

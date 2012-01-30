@@ -41,7 +41,7 @@ public class FMainView extends JFrame {
 	public FMainView() {
 		setResizable(false);
 		
-		super.setIconImage(iconService.getImageService(ICONSERVICE.main));
+		super.setIconImage(iconService.getImage(ICONSERVICE.main));
 		initForm();
 	}
 
