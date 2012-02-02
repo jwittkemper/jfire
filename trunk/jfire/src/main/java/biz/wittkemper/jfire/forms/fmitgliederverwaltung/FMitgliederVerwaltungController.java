@@ -13,7 +13,8 @@ import com.jgoodies.validation.ValidationResult;
 import biz.wittkemper.jfire.data.dao.DAOFactory;
 import biz.wittkemper.jfire.data.entity.Mitglied;
 import biz.wittkemper.jfire.data.validation.MitgliedValidator;
-import biz.wittkemper.jfire.forms.fmitgliedersearch.FmitgliederSearch;
+import biz.wittkemper.jfire.forms.fmitgliedersearch.FmitgliederSearrch;
+import biz.wittkemper.jfire.forms.fmitgliedersearch.MitgliederSeachControler;
 import biz.wittkemper.jfire.utils.FrameUtils;
 import biz.wittkemper.jfire.utils.NumberUtils;
 
@@ -107,9 +108,8 @@ public class FMitgliederVerwaltungController {
 	}
 	private void loadByName(String lsearch) {
 		
-		FmitgliederSearch search = new FmitgliederSearch();
-		search.setModal(true);
-		search.setVisible(true);
+		MitgliederSeachControler search = new MitgliederSeachControler();
+		search.viewSearchForm(lsearch);
 		
 	}
 	class SeachListener implements ActionListener {
