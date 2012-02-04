@@ -12,7 +12,7 @@ import com.jgoodies.binding.list.SelectionInList;
 import com.jgoodies.binding.value.ValueHolder;
 import com.jgoodies.binding.value.ValueModel;
 
-public class ExamplePresentationModel {
+public class MitgliedSearchModel {
 	private String[] columnNames;
 	
 	LinkedListModel<Mitglied> mitgliedMOdel;
@@ -21,7 +21,7 @@ public class ExamplePresentationModel {
 
 	private AbstractTableModel tableModel;
 
-	public ExamplePresentationModel() {
+	public MitgliedSearchModel() {
 		mitgliedMOdel = new LinkedListModel<Mitglied>();
 		mitgliedSelectionHolder = new ValueHolder();
 		mitgliedSelectionInList = new SelectionInList<Mitglied>(
@@ -36,6 +36,7 @@ public class ExamplePresentationModel {
 			mitgliedMOdel.add(md);
 		}
 		tableModel.fireTableDataChanged();
+		
 	}
 	public AbstractTableModel getTableModel() {
 		return tableModel;
@@ -78,6 +79,9 @@ public class ExamplePresentationModel {
 			}
 			return "";
 		}
+	}
+	public Mitglied getSelectedMitglied(int row){
+		return mitgliedSelectionInList.getElementAt(row);
 	}
 
 }

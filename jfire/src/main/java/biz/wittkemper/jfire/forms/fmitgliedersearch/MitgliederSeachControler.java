@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +18,7 @@ public class MitgliederSeachControler {
 	FmitgliederSearrch view;
 	List<Mitglied> mitglieder = new ArrayList<Mitglied>();
 	boolean returnValue;
-	ExamplePresentationModel pm = new ExamplePresentationModel();
+	MitgliedSearchModel pm = new MitgliedSearchModel();
 	
 	public MitgliederSeachControler(){
 		this.view = new FmitgliederSearrch(pm);
@@ -38,8 +40,12 @@ public class MitgliederSeachControler {
 		this.view.setCancelListener(new CancelListener());
 		this.view.setOKListener(new OKListener());
 		this.view.setSearchListener(new SearchListener());
+		this.view.setMouseListener(new MousClick());
 	}
 	
+	public Mitglied getMitglied(){
+		return view.getSelectedMitglied();
+	}
 	private void searchData(String searchText){
 		
 		pm.setData(DAOFactory.getInstance().getMitgliedDAO().searchByName(searchText.split(" ")));
@@ -70,7 +76,10 @@ public class MitgliederSeachControler {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			
+			if(view.getSelectedMitglied()!=null){
+				view.setVisible(false);
+				returnValue=true;
+			}
 		}
 		
 	}
@@ -80,6 +89,45 @@ public class MitgliederSeachControler {
 		public void actionPerformed(ActionEvent e) {
 			returnValue = false;
 			view.setVisible(false);
+		}
+		
+	}
+	
+	class MousClick implements MouseListener{
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			if (e.getClickCount()==2){
+				if(view.getSelectedMitglied()!=null){
+					view.setVisible(false);
+					returnValue=true;
+				}
+			}
+			
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
 		}
 		
 	}

@@ -13,6 +13,8 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.ListSelectionModel;
+
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.decorator.HighlighterFactory;
 
@@ -26,6 +28,7 @@ import javax.swing.AbstractAction;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseListener;
 
 import javax.swing.Action;
 import java.awt.Dialog.ModalityType;
@@ -44,14 +47,14 @@ public class FmitgliederSearrch extends JDialog {
 	private JTextField textField;
 	JButton cancelButton;
 	JButton okButton;
-	ExamplePresentationModel model;
+	MitgliedSearchModel model;
 	private JScrollPane scrollPane;
 	private JXTable table;
 
 	/**
 	 * Create the dialog.
 	 */
-	public FmitgliederSearrch(ExamplePresentationModel pm) {
+	public FmitgliederSearrch(MitgliedSearchModel pm) {
 		this.model = pm;
 		setTitle("Mitgliedersuche");
 		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
@@ -97,6 +100,8 @@ public class FmitgliederSearrch extends JDialog {
 		
 		table = new JXTable(pm.getTableModel());
 		table.setHighlighters(HighlighterFactory.createAlternateStriping());
+		table.setSelectionMode( ListSelectionModel.SINGLE_INTERVAL_SELECTION );
+		
 		scrollPane.setViewportView(table);
 		contentPanel.setLayout(gl_contentPanel);
 		{
@@ -118,6 +123,18 @@ public class FmitgliederSearrch extends JDialog {
 		}
 	}
 
+	public Mitglied getSelectedMitglied(){
+		int zeile= table.getSelectedRow();
+		
+		if(zeile >=0){
+			return model.getSelectedMitglied(zeile);
+		}
+		return null;
+	}
+	
+	public void setMouseListener(MouseListener ml){
+		table.addMouseListener(ml);
+	}
 	public void setCancelListener(ActionListener al) {
 		cancelButton.addActionListener(al);
 	}
