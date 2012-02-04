@@ -2,6 +2,7 @@ package biz.wittkemper.jfire.data.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -189,6 +190,5 @@ public class Mitglied implements Serializable {
 	public void setAnrede(Anrede anrede) {
 		this.anrede = anrede;
 	}
-
 
 }

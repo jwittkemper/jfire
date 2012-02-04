@@ -113,11 +113,11 @@ public class MitgliedDAOImpl extends AbstractDAOImpl<Mitglied, Long> implements
 		hql="";
 		hql += " FROM Mitglied a where ";
 		if (names.length==1){
-			hql += " a.name like '" + names[0].trim() +"%' ";
-			hql +=" OR a.vorname like '"+ names[0].trim() +"%' ";
+			hql += " lower(a.name) like '" + names[0].trim().toLowerCase() +"%' ";
+			hql +=" OR lower(a.vorname) like '"+ names[0].trim().toLowerCase() +"%' ";
 		}else if (names.length==2){
-			hql += " a.name like '" + names[1].trim() +"%' ";
-			hql +=" AND a.vorname like '"+ names[0].trim() +"%' ";
+			hql += " lower(a.name) like '" + names[1].trim().toLowerCase() +"%' ";
+			hql +=" AND lower(a.vorname) like '"+ names[0].trim().toLowerCase() +"%' ";
 		}
 		
 		hql += " Order by vorname, name desc ";	
