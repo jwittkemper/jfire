@@ -3,6 +3,7 @@ package biz.wittkemper.jfire.forms.fmitgliederverwaltung;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Panel;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 import java.beans.PropertyVetoException;
@@ -60,6 +61,7 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 	ValueModel gebDatum;
 	ValueModel status;
 	ValueModel eintritt;
+	ValueModel foerderEintritt;
 	
 	public Trigger trigger;
 	private JToolBar TBMain;
@@ -96,7 +98,10 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 	private JButton btnLeft;
 	private JButton btnRight;
 	private JLabel lbMitglied;
-
+	private JPanel tpFoerderMitglied;
+	private JLabel lblMitgliedSeit_1;
+	private JXDatePicker dPFoerderMitglied;
+	private JTabbedPane tbStammdaten;
 	/**
 	 * Create the frame.
 	 * 
@@ -125,7 +130,7 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 		gebDatum = pmodel.getBufferedModel("gebDatum");
 		status = pmodel.getBufferedModel("status");
 		eintritt = pmodel.getBufferedModel("eintritt");
-		
+		foerderEintritt = pmodel.getBufferedModel("eintritt");
 		List<MitgliedStatus> gueltigStatus = model.getMitgliedStatuse();
 		
 		Iname.setColumns(10);
@@ -186,7 +191,7 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 		btnbeenden = new JButton("beenden");
 		btnSave = new JButton("speichern");
 		
-		JTabbedPane tbStammdaten = new JTabbedPane(JTabbedPane.TOP);
+		tbStammdaten= new JTabbedPane(JTabbedPane.TOP);
 		
 		lbMitglied = new JLabel(" ");
 		lbMitglied.setFont(new Font("Dialog", Font.BOLD, 14));
@@ -225,6 +230,32 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 		JPanel panel_1 = new JPanel();
 		tbStammdaten.addTab("Stammdaten" +"", null, panel_1, null);
 		
+		tpFoerderMitglied = new JPanel();
+		tbStammdaten.addTab("Förderverein",null,tpFoerderMitglied,null);
+		
+		lblMitgliedSeit_1 = new JLabel("Mitglied seit: ");
+		
+		dPFoerderMitglied = new JXDatePicker();
+		GroupLayout gl_tpFoerderMitglied = new GroupLayout(tpFoerderMitglied);
+		gl_tpFoerderMitglied.setHorizontalGroup(
+			gl_tpFoerderMitglied.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_tpFoerderMitglied.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(lblMitgliedSeit_1)
+					.addGap(4)
+					.addComponent(dPFoerderMitglied, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(623, Short.MAX_VALUE))
+		);
+		gl_tpFoerderMitglied.setVerticalGroup(
+			gl_tpFoerderMitglied.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_tpFoerderMitglied.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_tpFoerderMitglied.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblMitgliedSeit_1)
+						.addComponent(dPFoerderMitglied, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(362, Short.MAX_VALUE))
+		);
+		tpFoerderMitglied.setLayout(gl_tpFoerderMitglied);
 		JLabel lblName = new JLabel("Name:");
 		
 		
@@ -252,6 +283,7 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 		pnDienstlich.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
 		
 		
+		Bindings.bind((JComponent) dPFoerderMitglied, "date", foerderEintritt);
 		
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
 		gl_panel_1.setHorizontalGroup(
@@ -461,6 +493,10 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 		lbMitglied.setText(text);
 	}
 	
+	public void SetFoerderVerein(boolean value){
+		tbStammdaten.setEnabledAt(1, value);
+		dPFoerderMitglied.setVisible(value);
+	}
 	public void enableImput(boolean value){
 	
 		IDienstl.setEnabled(value);
@@ -476,6 +512,6 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 		datePicker.setEnabled(value);
 		cbStatus.setEnabled(value);
 		btnSave.setEnabled(value);
-
+		dPFoerderMitglied.setEnabled(value);
 	}
 }

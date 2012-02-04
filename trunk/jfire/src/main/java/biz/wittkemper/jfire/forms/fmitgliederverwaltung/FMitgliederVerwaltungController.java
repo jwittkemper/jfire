@@ -50,6 +50,7 @@ public class FMitgliederVerwaltungController {
 		try {
 			initClass();
 			view.enableImput(false);
+			view.SetFoerderVerein(false);
 		} catch (PropertyVetoException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -69,9 +70,18 @@ public class FMitgliederVerwaltungController {
 			model.setMitglied(DAOFactory.getInstance().getMitgliedDAO()
 					.load(id));
 			view.setMitgliedLabel("(" + model.getId() +") " + model.getVorname() +" " + model.getName());
+			
+			if (DAOFactory.getInstance().getFoerderMitgliedDAO().load(model.getId())!=null){
+				model.setFoerderMitglied(DAOFactory.getInstance().getFoerderMitgliedDAO().load(model.getId()));
+				view.SetFoerderVerein(true);
+			}else{
+				view.SetFoerderVerein(false);
+			}
 		} else {
 			model.setMitglied(new Mitglied());
 			view.setMitgliedLabel("");
+			view.SetFoerderVerein(false);
+			view.enableImput(false);
 		}
 	}
 
@@ -96,7 +106,7 @@ public class FMitgliederVerwaltungController {
 	}
 
 	private void sucheMitglied(){
-		String lsearch = view.getSearchText();
+		String lsearch = view.getSearchText().trim();
 		if (lsearch.trim()==""){
 			lsearch="0";
 		}
@@ -110,6 +120,9 @@ public class FMitgliederVerwaltungController {
 		
 		MitgliederSeachControler search = new MitgliederSeachControler();
 		search.viewSearchForm(lsearch);
+		if (search.getMitglied()!=null){
+			loadData(search.getMitglied().getId());
+		}
 		
 	}
 	class SeachListener implements ActionListener {

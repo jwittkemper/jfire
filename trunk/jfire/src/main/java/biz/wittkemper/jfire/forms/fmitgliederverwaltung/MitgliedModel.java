@@ -10,6 +10,7 @@ import javax.persistence.Transient;
 import com.jgoodies.binding.beans.ExtendedPropertyChangeSupport;
 
 import biz.wittkemper.jfire.data.dao.DAOFactory;
+import biz.wittkemper.jfire.data.entity.FoerderMitglied;
 import biz.wittkemper.jfire.data.entity.Mitglied;
 import biz.wittkemper.jfire.data.entity.MitgliedStatus;
 
@@ -19,6 +20,7 @@ public class MitgliedModel extends Mitglied {
 	private static final long serialVersionUID = 1L;
 	
 	private List<MitgliedStatus> mitgliedStatuse = new ArrayList<MitgliedStatus>();
+	private FoerderMitglied foerderMitglied;
 	
 	public MitgliedModel(){
 		changeSupport = new ExtendedPropertyChangeSupport(this);
@@ -131,6 +133,16 @@ public class MitgliedModel extends Mitglied {
 		
 		mitgliedStatuse =  DAOFactory.getInstance().getMitgliedStatusDAO().findByQueryString("From MitgliedStatus a");
 		return mitgliedStatuse;
+	}
+
+
+	public FoerderMitglied getFoerderMitglied() {
+		return foerderMitglied;
+	}
+
+
+	public void setFoerderMitglied(FoerderMitglied foerderMitglied) {
+		this.foerderMitglied = foerderMitglied;
 	}
 
 
