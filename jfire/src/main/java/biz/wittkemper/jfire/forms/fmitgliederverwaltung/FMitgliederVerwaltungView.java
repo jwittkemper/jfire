@@ -24,9 +24,9 @@ import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.BevelBorder;
-
 import org.jdesktop.swingx.JXDatePicker;
 
+import biz.wittkemper.jfire.data.entity.Mitglied;
 import biz.wittkemper.jfire.data.entity.MitgliedStatus;
 import biz.wittkemper.jfire.utils.IconService;
 import biz.wittkemper.jfire.utils.IconService.ICONSERVICE;
@@ -97,6 +97,8 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 	private JSeparator separator;
 	private JButton btnLeft;
 	private JButton btnRight;
+	private JButton btnEdit;
+	private JButton btnNew;
 	private JLabel lbMitglied;
 	private JPanel tpFoerderMitglied;
 	private JLabel lblMitgliedSeit_1;
@@ -183,7 +185,19 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 		btnRight.setIcon(iconService.getButtonIcon(ICONSERVICE.right));
 		btnRight.setMaximumSize(new Dimension(23, 23));
 		TBMain.add(btnRight);
-
+		TBMain.addSeparator();
+		
+		btnNew = new JButton();
+		btnNew.setToolTipText("Neues Mitglied einfügen");
+		btnNew.setIcon(iconService.getButtonIcon(ICONSERVICE.newuser));
+		btnNew.setMaximumSize(new Dimension(23, 23));
+		TBMain.add(btnNew);
+		
+		btnEdit = new JButton();
+		btnEdit.setToolTipText("Mitglied bearbeiten");
+		btnEdit.setIcon(iconService.getButtonIcon(ICONSERVICE.edituser));
+		btnEdit.setMaximumSize(new Dimension(23, 23));
+		TBMain.add(btnEdit);
 		
 		panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.CENTER);
@@ -462,6 +476,10 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 		btnLeft.setActionCommand("left");
 		btnRight.addActionListener(al);
 		btnRight.setActionCommand("right");
+		btnNew.addActionListener(al);
+		btnNew.setActionCommand("new");
+		btnEdit.addActionListener(al);
+		btnEdit.setActionCommand("edit");
 	}
 
 	protected void setSaveListener(ActionListener al) {
@@ -513,5 +531,14 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 		cbStatus.setEnabled(value);
 		btnSave.setEnabled(value);
 		dPFoerderMitglied.setEnabled(value);
+	}
+
+	public void setToolbar(boolean value) {
+		bsearch.setEnabled(value);
+		btnLeft.setEnabled(value);
+		btnRight.setEnabled(value);
+		ISearch.setEnabled(value);
+		btnNew.setEnabled(value);
+		btnEdit.setEnabled(value);
 	}
 }
