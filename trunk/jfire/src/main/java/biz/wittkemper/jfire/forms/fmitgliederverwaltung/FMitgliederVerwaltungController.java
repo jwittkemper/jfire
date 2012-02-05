@@ -6,7 +6,10 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.beans.PropertyVetoException;
 import javax.swing.JInternalFrame;
+import javax.swing.JOptionPane;
+
 import org.apache.poi.hssf.record.formula.functions.Islogical;
+import org.apache.poi.hssf.record.formula.functions.Setvalue;
 
 import com.jgoodies.validation.ValidationResult;
 
@@ -20,12 +23,18 @@ import biz.wittkemper.jfire.utils.NumberUtils;
 
 public class FMitgliederVerwaltungController {
 
+	enum EDITMODE {
+		EDIT, NEW, NONE;
+	}
+
+	EDITMODE viewmode = EDITMODE.NONE;
+
 	FrameUtils frameUtils = new FrameUtils();
 	NumberUtils numberUtils = new NumberUtils();
 	FMitgliederVerwaltungView view;
 	MitgliedModel model = new MitgliedModel();
-	
-	KeyListener searchKey = new KeyListener(){
+
+	KeyListener searchKey = new KeyListener() {
 
 		@Override
 		public void keyTyped(KeyEvent e) {
@@ -33,8 +42,8 @@ public class FMitgliederVerwaltungController {
 
 		@Override
 		public void keyPressed(KeyEvent e) {
-			if (e.getKeyChar() == KeyEvent.VK_ENTER){
-				sucheMitglied();				
+			if (e.getKeyChar() == KeyEvent.VK_ENTER) {
+				sucheMitglied();
 			}
 		}
 
@@ -42,9 +51,9 @@ public class FMitgliederVerwaltungController {
 		public void keyReleased(KeyEvent e) {
 
 		}
-		
+
 	};
-	
+
 	public FMitgliederVerwaltungController() {
 
 		try {
@@ -67,14 +76,16 @@ public class FMitgliederVerwaltungController {
 	private void loadData(Long id) {
 		Mitglied mitglied = DAOFactory.getInstance().getMitgliedDAO().load(id);
 		if (mitglied != null) {
-			model.setMitglied(DAOFactory.getInstance().getMitgliedDAO()
-					.load(id));
-			view.setMitgliedLabel("(" + model.getId() +") " + model.getVorname() +" " + model.getName());
-			
-			if (DAOFactory.getInstance().getFoerderMitgliedDAO().load(model.getId())!=null){
-				model.setFoerderMitglied(DAOFactory.getInstance().getFoerderMitgliedDAO().load(model.getId()));
+			model.setMitglied(mitglied);
+			view.setMitgliedLabel("(" + model.getMitglied().getId() + ") "
+					+ model.getMitglied().getVorname() + " " + model.getMitglied().getName());
+
+			if (DAOFactory.getInstance().getFoerderMitgliedDAO()
+					.load(model.getMitglied().getId()) != null) {
+				model.setFoerderMitglied(DAOFactory.getInstance()
+						.getFoerderMitgliedDAO().load(model.getMitglied().getId()));
 				view.SetFoerderVerein(true);
-			}else{
+			} else {
 				view.SetFoerderVerein(false);
 			}
 		} else {
@@ -82,6 +93,15 @@ public class FMitgliederVerwaltungController {
 			view.setMitgliedLabel("");
 			view.SetFoerderVerein(false);
 			view.enableImput(false);
+		}
+	}
+
+	private void switchViewMode(EDITMODE mode) {
+		viewmode = mode;
+		if (viewmode == EDITMODE.EDIT || viewmode == EDITMODE.NEW) {
+			view.setToolbar(false);
+		} else {
+			view.setToolbar(true);
 		}
 	}
 
@@ -105,53 +125,71 @@ public class FMitgliederVerwaltungController {
 		return this.view;
 	}
 
-	private void sucheMitglied(){
+	private void sucheMitglied() {
 		String lsearch = view.getSearchText().trim();
-		if (lsearch.trim()==""){
-			lsearch="0";
+		if (lsearch.trim() == "") {
+			lsearch = "0";
 		}
-		if(numberUtils.isLongValue(lsearch)){
+		if (numberUtils.isLongValue(lsearch)) {
 			loadData(Long.parseLong(lsearch));
-		}else{
+		} else {
 			loadByName(lsearch);
 		}
 	}
+
 	private void loadByName(String lsearch) {
-		
+
 		MitgliederSeachControler search = new MitgliederSeachControler();
 		search.viewSearchForm(lsearch);
-		if (search.getMitglied()!=null){
+		if (search.getMitglied() != null) {
 			loadData(search.getMitglied().getId());
 		}
-		
+
 	}
+
+	private void speicherMitglied() {
+		view.trigger.triggerCommit();
+		DAOFactory.getInstance().getMitgliedDAO().save(this.model.getMitglied());
+	}
+
 	class SeachListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if (e.getActionCommand().equals("search")){
+			if (e.getActionCommand().equals("search")) {
 				sucheMitglied();
-			}else if(e.getActionCommand().equals("left")){
+			} else if (e.getActionCommand().equals("left")) {
 				sucheNaechstesMitglied("left");
-			}else if(e.getActionCommand().equals("right")){
+			} else if (e.getActionCommand().equals("right")) {
 				sucheNaechstesMitglied("right");
+			} else if (e.getActionCommand().equals("edit")) {
+				editMitglied();
 			}
+		}
+
+		private void editMitglied() {
+			if (model.getMitglied().getId() != null && model.getMitglied().getId() > 0) {
+				view.enableImput(true);
+				switchViewMode(EDITMODE.EDIT);
+			}
+
 		}
 
 		private void sucheNaechstesMitglied(String richtung) {
 			long id;
-			if(model.getId()==null){
-				id=0;
-			}else{
-				id = model.getId();
+			if (model.getMitglied().getId() == null) {
+				id = 0;
+			} else {
+				id = model.getMitglied().getId();
 			}
-			if (richtung.equals("left")){
-				loadData(DAOFactory.getInstance().getMitgliedDAO().getPrev(id).getId());
-			}else if(richtung.equals("right")){
-				loadData(DAOFactory.getInstance().getMitgliedDAO().getNext(id).getId());
+			if (richtung.equals("left")) {
+				loadData(DAOFactory.getInstance().getMitgliedDAO().getPrev(id)
+						.getId());
+			} else if (richtung.equals("right")) {
+				loadData(DAOFactory.getInstance().getMitgliedDAO().getNext(id)
+						.getId());
 			}
-			
-			
+
 		}
 
 	}
@@ -162,9 +200,16 @@ public class FMitgliederVerwaltungController {
 		public void actionPerformed(ActionEvent e) {
 			view.trigger.triggerCommit();
 			MitgliedValidator validator = new MitgliedValidator();
-			ValidationResult res = validator.validate(model);
+			ValidationResult res = validator.validate(model.getMitglied());
 
-			System.out.println(res.getMessagesText());
+			if (res.hasErrors()==false){
+				DAOFactory.getInstance().getMitgliedDAO().update(model.getMitglied());
+				if(model.getFoerderMitglied()!=null){
+					DAOFactory.getInstance().getFoerderMitgliedDAO().update(model.getFoerderMitglied());
+				}
+			}
+			switchViewMode(EDITMODE.NONE);
+			view.enableImput(false);
 		}
 
 	}
@@ -173,8 +218,31 @@ public class FMitgliederVerwaltungController {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			view.setVisible(false);
-			view.dispose();
+			switch (viewmode) {
+			case EDIT:
+				String Meldung = "Wollen sie die Eingabeohne zu speichern abbrechen?";
+				if (JOptionPane.showConfirmDialog(view, Meldung, "Frage",
+						JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+					view.enableImput(false);
+					view.trigger.triggerFlush();
+					switchViewMode(EDITMODE.NONE);
+				}
+
+				break;
+			case NONE:
+				view.setVisible(false);
+				view.dispose();
+				break;
+			case NEW:
+				String md = "Wollen sie die Eingabeohne zu speichern abbrechen?";
+				if (JOptionPane.showConfirmDialog(view, md, "Frage",
+						JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+					view.enableImput(false);
+					view.trigger.triggerFlush();
+					switchViewMode(EDITMODE.NONE);
+				}
+				break;
+			}
 
 		}
 
