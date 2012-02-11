@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import biz.wittkemper.jfire.data.dao.DAOFactory;
+import biz.wittkemper.jfire.data.entity.Anrede;
 import biz.wittkemper.jfire.data.entity.FoerderMitglied;
 import biz.wittkemper.jfire.data.entity.Mitglied;
 import biz.wittkemper.jfire.data.entity.MitgliedStatus;
@@ -23,8 +24,12 @@ public class MitgliedModel {
 	private ExtendedPropertyChangeSupport changeSupport;
 
 	private List<MitgliedStatus> mitgliedStatuse = new ArrayList<MitgliedStatus>();
+	private List<Anrede> anreden = new ArrayList<Anrede>();
+	
 	private FoerderMitglied foerderMitglied;
 
+	private Anrede anrede;
+	
 	private MitgliedStatus status;
 
 	private String strasseNr;
@@ -69,6 +74,7 @@ public class MitgliedModel {
 		this.setTelefonDienst(mitglied.getTelefonDienst());
 		this.setTelefonPrivatFest(mitglied.getTelefonPrivatFest());
 		this.setTelefonPrivatMobil(mitglied.getTelefonPrivatMobil());
+		this.setAnrede(mitglied.getAnrede());
 	}
 
 	public Mitglied getMitglied() {
@@ -89,7 +95,7 @@ public class MitgliedModel {
 		mitglied.setTelefonPrivatFest(telefonPrivatFest);
 		mitglied.setTelefonPrivatMobil(telefonPrivatMobil);
 		mitglied.setStatus(status);
-		
+		mitglied.setAnrede(anrede);
 		return mitglied;
 	}
 
@@ -213,6 +219,20 @@ public class MitgliedModel {
 		return this.eintritt;
 	}
 
+	public Anrede getAnrede() {
+		return anrede;
+	}
+
+	public void setAnrede(Anrede anrede) {
+		Anrede old = anrede;
+		this.anrede = anrede;
+		changeSupport.firePropertyChange("anrede", old, anrede);
+	}
+	
+	public List<Anrede> getAnreden(){
+		anreden = DAOFactory.getInstance().getAnredeDAO().findByQueryString("From Anrede a");
+		return anreden;
+	}
 	public List<MitgliedStatus> getMitgliedStatuse() {
 
 		mitgliedStatuse = DAOFactory.getInstance().getMitgliedStatusDAO()
@@ -220,6 +240,9 @@ public class MitgliedModel {
 		return mitgliedStatuse;
 	}
 
+
+	
+	
 	public FoerderMitglied getFoerderMitglied() {
 		return foerderMitglied;
 	}
@@ -227,5 +250,7 @@ public class MitgliedModel {
 	public void setFoerderMitglied(FoerderMitglied foerderMitglied) {
 		this.foerderMitglied = foerderMitglied;
 	}
+
+
 
 }

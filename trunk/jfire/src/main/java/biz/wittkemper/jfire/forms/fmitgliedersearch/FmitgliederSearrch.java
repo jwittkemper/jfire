@@ -35,6 +35,7 @@ import java.awt.Dialog.ModalityType;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.JScrollPane;
+import javax.swing.JCheckBox;
 
 public class FmitgliederSearrch extends JDialog {
 
@@ -50,6 +51,7 @@ public class FmitgliederSearrch extends JDialog {
 	MitgliedSearchModel model;
 	private JScrollPane scrollPane;
 	private JXTable table;
+	private JCheckBox chgeloeschteAnzeigen;
 
 	/**
 	 * Create the dialog.
@@ -72,19 +74,25 @@ public class FmitgliederSearrch extends JDialog {
 		textField.setColumns(10);
 		
 		scrollPane = new JScrollPane();
+		
+		chgeloeschteAnzeigen = new JCheckBox("gelöschte Mitglieder anzeigen");
 
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
 		gl_contentPanel.setHorizontalGroup(
 			gl_contentPanel.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addContainerGap()
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addContainerGap()
 							.addComponent(lblSuchbegriff)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(textField, GroupLayout.DEFAULT_SIZE, 316, Short.MAX_VALUE)
-							.addContainerGap())
-						.addComponent(scrollPane, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE)))
+							.addComponent(textField, GroupLayout.PREFERRED_SIZE, 316, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addContainerGap()
+							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+								.addComponent(chgeloeschteAnzeigen)
+								.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 414, Short.MAX_VALUE))))
+					.addContainerGap())
 		);
 		gl_contentPanel.setVerticalGroup(
 			gl_contentPanel.createParallelGroup(Alignment.LEADING)
@@ -94,8 +102,10 @@ public class FmitgliederSearrch extends JDialog {
 						.addComponent(lblSuchbegriff)
 						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(18)
-					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 421, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 391, GroupLayout.PREFERRED_SIZE)
+					.addGap(4)
+					.addComponent(chgeloeschteAnzeigen)
+					.addContainerGap())
 		);
 		
 		table = new JXTable(pm.getTableModel());
@@ -153,5 +163,9 @@ public class FmitgliederSearrch extends JDialog {
 	
 	public String getSearchText(){
 		return this.textField.getText();
+	}
+	
+	public boolean getGeloschteAnzeigen(){
+		return chgeloeschteAnzeigen.isSelected();
 	}
 }

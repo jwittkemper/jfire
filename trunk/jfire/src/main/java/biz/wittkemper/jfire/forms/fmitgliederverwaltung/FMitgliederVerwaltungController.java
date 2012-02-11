@@ -12,6 +12,7 @@ import org.apache.poi.hssf.record.formula.functions.Islogical;
 import org.apache.poi.hssf.record.formula.functions.Setvalue;
 
 import com.jgoodies.validation.ValidationResult;
+import com.jgoodies.validation.view.ValidationComponentUtils;
 
 import biz.wittkemper.jfire.data.dao.DAOFactory;
 import biz.wittkemper.jfire.data.entity.Mitglied;
@@ -110,6 +111,7 @@ public class FMitgliederVerwaltungController {
 		this.view.setSaveListener(new SaveListener());
 		this.view.setSeachListener(new SeachListener());
 		this.view.setSeachKeyListener(searchKey);
+		this.view.setDeleteListener(new DeleteListener());
 	}
 
 	public JInternalFrame getFrame() throws PropertyVetoException {
@@ -135,6 +137,7 @@ public class FMitgliederVerwaltungController {
 		} else {
 			loadByName(lsearch);
 		}
+		view.repaint();
 	}
 
 	private void loadByName(String lsearch) {
@@ -149,9 +152,51 @@ public class FMitgliederVerwaltungController {
 
 	private void speicherMitglied() {
 		view.trigger.triggerCommit();
-		DAOFactory.getInstance().getMitgliedDAO().save(this.model.getMitglied());
+		if (viewmode == EDITMODE.NEW){
+			DAOFactory.getInstance().getMitgliedDAO().save(this.model.getMitglied());
+		}else if (viewmode == EDITMODE.EDIT){
+			DAOFactory.getInstance().getMitgliedDAO().update(this.model.getMitglied());
+			if(model.getFoerderMitglied()!=null){
+				DAOFactory.getInstance().getFoerderMitgliedDAO().update(model.getFoerderMitglied());
+			}
+		}
 	}
 
+	private void sucheNaechstesMitglied(String richtung) {
+		long id;
+		if (model.getMitglied().getId() == null) {
+			id = 0;
+		} else {
+			id = model.getMitglied().getId();
+		}
+		if (richtung.equals("left")) {
+			loadData(DAOFactory.getInstance().getMitgliedDAO().getPrev(id)
+					.getId());
+		} else if (richtung.equals("right")) {
+			loadData(DAOFactory.getInstance().getMitgliedDAO().getNext(id)
+					.getId());
+		}
+		view.repaint();
+	}
+	
+	class DeleteListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (model.getMitglied().getId()> 0){
+				String msg ="Wollen sie das ausgewählte Mitglied wirklich löschen?";
+				
+				if(JOptionPane.showConfirmDialog(view, msg,"Frage:", JOptionPane.YES_NO_OPTION ,JOptionPane.WARNING_MESSAGE)== JOptionPane.YES_OPTION){
+					Mitglied mitglied = model.getMitglied();
+					mitglied.setGeloescht(true);
+					
+					DAOFactory.getInstance().getMitgliedDAO().update(mitglied);
+					sucheNaechstesMitglied("right");
+				}
+			}
+		}
+		
+	}
 	class SeachListener implements ActionListener {
 
 		@Override
@@ -165,6 +210,7 @@ public class FMitgliederVerwaltungController {
 			} else if (e.getActionCommand().equals("edit")) {
 				editMitglied();
 			}
+			view.repaint();
 		}
 
 		private void editMitglied() {
@@ -175,22 +221,7 @@ public class FMitgliederVerwaltungController {
 
 		}
 
-		private void sucheNaechstesMitglied(String richtung) {
-			long id;
-			if (model.getMitglied().getId() == null) {
-				id = 0;
-			} else {
-				id = model.getMitglied().getId();
-			}
-			if (richtung.equals("left")) {
-				loadData(DAOFactory.getInstance().getMitgliedDAO().getPrev(id)
-						.getId());
-			} else if (richtung.equals("right")) {
-				loadData(DAOFactory.getInstance().getMitgliedDAO().getNext(id)
-						.getId());
-			}
 
-		}
 
 	}
 
@@ -201,15 +232,18 @@ public class FMitgliederVerwaltungController {
 			view.trigger.triggerCommit();
 			MitgliedValidator validator = new MitgliedValidator();
 			ValidationResult res = validator.validate(model.getMitglied());
-
+			
 			if (res.hasErrors()==false){
-				DAOFactory.getInstance().getMitgliedDAO().update(model.getMitglied());
-				if(model.getFoerderMitglied()!=null){
-					DAOFactory.getInstance().getFoerderMitgliedDAO().update(model.getFoerderMitglied());
-				}
+				speicherMitglied();
+				switchViewMode(EDITMODE.NONE);
+				view.enableImput(false);
+			}else{
+				ValidationComponentUtils.updateComponentTreeMandatoryAndBlankBackground(view);
+				ValidationComponentUtils.updateComponentTreeMandatoryBackground(view);
+				ValidationComponentUtils.updateComponentTreeMandatoryBorder(view);
+				
 			}
-			switchViewMode(EDITMODE.NONE);
-			view.enableImput(false);
+
 		}
 
 	}

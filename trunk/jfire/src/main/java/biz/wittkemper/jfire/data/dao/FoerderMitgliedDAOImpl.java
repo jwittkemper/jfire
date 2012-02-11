@@ -15,13 +15,17 @@ public class FoerderMitgliedDAOImpl extends
 
 	@Override
 	public int getAll() {
-		String hsql = "FROM FoerderMitglied ";
-		List<FoerderMitglied> list = super.findByQueryString(hsql);
+		List<FoerderMitglied> list = getAllList(); 
 
 		if (list.size() > 0) {
 			return list.size();
 		}
 		return 0;
+	}
+	public List<FoerderMitglied> getAllList(){
+		String hsql = "FROM FoerderMitglied f where f.mitglied.geloescht =0 ";
+		List<FoerderMitglied> list = super.findByQueryString(hsql);
+		return list;
 	}
 
 }

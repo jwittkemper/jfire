@@ -42,6 +42,7 @@ public class Mitglied implements Serializable {
 	MitgliedStatus status;
 	Date masterInsert;
 	Date lastChange = new Date();
+	boolean geloescht;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -189,6 +190,14 @@ public class Mitglied implements Serializable {
 
 	public void setAnrede(Anrede anrede) {
 		this.anrede = anrede;
+	}
+
+	public boolean isGeloescht() {
+		return geloescht;
+	}
+
+	public void setGeloescht(boolean geloescht) {
+		this.geloescht = geloescht;
 	}
 
 }
