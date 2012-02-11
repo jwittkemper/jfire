@@ -1,9 +1,8 @@
 package biz.wittkemper.jfire.forms.fmitgliederverwaltung;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Panel;
+import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 import java.beans.PropertyVetoException;
@@ -24,9 +23,10 @@ import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.BevelBorder;
+
 import org.jdesktop.swingx.JXDatePicker;
 
-import biz.wittkemper.jfire.data.entity.Mitglied;
+import biz.wittkemper.jfire.data.entity.Anrede;
 import biz.wittkemper.jfire.data.entity.MitgliedStatus;
 import biz.wittkemper.jfire.utils.IconService;
 import biz.wittkemper.jfire.utils.IconService.ICONSERVICE;
@@ -37,7 +37,7 @@ import com.jgoodies.binding.adapter.ComboBoxAdapter;
 import com.jgoodies.binding.value.ConverterFactory;
 import com.jgoodies.binding.value.Trigger;
 import com.jgoodies.binding.value.ValueModel;
-import java.awt.Font;
+import com.jgoodies.validation.view.ValidationComponentUtils;
 
 public class FMitgliederVerwaltungView extends JInternalFrame {
 	/**
@@ -62,6 +62,7 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 	ValueModel status;
 	ValueModel eintritt;
 	ValueModel foerderEintritt;
+	ValueModel anrede;
 	
 	public Trigger trigger;
 	private JToolBar TBMain;
@@ -99,11 +100,14 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 	private JButton btnRight;
 	private JButton btnEdit;
 	private JButton btnNew;
+	private JButton btnDel;
 	private JLabel lbMitglied;
 	private JPanel tpFoerderMitglied;
 	private JLabel lblMitgliedSeit_1;
 	private JXDatePicker dPFoerderMitglied;
 	private JTabbedPane tbStammdaten;
+	private JComboBox cbAnrede;
+	private JLabel lblAnrede;
 	/**
 	 * Create the frame.
 	 * 
@@ -133,28 +137,10 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 		status = pmodel.getBufferedModel("status");
 		eintritt = pmodel.getBufferedModel("eintritt");
 		foerderEintritt = pmodel.getBufferedModel("eintritt");
+		anrede = pmodel.getBufferedModel("anrede");
+		
 		List<MitgliedStatus> gueltigStatus = model.getMitgliedStatuse();
-		
-		Iname.setColumns(10);
-		Bindings.bind(Iname, name);
-		
-		IVorname = new JTextField();
-		IVorname.setColumns(10);
-		Bindings.bind(IVorname,vorname);
-		
-		IStrasse = new JTextField();
-		IStrasse.setColumns(10);
-		
-		Bindings.bind(IStrasse,strasse);
-		
-		
-		Iort = new JTextField();
-		Iort.setColumns(10);
-		Bindings.bind(Iort, ort);
-		
-		IPlz = new JTextField();
-		IPlz.setColumns(10);
-		Bindings.bind(IPlz, ConverterFactory.createStringConverter(plz, new DecimalFormat("0")));
+		List<Anrede> anreden = model.getAnreden();
 		
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		
@@ -199,6 +185,12 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 		btnEdit.setMaximumSize(new Dimension(23, 23));
 		TBMain.add(btnEdit);
 		
+		btnDel = new JButton();
+		btnDel.setToolTipText("Mitglied löschen");
+		btnDel.setIcon(iconService.getButtonIcon(ICONSERVICE.delete));
+		btnDel.setMaximumSize(new Dimension(23, 23));
+		TBMain.add(btnDel);
+		
 		panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.CENTER);
 		
@@ -241,35 +233,31 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 					.addContainerGap())
 		);
 		
+		Iname.setColumns(10);
+		Bindings.bind(Iname, name);
+		ValidationComponentUtils.setMandatory(Iname,true);
+		ValidationComponentUtils.setMessageKey(Iname, "form.name");
+		
+		IVorname = new JTextField();
+		IVorname.setColumns(10);
+		Bindings.bind(IVorname,vorname);
+		
+		IStrasse = new JTextField();
+		IStrasse.setColumns(10);
+		
+		Bindings.bind(IStrasse,strasse);
+		
+		
+		Iort = new JTextField();
+		Iort.setColumns(10);
+		Bindings.bind(Iort, ort);
+		
+		IPlz = new JTextField();
+		IPlz.setColumns(10);
+		Bindings.bind(IPlz, ConverterFactory.createStringConverter(plz, new DecimalFormat("0")));
+		
 		JPanel panel_1 = new JPanel();
 		tbStammdaten.addTab("Stammdaten" +"", null, panel_1, null);
-		
-		tpFoerderMitglied = new JPanel();
-		tbStammdaten.addTab("Förderverein",null,tpFoerderMitglied,null);
-		
-		lblMitgliedSeit_1 = new JLabel("Mitglied seit: ");
-		
-		dPFoerderMitglied = new JXDatePicker();
-		GroupLayout gl_tpFoerderMitglied = new GroupLayout(tpFoerderMitglied);
-		gl_tpFoerderMitglied.setHorizontalGroup(
-			gl_tpFoerderMitglied.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_tpFoerderMitglied.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(lblMitgliedSeit_1)
-					.addGap(4)
-					.addComponent(dPFoerderMitglied, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(623, Short.MAX_VALUE))
-		);
-		gl_tpFoerderMitglied.setVerticalGroup(
-			gl_tpFoerderMitglied.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_tpFoerderMitglied.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_tpFoerderMitglied.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblMitgliedSeit_1)
-						.addComponent(dPFoerderMitglied, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(362, Short.MAX_VALUE))
-		);
-		tpFoerderMitglied.setLayout(gl_tpFoerderMitglied);
 		JLabel lblName = new JLabel("Name:");
 		
 		
@@ -296,8 +284,8 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 		pnDienstlich = new JPanel();
 		pnDienstlich.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
 		
-		
-		Bindings.bind((JComponent) dPFoerderMitglied, "date", foerderEintritt);
+		lblAnrede = new JLabel("Anrede");
+		cbAnrede = new JComboBox(new ComboBoxAdapter<Anrede>(anreden, anrede));
 		
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
 		gl_panel_1.setHorizontalGroup(
@@ -306,62 +294,73 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 					.addContainerGap()
 					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_panel_1.createSequentialGroup()
-							.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING, false)
-								.addComponent(lblStrasse)
-								.addComponent(lblWohnort, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(lblName)
-								.addComponent(lblEmail)
-								.addComponent(lblGeburtsdatum, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE))
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING, false)
-									.addGroup(gl_panel_1.createSequentialGroup()
-										.addComponent(IVorname, GroupLayout.PREFERRED_SIZE, 128, GroupLayout.PREFERRED_SIZE)
-										.addPreferredGap(ComponentPlacement.RELATED)
-										.addComponent(Iname, GroupLayout.PREFERRED_SIZE, 162, GroupLayout.PREFERRED_SIZE))
-									.addGroup(gl_panel_1.createSequentialGroup()
-										.addComponent(IPlz, GroupLayout.PREFERRED_SIZE, 61, GroupLayout.PREFERRED_SIZE)
-										.addPreferredGap(ComponentPlacement.RELATED)
-										.addComponent(Iort, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-									.addComponent(IStrasse, 162, 162, 162)
-									.addComponent(Iemail))
-								.addComponent(datePicker, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addGap(46)
-							.addComponent(tb_phone, GroupLayout.PREFERRED_SIZE, 338, GroupLayout.PREFERRED_SIZE)
-							.addContainerGap(50, Short.MAX_VALUE))
+							.addComponent(pnDienstlich, GroupLayout.DEFAULT_SIZE, 415, Short.MAX_VALUE)
+							.addGap(434))
 						.addGroup(gl_panel_1.createSequentialGroup()
-							.addComponent(pnDienstlich, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-							.addGap(434))))
+							.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_panel_1.createParallelGroup(Alignment.TRAILING)
+									.addComponent(lblAnrede, Alignment.LEADING)
+									.addGroup(Alignment.LEADING, gl_panel_1.createSequentialGroup()
+										.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+											.addComponent(lblName)
+											.addComponent(lblStrasse)
+											.addComponent(lblWohnort, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE)
+											.addComponent(lblGeburtsdatum, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE))
+										.addPreferredGap(ComponentPlacement.RELATED)
+										.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+											.addComponent(IStrasse, 162, 162, 162)
+											.addGroup(gl_panel_1.createSequentialGroup()
+												.addComponent(IPlz, GroupLayout.PREFERRED_SIZE, 61, GroupLayout.PREFERRED_SIZE)
+												.addPreferredGap(ComponentPlacement.RELATED)
+												.addComponent(Iort, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+											.addGroup(gl_panel_1.createSequentialGroup()
+												.addGroup(gl_panel_1.createParallelGroup(Alignment.TRAILING, false)
+													.addComponent(cbAnrede, Alignment.LEADING, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+													.addComponent(IVorname, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 128, GroupLayout.PREFERRED_SIZE))
+												.addPreferredGap(ComponentPlacement.RELATED)
+												.addComponent(Iname, GroupLayout.PREFERRED_SIZE, 162, GroupLayout.PREFERRED_SIZE))
+											.addComponent(Iemail, GroupLayout.PREFERRED_SIZE, 213, GroupLayout.PREFERRED_SIZE)
+											.addComponent(datePicker, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
+								.addComponent(lblEmail))
+							.addGap(91)
+							.addComponent(tb_phone, GroupLayout.PREFERRED_SIZE, 338, GroupLayout.PREFERRED_SIZE)
+							.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
 		);
 		gl_panel_1.setVerticalGroup(
-			gl_panel_1.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_1.createSequentialGroup()
+			gl_panel_1.createParallelGroup(Alignment.TRAILING)
+				.addGroup(Alignment.LEADING, gl_panel_1.createSequentialGroup()
 					.addGap(20)
-					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
-						.addComponent(tb_phone, GroupLayout.PREFERRED_SIZE, 125, GroupLayout.PREFERRED_SIZE)
+					.addGroup(gl_panel_1.createParallelGroup(Alignment.TRAILING)
+						.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
+							.addComponent(datePicker, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addComponent(lblGeburtsdatum))
 						.addGroup(gl_panel_1.createSequentialGroup()
-							.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lblName)
-								.addComponent(Iname, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(IVorname, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lblStrasse)
-								.addComponent(IStrasse, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lblWohnort)
-								.addComponent(IPlz, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(Iort, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lblEmail)
-								.addComponent(Iemail, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lblGeburtsdatum)
-								.addComponent(datePicker, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
-					.addPreferredGap(ComponentPlacement.RELATED, 149, Short.MAX_VALUE)
+							.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING, false)
+								.addComponent(tb_phone, GroupLayout.PREFERRED_SIZE, 125, GroupLayout.PREFERRED_SIZE)
+								.addGroup(gl_panel_1.createSequentialGroup()
+									.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
+										.addComponent(cbAnrede, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+										.addComponent(lblAnrede))
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
+										.addComponent(lblName)
+										.addComponent(IVorname, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+										.addComponent(Iname, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
+										.addComponent(lblStrasse)
+										.addComponent(IStrasse, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
+										.addComponent(IPlz, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+										.addComponent(Iort, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+										.addComponent(lblWohnort))
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
+										.addComponent(lblEmail)
+										.addComponent(Iemail, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
+							.addGap(27)))
+					.addPreferredGap(ComponentPlacement.RELATED, 128, Short.MAX_VALUE)
 					.addComponent(pnDienstlich, GroupLayout.PREFERRED_SIZE, 77, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap())
 		);
@@ -374,7 +373,6 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 		lblMitgliedstatus = new JLabel("Mitgliedstatus ");
 		
 		cbStatus = new JComboBox(new ComboBoxAdapter<MitgliedStatus>(gueltigStatus, status));
-		
 		
 		GroupLayout gl_pnDienstlich = new GroupLayout(pnDienstlich);
 		gl_pnDienstlich.setHorizontalGroup(
@@ -464,6 +462,36 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 		);
 		tb_phone.setLayout(gl_tb_phone);
 		panel_1.setLayout(gl_panel_1);
+		
+		tpFoerderMitglied = new JPanel();
+		tbStammdaten.addTab("Förderverein",null,tpFoerderMitglied,null);
+		
+		lblMitgliedSeit_1 = new JLabel("Mitglied seit: ");
+		
+		dPFoerderMitglied = new JXDatePicker();
+		GroupLayout gl_tpFoerderMitglied = new GroupLayout(tpFoerderMitglied);
+		gl_tpFoerderMitglied.setHorizontalGroup(
+			gl_tpFoerderMitglied.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_tpFoerderMitglied.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(lblMitgliedSeit_1)
+					.addGap(4)
+					.addComponent(dPFoerderMitglied, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(623, Short.MAX_VALUE))
+		);
+		gl_tpFoerderMitglied.setVerticalGroup(
+			gl_tpFoerderMitglied.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_tpFoerderMitglied.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_tpFoerderMitglied.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblMitgliedSeit_1)
+						.addComponent(dPFoerderMitglied, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(362, Short.MAX_VALUE))
+		);
+		tpFoerderMitglied.setLayout(gl_tpFoerderMitglied);
+		
+		
+		Bindings.bind((JComponent) dPFoerderMitglied, "date", foerderEintritt);
 		panel.setLayout(gl_panel);
 
 
@@ -492,6 +520,10 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 
 	protected void setSeachKeyListener(KeyListener listener){
 		ISearch.addKeyListener(listener);
+	}
+	
+	protected void setDeleteListener (ActionListener listener){
+		btnDel.addActionListener(listener);
 	}
 	public MitgliedModel getModel() {
 		return this.model;
@@ -531,6 +563,7 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 		cbStatus.setEnabled(value);
 		btnSave.setEnabled(value);
 		dPFoerderMitglied.setEnabled(value);
+		cbAnrede.setEnabled(value);
 	}
 
 	public void setToolbar(boolean value) {

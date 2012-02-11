@@ -34,4 +34,7 @@ public class Anrede implements Serializable{
 		this.anrede = anrede;
 	}
 	
+	public String toString(){
+		return this.getAnrede();
+	}
 }

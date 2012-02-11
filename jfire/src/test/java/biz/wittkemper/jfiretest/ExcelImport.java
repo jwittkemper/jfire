@@ -270,6 +270,7 @@ public class ExcelImport {
 			}
 
 		}
+		mitglied.setGeloescht(false);
 		return mitglied;
 	}
 

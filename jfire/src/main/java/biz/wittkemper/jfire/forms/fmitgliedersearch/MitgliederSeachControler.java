@@ -28,7 +28,7 @@ public class MitgliederSeachControler {
 		
 		initClass();
 		this.view.setSearchText(searchText);
-		searchData(searchText);
+		searchData(searchText, true);
 		this.view.setModal(true);
 		this.view.setVisible(true);
 		
@@ -46,9 +46,9 @@ public class MitgliederSeachControler {
 	public Mitglied getMitglied(){
 		return view.getSelectedMitglied();
 	}
-	private void searchData(String searchText){
+	private void searchData(String searchText, boolean nuraktive){
 		
-		pm.setData(DAOFactory.getInstance().getMitgliedDAO().searchByName(searchText.split(" ")));
+		pm.setData(DAOFactory.getInstance().getMitgliedDAO().searchByName(searchText.split(" "),nuraktive));
 	}
 	class SearchListener implements KeyListener{
 
@@ -60,7 +60,7 @@ public class MitgliederSeachControler {
 		@Override
 		public void keyPressed(KeyEvent e) {
 			if(e.getKeyCode() == KeyEvent.VK_ENTER){
-				searchData(view.getSearchText());
+				searchData(view.getSearchText(), ! view.getGeloschteAnzeigen());
 			}
 			
 		}

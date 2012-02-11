@@ -17,5 +17,5 @@ public interface MitgliedDAO extends
 	
 	Mitglied getPrev(long id);
 
-	List<Mitglied> searchByName(String[] names);
+	List<Mitglied> searchByName(String[] names, boolean onlyaktiv);
 }

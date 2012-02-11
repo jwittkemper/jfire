@@ -41,7 +41,7 @@ public class MitgliedDAOImpl extends AbstractDAOImpl<Mitglied, Long> implements
 		String hsql = "From Mitglied m ";
 		hsql += " Where m.name = '" + name + "' ";
 		hsql += "AND m.vorname = '" + vorname + "' ";
-
+		hsql += " AND a.geloescht = 0";
 		List<Mitglied> list = super.findByQueryString(hsql);
 
 		if (list.size() > 0) {
@@ -53,7 +53,7 @@ public class MitgliedDAOImpl extends AbstractDAOImpl<Mitglied, Long> implements
 	@Override
 	public int getAktive() {
 		String hsql = "FROM Mitglied m where m.status.id = 1 ";
-
+		hsql += " and m.geloescht = 0";
 		List<Mitglied> list = super.findByQueryString(hsql);
 
 		if (list.size() > 0) {
@@ -65,7 +65,8 @@ public class MitgliedDAOImpl extends AbstractDAOImpl<Mitglied, Long> implements
 	@Override
 	public int getReserve() {
 		String hsql = "FROM Mitglied m where m.status.id = 2 ";
-
+		hsql += " and m.geloescht = 0";
+		
 		List<Mitglied> list = super.findByQueryString(hsql);
 
 		if (list.size() > 0) {
@@ -80,6 +81,7 @@ public class MitgliedDAOImpl extends AbstractDAOImpl<Mitglied, Long> implements
 		
 		hql="";
 		hql += " FROM Mitglied a where a.id >=" + id;
+		hql += " and a.geloescht = 0";
 		hql += " Order by id asc ";	
 		
 		List<Mitglied> list = super.findByQueryString(hql);
@@ -97,6 +99,7 @@ public class MitgliedDAOImpl extends AbstractDAOImpl<Mitglied, Long> implements
 		
 		hql="";
 		hql += " FROM Mitglied a where a.id <=" + id;
+		hql += " and a.geloescht = 0";
 		hql += " Order by id desc ";	
 		
 		List<Mitglied> list = super.findByQueryString(hql);
@@ -107,19 +110,21 @@ public class MitgliedDAOImpl extends AbstractDAOImpl<Mitglied, Long> implements
 	}
 
 	@Override
-	public List<Mitglied> searchByName(String[] names) {
+	public List<Mitglied> searchByName(String[] names , boolean onlyaktiv) {
 		String hql;
 		
 		hql="";
 		hql += " FROM Mitglied a where ";
 		if (names.length==1){
-			hql += " lower(a.name) like '" + names[0].trim().toLowerCase() +"%' ";
-			hql +=" OR lower(a.vorname) like '"+ names[0].trim().toLowerCase() +"%' ";
+			hql += "( lower(a.name) like '" + names[0].trim().toLowerCase() +"%' ";
+			hql +=" OR lower(a.vorname) like '"+ names[0].trim().toLowerCase() +"%')";
 		}else if (names.length==2){
-			hql += " lower(a.name) like '" + names[1].trim().toLowerCase() +"%' ";
-			hql +=" AND lower(a.vorname) like '"+ names[0].trim().toLowerCase() +"%' ";
+			hql += "( lower(a.name) like '" + names[1].trim().toLowerCase() +"%' ";
+			hql +=" AND lower(a.vorname) like '"+ names[0].trim().toLowerCase() +"%') ";
 		}
-		
+		if(onlyaktiv){
+			hql += " AND a.geloescht = 0";
+		}
 		hql += " Order by vorname, name desc ";	
 		
 		List<Mitglied> list = super.findByQueryString(hql);

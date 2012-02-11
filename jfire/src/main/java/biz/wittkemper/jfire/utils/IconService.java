@@ -7,7 +7,7 @@ import javax.swing.ImageIcon;
 
 public class IconService {
 	public enum ICONSERVICE {
-		search, left, right, main, edituser, newuser;
+		search, left, right, main, edituser, newuser, delete;
 	}
 
 	public ImageIcon getButtonIcon(ICONSERVICE picture) {
@@ -44,6 +44,9 @@ public class IconService {
 			break;
 		case newuser:
 			pic = "addUser.png";
+			break;
+		case delete:
+			pic = "del.png";
 			break;
 		}
 		URL img = ClassLoader.getSystemResource("picture/" + pic);
