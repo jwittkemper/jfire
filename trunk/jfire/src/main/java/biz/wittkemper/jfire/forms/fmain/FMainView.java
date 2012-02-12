@@ -31,7 +31,10 @@ public class FMainView extends JFrame {
 	JMenu mnDatei;
 	JMenuItem mntmBeenden;
 	JMenu mnVerwaltung;
+	JMenu mnListen;
 	JMenuItem mntmMitgliederverwaltung;
+	JMenuItem mntmMitgliederFoerderverein;
+	
 	JDesktopPane pane = new MDIDesktopPane();
 	JXStatusBar statusBar = new JXStatusBar();
 	JLabel lbMitglieder = new JLabel();
@@ -66,6 +69,14 @@ public class FMainView extends JFrame {
 
 		mntmMitgliederverwaltung = new JMenuItem("Mitgliederverwaltung");
 		mnVerwaltung.add(mntmMitgliederverwaltung);
+		
+		mnListen = new JMenu("Listen");
+		menuBar.add(mnListen);
+		
+		mntmMitgliederFoerderverein = new JMenuItem("Mitglieder Föderverein");
+		mntmMitgliederFoerderverein.setActionCommand("mitgliederfoerderverein");
+		mnListen.add(mntmMitgliederFoerderverein);
+		
 		frameUtils.MaximiseFrame(this);
 		getContentPane().setLayout(new BorderLayout());
 		getContentPane().add(pane, "Center");		
@@ -87,6 +98,9 @@ public class FMainView extends JFrame {
 
 	}
 
+	protected void setListenListener(ActionListener al){
+		mntmMitgliederFoerderverein.addActionListener(al);
+	}
 
 	protected void setBeendenListener(ActionListener al) {
 		mntmBeenden.addActionListener(al);

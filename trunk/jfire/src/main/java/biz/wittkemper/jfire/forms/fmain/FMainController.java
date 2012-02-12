@@ -16,8 +16,12 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import net.sf.jasperreports.engine.JRException;
+
 import biz.wittkemper.jfire.data.dao.DAOFactory;
 import biz.wittkemper.jfire.forms.fmitgliederverwaltung.FMitgliederVerwaltungController;
+import biz.wittkemper.jfire.service.ReportService;
+import biz.wittkemper.jfire.service.ReportService.REPORTS;
 import biz.wittkemper.jfire.utils.FrameUtils;
 
 public class FMainController {
@@ -41,7 +45,7 @@ public class FMainController {
 		this.view.setBeendenListener(new BeendenListener());
 		this.view.setMitgliederListener(new MitgliederListener());
 		this.view.addWindowListener(new WindowList());
-		
+		this.view.setListenListener(new LitenListener());
 		this.view.getContentPane().addHierarchyBoundsListener(new HierarchyBoundsListener() {
 			
 			@Override
@@ -128,6 +132,22 @@ public class FMainController {
 
 	}
 
+	class LitenListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if(e.getActionCommand().equals("mitgliederfoerderverein")){
+				try {
+					ReportService.showReport(REPORTS.MITGLIEDERFOERDERVEREIN);
+				} catch (JRException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+			
+		}
+		
+	}
 	class MitgliederListener implements ActionListener {
 
 		@Override
