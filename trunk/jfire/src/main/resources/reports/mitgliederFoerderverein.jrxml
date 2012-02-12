@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="MitgliederFoerderverein" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="Titel" class="java.lang.String">
+		<parameterDescription><![CDATA[Titel der Mitgliederliste]]></parameterDescription>
+	</parameter>
+	<parameter name="STAND" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[Select a.ANREDE, m.NAME, m.VORNAME, m.STRASSENR, m.PLZ, m.ORT from FOERDERMITGLIED f inner join MITGLIED m
+on f.MITGLIED_ID = m.ID INNER JOIN ANREDE a on m.ANREDE_ID = a.ID
+where m.GELOESCHT = 0 ORDER BY m.NAME, m.VORNAME]]>
+	</queryString>
+	<field name="ANREDE" class="java.lang.String"/>
+	<field name="NAME" class="java.lang.String"/>
+	<field name="VORNAME" class="java.lang.String"/>
+	<field name="STRASSENR" class="java.lang.String"/>
+	<field name="PLZ" class="java.lang.Integer"/>
+	<field name="ORT" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="20">
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="530" height="20"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Titel}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="20">
+			<staticText>
+				<reportElement x="0" y="0" width="71" height="20"/>
+				<textElement>
+					<font isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[ANREDE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="71" y="0" width="100" height="20"/>
+				<textElement>
+					<font isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[VORNAME]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="171" y="0" width="100" height="20"/>
+				<textElement>
+					<font isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[NAME]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="271" y="0" width="59" height="20"/>
+				<textElement>
+					<font isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[PLZ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="330" y="0" width="57" height="20"/>
+				<textElement>
+					<font isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[ORT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="387" y="0" width="143" height="20"/>
+				<textElement>
+					<font isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Strasse]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="22" splitType="Stretch">
+			<textField>
+				<reportElement x="71" y="2" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{VORNAME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="171" y="2" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{NAME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="271" y="2" width="59" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{PLZ}.toString()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="330" y="2" width="57" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{ORT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="387" y="2" width="143" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{STRASSENR}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="2" width="71" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{ANREDE}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="54" splitType="Stretch">
+			<staticText>
+				<reportElement x="236" y="17" width="60" height="20"/>
+				<textElement/>
+				<text><![CDATA[Stand vom:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="296" y="17" width="171" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{STAND}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>
