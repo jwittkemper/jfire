@@ -1,5 +1,7 @@
 package biz.wittkemper.jfire.forms.fmain;
 
+import java.awt.Component;
+import java.awt.Frame;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,20 +15,23 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 
 import net.sf.jasperreports.engine.JRException;
 
 import biz.wittkemper.jfire.data.dao.DAOFactory;
 import biz.wittkemper.jfire.forms.fmitgliederverwaltung.FMitgliederVerwaltungController;
+import biz.wittkemper.jfire.forms.fmitgliederverwaltung.FMitgliederVerwaltungView;
 import biz.wittkemper.jfire.service.ReportService;
 import biz.wittkemper.jfire.service.ReportService.REPORTS;
 import biz.wittkemper.jfire.utils.FrameUtils;
 
 public class FMainController {
 	FrameUtils frameUtils = new FrameUtils();
-	FMitgliederVerwaltungController mitgliederVerwaltungController;
+//	FMitgliederVerwaltungController mitgliederVerwaltungController;
 	FMainView view;
 
 	public FMainController() {
@@ -143,6 +148,20 @@ public class FMainController {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
+			}else if(e.getActionCommand().equals("telefonlisteactive")){
+				try {
+					ReportService.showReport(REPORTS.TELEFONLISTEAKTIVE);
+				} catch (JRException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}else if (e.getActionCommand().equals("telefonlisteareserve")){
+				try {
+					ReportService.showReport(REPORTS.TELEFONRESERVE);
+				} catch (JRException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 			
 		}
@@ -152,13 +171,22 @@ public class FMainController {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-
-			if (mitgliederVerwaltungController == null) {
-				mitgliederVerwaltungController = new FMitgliederVerwaltungController();
+			
+			for(Component jdesk: view.getContentPane().getComponents()){
+				if (jdesk instanceof JDesktopPane){
+					JDesktopPane dsk = (JDesktopPane) jdesk;
+					for(JInternalFrame jint:  dsk.getAllFrames()){
+						if (jint instanceof FMitgliederVerwaltungView){
+							jint.setVisible(true);
+							return;
+						}
+					}
+				}
+				System.out.println(jdesk.getName());
 			}
 
 			try {
-				view.addFrame(mitgliederVerwaltungController.getFrame());
+				view.addFrame( new FMitgliederVerwaltungController().getFrame());
 			} catch (PropertyVetoException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();

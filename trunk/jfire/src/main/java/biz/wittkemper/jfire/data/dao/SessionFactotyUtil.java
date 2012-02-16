@@ -31,7 +31,7 @@ public class SessionFactotyUtil {
 			.setProperty("hibernate.cache.provider_class", "org.hibernate.cache.HashtableCacheProvider")
 			.setProperty("hibernate.query.substitutions", "true 1, false 0, yes 'Y', no 'N'")
 			.setProperty("hibernate.hbm2ddl.auto", "none")
-			.setProperty("hibernate.show_sql", "true")
+			.setProperty("hibernate.show_sql", "false")
 			.setProperty("hibernate.format_sql", "true")
 			.setProperty("hibernate.current_session_context_class", "thread")
 

@@ -17,7 +17,7 @@ public class DateUtils {
 	}
 
 	public static String getCurDateString(){
-		SimpleDateFormat form = new SimpleDateFormat("dd.MMM.yyyy hh:mm");
+		SimpleDateFormat form = new SimpleDateFormat("dd.MMM.yyyy HH:mm");
 		Date date = new Date();
 		return form.format(date);
 	}
