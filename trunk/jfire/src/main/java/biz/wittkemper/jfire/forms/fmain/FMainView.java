@@ -32,6 +32,8 @@ public class FMainView extends JFrame {
 	JMenuItem mntmBeenden;
 	JMenu mnVerwaltung;
 	JMenu mnListen;
+	JMenu mnTelefonListen;
+	JMenuItem mntnUebungsListe;
 	JMenuItem mntmMitgliederverwaltung;
 	JMenuItem mntmMitgliederFoerderverein;
 	JMenuItem mntnTelefonlisteaktive;
@@ -75,13 +77,21 @@ public class FMainView extends JFrame {
 		mnListen = new JMenu("Listen");
 		menuBar.add(mnListen);
 		
+		mntnUebungsListe = new JMenuItem("Anwesenheit Übung");
+		mntnUebungsListe.setActionCommand("anwesenheit");
+		mnListen.add(mntnUebungsListe);
+		
+		mnTelefonListen = new JMenu("Telefonlisten");
+		mnListen.add(mnTelefonListen);
+		
 		mntnTelefonlisteaktive = new JMenuItem("Telefonliste (Löschzug)");
 		mntnTelefonlisteaktive.setActionCommand("telefonlisteactive");
-		mnListen.add(mntnTelefonlisteaktive);
+		mnTelefonListen.add(mntnTelefonlisteaktive);
+		
 		
 		mntnTelefonlistereserve = new JMenuItem("Telefonliste (Reservezug)");
 		mntnTelefonlistereserve.setActionCommand("telefonlisteareserve");
-		mnListen.add(mntnTelefonlistereserve);
+		mnTelefonListen.add(mntnTelefonlistereserve);
 		
 		mntmMitgliederFoerderverein = new JMenuItem("Mitglieder Föderverein");
 		mntmMitgliederFoerderverein.setActionCommand("mitgliederfoerderverein");
@@ -112,6 +122,7 @@ public class FMainView extends JFrame {
 		mntmMitgliederFoerderverein.addActionListener(al);
 		mntnTelefonlisteaktive.addActionListener(al);
 		mntnTelefonlistereserve.addActionListener(al);
+		mntnUebungsListe.addActionListener(al);
 	}
 
 	protected void setBeendenListener(ActionListener al) {

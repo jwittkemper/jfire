@@ -24,7 +24,7 @@ import biz.wittkemper.jfire.utils.DateUtils;
 public class ExcelImport {
 
 	@Test
-	public void test() throws IOException {
+	public void test() throws Exception {
 
 		Anrede frau = new Anrede();
 		frau.setAnrede("Frau");
@@ -215,7 +215,7 @@ public class ExcelImport {
 		return DAOFactory.getInstance().getAnredeDAO().getAnredeByText(text);
 	}
 
-	private Mitglied getMitgliedFromRow(HSSFRow row) {
+	private Mitglied getMitgliedFromRow(HSSFRow row) throws Exception{
 		Mitglied mitglied = new Mitglied();
 
 		for (int j = 0; j <= 11; j++) {
