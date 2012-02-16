@@ -34,13 +34,13 @@ import biz.wittkemper.jfire.utils.DateUtils;
 
 public class ReportService {
 	public enum REPORTS {
-		MITGLIEDERFOERDERVEREIN, TELEFONLISTEAKTIVE, TELEFONRESERVE
+		MITGLIEDERFOERDERVEREIN, TELEFONLISTEAKTIVE, TELEFONRESERVE, ANWESENHEIUEBUNG
 	}
 
-	public static void showReport(REPORTS name) throws JRException {
+	public static void showReport(REPORTS name, Map refMap) throws JRException {
 
 		Report report = ReportFactory.getReport(name);
-		Map map = fillMap(report);
+		Map map = fillMap(report, refMap);
 
 		InputStream stream = ClassLoader.getSystemResourceAsStream(report
 				.getFilename());
@@ -77,8 +77,13 @@ public class ReportService {
 		tx.commit();
 	}
 
-	private static Map fillMap(Report report) {
-		Map map = new HashMap();
+	private static Map fillMap(Report report, Map refMap) {
+		Map map;
+		if (refMap == null) {
+			map = new HashMap();
+		}else{
+			map = refMap;
+		}
 		map.put("STAND", DateUtils.getCurDateString());
 		map.put("Titel", report.getTitel());
 		map.put("Auswahl", report.getSqlWhere());

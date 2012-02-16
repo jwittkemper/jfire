@@ -88,7 +88,7 @@ public class JasperTest {
 	@Ignore
 	public void view(){
 		try {
-			ReportService.showReport(REPORTS.MITGLIEDERFOERDERVEREIN);
+			ReportService.showReport(REPORTS.MITGLIEDERFOERDERVEREIN, null);
 		} catch (JRException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

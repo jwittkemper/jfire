@@ -12,6 +12,8 @@ import java.awt.event.WindowListener;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyVetoException;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -23,6 +25,7 @@ import javax.swing.JOptionPane;
 import net.sf.jasperreports.engine.JRException;
 
 import biz.wittkemper.jfire.data.dao.DAOFactory;
+import biz.wittkemper.jfire.forms.fanwesenheit.FAnwesenheit;
 import biz.wittkemper.jfire.forms.fmitgliederverwaltung.FMitgliederVerwaltungController;
 import biz.wittkemper.jfire.forms.fmitgliederverwaltung.FMitgliederVerwaltungView;
 import biz.wittkemper.jfire.service.ReportService;
@@ -31,7 +34,7 @@ import biz.wittkemper.jfire.utils.FrameUtils;
 
 public class FMainController {
 	FrameUtils frameUtils = new FrameUtils();
-//	FMitgliederVerwaltungController mitgliederVerwaltungController;
+	// FMitgliederVerwaltungController mitgliederVerwaltungController;
 	FMainView view;
 
 	public FMainController() {
@@ -51,20 +54,21 @@ public class FMainController {
 		this.view.setMitgliederListener(new MitgliederListener());
 		this.view.addWindowListener(new WindowList());
 		this.view.setListenListener(new LitenListener());
-		this.view.getContentPane().addHierarchyBoundsListener(new HierarchyBoundsListener() {
-			
-			@Override
-			public void ancestorResized(HierarchyEvent e) {
-				showView();
-				
-			}
-			
-			@Override
-			public void ancestorMoved(HierarchyEvent e) {
-				showView();
-				
-			}
-		});
+		this.view.getContentPane().addHierarchyBoundsListener(
+				new HierarchyBoundsListener() {
+
+					@Override
+					public void ancestorResized(HierarchyEvent e) {
+						showView();
+
+					}
+
+					@Override
+					public void ancestorMoved(HierarchyEvent e) {
+						showView();
+
+					}
+				});
 	}
 
 	public void showView() {
@@ -137,46 +141,62 @@ public class FMainController {
 
 	}
 
-	class LitenListener implements ActionListener{
+	class LitenListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if(e.getActionCommand().equals("mitgliederfoerderverein")){
+			if (e.getActionCommand().equals("mitgliederfoerderverein")) {
 				try {
-					ReportService.showReport(REPORTS.MITGLIEDERFOERDERVEREIN);
+					ReportService.showReport(REPORTS.MITGLIEDERFOERDERVEREIN, null);
 				} catch (JRException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-			}else if(e.getActionCommand().equals("telefonlisteactive")){
+			} else if (e.getActionCommand().equals("telefonlisteactive")) {
 				try {
-					ReportService.showReport(REPORTS.TELEFONLISTEAKTIVE);
+					ReportService.showReport(REPORTS.TELEFONLISTEAKTIVE, null);
 				} catch (JRException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-			}else if (e.getActionCommand().equals("telefonlisteareserve")){
+			} else if (e.getActionCommand().equals("telefonlisteareserve")) {
 				try {
-					ReportService.showReport(REPORTS.TELEFONRESERVE);
+					ReportService.showReport(REPORTS.TELEFONRESERVE, null);
 				} catch (JRException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
+			} else if (e.getActionCommand().equals("anwesenheit")) {
+				FAnwesenheit anwesenheit = new FAnwesenheit();
+				anwesenheit.setModal(true);
+				anwesenheit.setVisible(true);
+
+				if (anwesenheit.isCloseOK() == true) {
+					Map map = anwesenheit.getMapValues();
+					try {
+						ReportService.showReport(REPORTS.ANWESENHEIUEBUNG, map);
+					} catch (JRException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+
 			}
-			
+
 		}
-		
+
 	}
+
 	class MitgliederListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			
-			for(Component jdesk: view.getContentPane().getComponents()){
-				if (jdesk instanceof JDesktopPane){
+
+			for (Component jdesk : view.getContentPane().getComponents()) {
+				if (jdesk instanceof JDesktopPane) {
 					JDesktopPane dsk = (JDesktopPane) jdesk;
-					for(JInternalFrame jint:  dsk.getAllFrames()){
-						if (jint instanceof FMitgliederVerwaltungView){
+					for (JInternalFrame jint : dsk.getAllFrames()) {
+						if (jint instanceof FMitgliederVerwaltungView) {
 							jint.setVisible(true);
 							return;
 						}
@@ -186,7 +206,7 @@ public class FMainController {
 			}
 
 			try {
-				view.addFrame( new FMitgliederVerwaltungController().getFrame());
+				view.addFrame(new FMitgliederVerwaltungController().getFrame());
 			} catch (PropertyVetoException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
