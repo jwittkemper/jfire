@@ -29,25 +29,21 @@ import org.hibernate.Transaction;
 import org.jfree.ui.ExtensionFileFilter;
 
 import biz.wittkemper.jfire.data.dao.SessionFactotyUtil;
+import biz.wittkemper.jfire.data.entity.Report;
 import biz.wittkemper.jfire.utils.DateUtils;
 
 public class ReportService {
 	public enum REPORTS {
-		MITGLIEDERFOERDERVEREIN
+		MITGLIEDERFOERDERVEREIN, TELEFONLISTEAKTIVE, TELEFONRESERVE
 	}
 
 	public static void showReport(REPORTS name) throws JRException {
-		String report = "";
-		Map p = new HashMap();
-		p.put("STAND", DateUtils.getCurDateString());
-		switch (name) {
-		case MITGLIEDERFOERDERVEREIN:
-			report = "mitgliederFoerderverein.jrxml";
-			break;
-		}
-//		URL url = ClassLoader.getSystemResource("reports/" + report);
-		InputStream stream = ClassLoader.getSystemResourceAsStream("reports/" + report);
-		
+
+		Report report = ReportFactory.getReport(name);
+		Map map = fillMap(report);
+
+		InputStream stream = ClassLoader.getSystemResourceAsStream(report
+				.getFilename());
 
 		JasperDesign jasperDesign = JRXmlLoader.load(stream);
 		JasperReport jasperReport = JasperCompileManager
@@ -58,43 +54,62 @@ public class ReportService {
 		Connection con = SessionFactotyUtil.getInstance().getCurrentSession()
 				.connection();
 
-		int res = JOptionPane.showConfirmDialog(null,
-				"Wollen sie die Daten sehen und ausdrucken?", "Frage:",
-				JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-
+		int res;
+		if (report.isViewOnly()) {
+			res = JOptionPane.YES_OPTION;
+		} else {
+			Object[] options = { "Liste anzeigen", "Liste exportieren",
+					"abbrechen" };
+			res = JOptionPane.showOptionDialog(null,
+					"Was möchten sie mit der Liste tun?", "Frage",
+					JOptionPane.YES_NO_CANCEL_OPTION,
+					JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+		}
 		switch (res) {
 		case JOptionPane.YES_OPTION:
-			zeigeReport(jasperReport, p, con);
+			zeigeReport(jasperReport, map, con);
 			break;
 		case JOptionPane.NO_OPTION:
-			ExportReport(jasperReport, p, con);
+			ExportReport(jasperReport, map, con);
 			break;
 		default:
 		}
 		tx.commit();
 	}
 
+	private static Map fillMap(Report report) {
+		Map map = new HashMap();
+		map.put("STAND", DateUtils.getCurDateString());
+		map.put("Titel", report.getTitel());
+		map.put("Auswahl", report.getSqlWhere());
+		return map;
+	}
+
 	private static void ExportReport(JasperReport jasperReport, Map map,
 			Connection con) throws JRException {
-		File destFile = new File(getSaveFile());
-		
-		map.put(JRParameter.IS_IGNORE_PAGINATION, Boolean.TRUE);
-		
-		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport,
-				map, con);
-		JRXlsExporter exporter = new JRXlsExporter();
-		exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-		exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME,
-				destFile.toString());
-		exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET,
-				Boolean.FALSE);
-		exporter.setParameter(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND,
-				Boolean.FALSE);
-		exporter.setParameter(
-				JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS,
-				Boolean.TRUE);
 
-		exporter.exportReport();
+		map.remove("Titel");
+		File destFile = new File(getSaveFile());
+		if (destFile.getName().length() > 0) {
+			map.put(JRParameter.IS_IGNORE_PAGINATION, Boolean.TRUE);
+
+			JasperPrint jasperPrint = JasperFillManager.fillReport(
+					jasperReport, map, con);
+			JRXlsExporter exporter = new JRXlsExporter();
+			exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+			exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME,
+					destFile.toString());
+			exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET,
+					Boolean.FALSE);
+			exporter.setParameter(
+					JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND,
+					Boolean.FALSE);
+			exporter.setParameter(
+					JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS,
+					Boolean.TRUE);
+
+			exporter.exportReport();
+		}
 	}
 
 	private static String getSaveFile() {
@@ -106,6 +121,8 @@ public class ReportService {
 		int returnVal = fc.showSaveDialog(null);
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			file += fc.getSelectedFile().getAbsoluteFile() + ".xls";
+		} else {
+			file = "";
 		}
 
 		return file;
@@ -113,8 +130,8 @@ public class ReportService {
 
 	private static void zeigeReport(JasperReport jasperReport, Map map,
 			Connection con) throws JRException {
+
 		map.put(JRParameter.IS_IGNORE_PAGINATION, Boolean.FALSE);
-		map.put("Titel", "Mitgliederliste Förderverein");
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport,
 				map, con);
 		JasperViewer view = new JasperViewer(jasperPrint, true);
