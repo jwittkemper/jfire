@@ -12,7 +12,7 @@
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString language="SQL">
-		<![CDATA[Select * from Mitglied where status_id in ( $P!{Auswahl}) Order by status_id, Name, Vorname]]>
+		<![CDATA[Select * from Mitglied where status_id in ( $P!{Auswahl}) Order by status_id, lower(Name), lower(Vorname)]]>
 	</queryString>
 	<field name="NAME" class="java.lang.String"/>
 	<field name="VORNAME" class="java.lang.String"/>

@@ -10,7 +10,7 @@
 	<queryString>
 		<![CDATA[Select a.ANREDE, m.NAME, m.VORNAME, m.STRASSENR, m.PLZ, m.ORT from FOERDERMITGLIED f inner join MITGLIED m
 on f.MITGLIED_ID = m.ID INNER JOIN ANREDE a on m.ANREDE_ID = a.ID
-where m.GELOESCHT = 0 ORDER BY m.NAME, m.VORNAME]]>
+where m.GELOESCHT = 0 ORDER BY lower(m.NAME), lower(m.VORNAME)]]>
 	</queryString>
 	<field name="ANREDE" class="java.lang.String"/>
 	<field name="NAME" class="java.lang.String"/>
