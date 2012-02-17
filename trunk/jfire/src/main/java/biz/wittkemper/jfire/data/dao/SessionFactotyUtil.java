@@ -7,8 +7,11 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
 
-public class SessionFactotyUtil {
+import biz.wittkemper.jfire.utils.SystemUtils;
 
+public class SessionFactotyUtil {
+	private static SystemUtils systemUtils = new SystemUtils();
+	
 	private static SessionFactory sessionFactory;
 	/**
 	 * disable contructor to guaranty a single instance
@@ -17,9 +20,16 @@ public class SessionFactotyUtil {
 	}
 
 	static{
-				
+		boolean initDB=false;
+		
+		String createDB="none";
+		if (!systemUtils.getDBAvailable()){
+			createDB ="create";
+			initDB=true;
+		}
+			
 		Properties properties = new Properties();
-		properties.setProperty("hibernate.connection.url", "jdbc:derby:../jfire-Database;create=true");
+		properties.setProperty("hibernate.connection.url", "jdbc:derby:"+ systemUtils.getDBPfad() +";create=true");
 	
 		sessionFactory = new AnnotationConfiguration()
 			.addProperties(properties)
@@ -30,7 +40,7 @@ public class SessionFactotyUtil {
 			.setProperty("transaction.factory_class", "org.hibernate.transaction.JDBCTransactionFactory")
 			.setProperty("hibernate.cache.provider_class", "org.hibernate.cache.HashtableCacheProvider")
 			.setProperty("hibernate.query.substitutions", "true 1, false 0, yes 'Y', no 'N'")
-			.setProperty("hibernate.hbm2ddl.auto", "none")
+				.setProperty("hibernate.hbm2ddl.auto", createDB)
 			.setProperty("hibernate.show_sql", "false")
 			.setProperty("hibernate.format_sql", "true")
 			.setProperty("hibernate.current_session_context_class", "thread")
@@ -42,7 +52,8 @@ public class SessionFactotyUtil {
 			.addAnnotatedClass(biz.wittkemper.jfire.data.entity.Parameter.class)
 			.addAnnotatedClass(biz.wittkemper.jfire.data.entity.Anrede.class)
 			.buildSessionFactory();
-		
+			
+		systemUtils.initDB();
 	}
 
 	public static SessionFactory getInstance() {

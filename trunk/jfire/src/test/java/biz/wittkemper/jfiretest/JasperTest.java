@@ -20,6 +20,7 @@ import net.sf.jasperreports.engine.xml.JRXmlLoader;
 
 import org.hibernate.Transaction;
 import org.junit.Ignore;
+import org.junit.Test;
 
 import biz.wittkemper.jfire.data.dao.DAOFactory;
 import biz.wittkemper.jfire.data.dao.SessionFactotyUtil;
@@ -29,6 +30,10 @@ import biz.wittkemper.jfire.service.ReportService.REPORTS;
 
 public class JasperTest {
 
+	@Test
+	public void testOne(){
+		System.out.println("alles gut ...");
+	}
 	@Ignore
 	public void test() {
 		URL url = ClassLoader
