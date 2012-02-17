@@ -24,7 +24,7 @@ public class Start {
 							break;
 						}
 					}
-
+					
 					FMainController controller = new FMainController();
 					controller.showView();
 				} catch (Exception e) {

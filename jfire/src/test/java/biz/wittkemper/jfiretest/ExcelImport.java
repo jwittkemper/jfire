@@ -20,34 +20,21 @@ import biz.wittkemper.jfire.data.entity.FoerderMitglied;
 import biz.wittkemper.jfire.data.entity.Mitglied;
 import biz.wittkemper.jfire.data.entity.MitgliedStatus;
 import biz.wittkemper.jfire.utils.DateUtils;
+import biz.wittkemper.jfire.utils.SystemUtils;
 
 public class ExcelImport {
 
 	@Test
 	public void test() throws Exception {
 
-		Anrede frau = new Anrede();
-		frau.setAnrede("Frau");
-
-		Anrede herr = new Anrede();
-		herr.setAnrede("Herr");
-		DAOFactory.getInstance().getAnredeDAO().save(frau);
-		DAOFactory.getInstance().getAnredeDAO().save(herr);
-
-		MitgliedStatus statusAL = new MitgliedStatus();
-		statusAL.setBezeichnungLang("Aktiv Löschzug");
-		statusAL.setBezeichnungKurz("AL");
-		DAOFactory.getInstance().getMitgliedStatusDAO().save(statusAL);
-
-		MitgliedStatus statusAR = new MitgliedStatus();
-		statusAR.setBezeichnungLang("Aktiv Reservezug");
-		statusAR.setBezeichnungKurz("AR");
-		DAOFactory.getInstance().getMitgliedStatusDAO().save(statusAR);
-
-		MitgliedStatus statusPV = new MitgliedStatus();
-		statusPV.setBezeichnungKurz("PS");
-		statusPV.setBezeichnungLang("Passives Mitglied");
-		DAOFactory.getInstance().getMitgliedStatusDAO().save(statusPV);
+		SystemUtils systemUtils = new SystemUtils();
+		systemUtils.initDB();
+		
+		Anrede herr = DAOFactory.getInstance().getAnredeDAO().load(2);
+		Anrede frau = DAOFactory.getInstance().getAnredeDAO().load(1);
+		MitgliedStatus statusAL = DAOFactory.getInstance().getMitgliedStatusDAO().load(1);
+		MitgliedStatus statusAR = DAOFactory.getInstance().getMitgliedStatusDAO().load(2);
+		MitgliedStatus statusPV = DAOFactory.getInstance().getMitgliedStatusDAO().load(3);
 
 		JFileChooser chooser = new JFileChooser();
 
