@@ -1,40 +1,31 @@
 package biz.wittkemper.jfire.forms.fmain;
 
 import java.awt.Component;
-import java.awt.Frame;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.HierarchyBoundsListener;
 import java.awt.event.HierarchyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.awt.image.BufferedImage;
 import java.beans.PropertyVetoException;
-import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
-
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JDesktopPane;
-import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 
 import net.sf.jasperreports.engine.JRException;
-
 import biz.wittkemper.jfire.data.dao.DAOFactory;
 import biz.wittkemper.jfire.forms.fanwesenheit.FAnwesenheit;
 import biz.wittkemper.jfire.forms.fmitgliederverwaltung.FMitgliederVerwaltungController;
 import biz.wittkemper.jfire.forms.fmitgliederverwaltung.FMitgliederVerwaltungView;
 import biz.wittkemper.jfire.service.ReportService;
 import biz.wittkemper.jfire.service.ReportService.REPORTS;
+import biz.wittkemper.jfire.utils.DateUtils;
 import biz.wittkemper.jfire.utils.FrameUtils;
 
 public class FMainController {
 	FrameUtils frameUtils = new FrameUtils();
-	// FMitgliederVerwaltungController mitgliederVerwaltungController;
+
 	FMainView view;
 
 	public FMainController() {
@@ -76,6 +67,8 @@ public class FMainController {
 		this.view.setVisible(true);
 		this.view.setResizable(false);
 
+		DateUtils utils = new DateUtils();
+		utils.findGeburtstag(view);
 	}
 
 	private void AppClose() {
