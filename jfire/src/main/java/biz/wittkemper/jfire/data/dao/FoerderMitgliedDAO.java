@@ -8,4 +8,5 @@ public interface FoerderMitgliedDAO extends AbstractDAO<FoerderMitglied, Long> {
 
 	int getAll();
 	public List<FoerderMitglied> getAllList();
+	boolean EintragDa(Long id);
 }

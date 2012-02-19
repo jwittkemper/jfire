@@ -42,7 +42,7 @@ public class MitgliedModel {
 
 	private String telefonPrivatFest;
 
-	private String telefonPrivatMobil;
+	private String telefonPrivatMobil;	
 
 	public MitgliedModel() {
 		changeSupport = new ExtendedPropertyChangeSupport(this);
@@ -249,6 +249,21 @@ public class MitgliedModel {
 
 	public void setFoerderMitglied(FoerderMitglied foerderMitglied) {
 		this.foerderMitglied = foerderMitglied;
+		changeSupport.firePropertyChange("foerderMitgliedSeit", null, null);
+	}
+
+	public Date getFoerderMitgliedSeit() {
+		if (foerderMitglied!=null){
+			return foerderMitglied.getEintritt();
+		}else{
+			return null;
+		}
+	}
+
+	public void setFoerderMitgliedSeit(Date foerderMitgliedSeit) {
+		Date old = foerderMitgliedSeit;
+		this.foerderMitglied.setEintritt(foerderMitgliedSeit);
+		changeSupport.firePropertyChange("foerderMitgliedSeit", old, foerderMitgliedSeit);
 	}
 
 

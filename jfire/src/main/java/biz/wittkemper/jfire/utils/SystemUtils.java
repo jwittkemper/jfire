@@ -30,8 +30,7 @@ public class SystemUtils {
 			}
 
 		} else {
-			// OK, configfile ist nicht vorhanden.... Dann fangen wir ganz vorne
-			// an.
+
 			lreturn = newConfigFile();
 			String pfad =getDBPfad() +"/seg0";
 			File file = new File(pfad);

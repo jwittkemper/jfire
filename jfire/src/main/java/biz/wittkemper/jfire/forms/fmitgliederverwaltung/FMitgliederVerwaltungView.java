@@ -28,6 +28,7 @@ import org.jdesktop.swingx.JXDatePicker;
 
 import biz.wittkemper.jfire.data.entity.Anrede;
 import biz.wittkemper.jfire.data.entity.MitgliedStatus;
+import biz.wittkemper.jfire.forms.fmitgliederverwaltung.FMitgliederVerwaltungController.EDITMODE;
 import biz.wittkemper.jfire.utils.IconService;
 import biz.wittkemper.jfire.utils.IconService.ICONSERVICE;
 
@@ -95,12 +96,12 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 	private JXDatePicker IEintritt;
 	private JLabel lblMitgliedstatus;
 	private JComboBox cbStatus;
-	private JSeparator separator;
 	private JButton btnLeft;
 	private JButton btnRight;
 	private JButton btnEdit;
 	private JButton btnNew;
 	private JButton btnDel;
+	private JButton btnFoerderMitglied;
 	private JLabel lbMitglied;
 	private JPanel tpFoerderMitglied;
 	private JLabel lblMitgliedSeit_1;
@@ -136,8 +137,9 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 		gebDatum = pmodel.getBufferedModel("gebDatum");
 		status = pmodel.getBufferedModel("status");
 		eintritt = pmodel.getBufferedModel("eintritt");
-		foerderEintritt = pmodel.getBufferedModel("eintritt");
+		foerderEintritt = pmodel.getBufferedModel("foerderMitgliedSeit");
 		anrede = pmodel.getBufferedModel("anrede");
+		
 		
 		List<MitgliedStatus> gueltigStatus = model.getMitgliedStatuse();
 		List<Anrede> anreden = model.getAnreden();
@@ -190,6 +192,14 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 		btnDel.setIcon(iconService.getButtonIcon(ICONSERVICE.delete));
 		btnDel.setMaximumSize(new Dimension(23, 23));
 		TBMain.add(btnDel);
+		
+		TBMain.addSeparator();
+		
+		btnFoerderMitglied = new JButton();
+		btnFoerderMitglied.setToolTipText("Eintritt Förderverein");
+		btnFoerderMitglied.setIcon(iconService.getButtonIcon(ICONSERVICE.eintrittFoerderverein));
+		btnFoerderMitglied.setMaximumSize(new Dimension(23, 23));
+		TBMain.add(btnFoerderMitglied);
 		
 		panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.CENTER);
@@ -508,6 +518,8 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 		btnNew.setActionCommand("new");
 		btnEdit.addActionListener(al);
 		btnEdit.setActionCommand("edit");
+		btnFoerderMitglied.addActionListener(al);
+		btnFoerderMitglied.setActionCommand("newFoerdermitglied");
 	}
 
 	protected void setSaveListener(ActionListener al) {
@@ -546,6 +558,7 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 	public void SetFoerderVerein(boolean value){
 		tbStammdaten.setEnabledAt(1, value);
 		dPFoerderMitglied.setVisible(value);
+		btnFoerderMitglied.setVisible(!value);
 	}
 	public void enableImput(boolean value){
 	
@@ -566,12 +579,39 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 		cbAnrede.setEnabled(value);
 	}
 
-	public void setToolbar(boolean value) {
-		bsearch.setEnabled(value);
-		btnLeft.setEnabled(value);
-		btnRight.setEnabled(value);
-		ISearch.setEnabled(value);
-		btnNew.setEnabled(value);
-		btnEdit.setEnabled(value);
+	public void setToolbar(EDITMODE value) {
+		
+		switch (value){
+		case NONE:
+			bsearch.setEnabled(true);
+			btnLeft.setEnabled(true);
+			btnRight.setEnabled(true);
+			ISearch.setEnabled(true);
+			btnNew.setEnabled(true);
+			btnEdit.setEnabled(true);
+			btnDel.setEnabled(false);
+			btnFoerderMitglied.setEnabled(false);
+			break;
+		case EDIT:
+			bsearch.setEnabled(false);
+			btnLeft.setEnabled(false);
+			btnRight.setEnabled(false);
+			ISearch.setEnabled(false);
+			btnNew.setEnabled(false);
+			btnEdit.setEnabled(false);
+			btnDel.setEnabled(true);
+			btnFoerderMitglied.setEnabled(true);
+			break;
+		case NEW:
+			bsearch.setEnabled(false);
+			btnLeft.setEnabled(false);
+			btnRight.setEnabled(false);
+			ISearch.setEnabled(false);
+			btnNew.setEnabled(false);
+			btnEdit.setEnabled(false);
+			btnDel.setEnabled(false);
+			btnFoerderMitglied.setEnabled(true);
+			break;
+		}
 	}
 }
