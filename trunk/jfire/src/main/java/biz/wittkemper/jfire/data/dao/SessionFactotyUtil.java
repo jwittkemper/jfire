@@ -52,8 +52,9 @@ public class SessionFactotyUtil {
 			.addAnnotatedClass(biz.wittkemper.jfire.data.entity.Parameter.class)
 			.addAnnotatedClass(biz.wittkemper.jfire.data.entity.Anrede.class)
 			.buildSessionFactory();
-			
-		systemUtils.initDB();
+		if (initDB){	
+			systemUtils.initDB();
+		}
 	}
 
 	public static SessionFactory getInstance() {

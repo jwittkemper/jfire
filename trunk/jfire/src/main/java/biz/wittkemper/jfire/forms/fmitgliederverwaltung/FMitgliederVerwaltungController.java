@@ -15,6 +15,7 @@ import com.jgoodies.validation.ValidationResult;
 import com.jgoodies.validation.view.ValidationComponentUtils;
 
 import biz.wittkemper.jfire.data.dao.DAOFactory;
+import biz.wittkemper.jfire.data.entity.FoerderMitglied;
 import biz.wittkemper.jfire.data.entity.Mitglied;
 import biz.wittkemper.jfire.data.validation.MitgliedValidator;
 import biz.wittkemper.jfire.forms.fmitgliedersearch.FmitgliederSearrch;
@@ -72,6 +73,7 @@ public class FMitgliederVerwaltungController {
 		this.view = new FMitgliederVerwaltungView();
 		this.model = view.getModel();
 		initListener();
+		switchViewMode(EDITMODE.NONE);
 	}
 
 	private void loadData(Long id) {
@@ -79,12 +81,14 @@ public class FMitgliederVerwaltungController {
 		if (mitglied != null) {
 			model.setMitglied(mitglied);
 			view.setMitgliedLabel("(" + model.getMitglied().getId() + ") "
-					+ model.getMitglied().getVorname() + " " + model.getMitglied().getName());
+					+ model.getMitglied().getVorname() + " "
+					+ model.getMitglied().getName());
 
 			if (DAOFactory.getInstance().getFoerderMitgliedDAO()
 					.load(model.getMitglied().getId()) != null) {
 				model.setFoerderMitglied(DAOFactory.getInstance()
-						.getFoerderMitgliedDAO().load(model.getMitglied().getId()));
+						.getFoerderMitgliedDAO()
+						.load(model.getMitglied().getId()));
 				view.SetFoerderVerein(true);
 			} else {
 				view.SetFoerderVerein(false);
@@ -99,11 +103,7 @@ public class FMitgliederVerwaltungController {
 
 	private void switchViewMode(EDITMODE mode) {
 		viewmode = mode;
-		if (viewmode == EDITMODE.EDIT || viewmode == EDITMODE.NEW) {
-			view.setToolbar(false);
-		} else {
-			view.setToolbar(true);
-		}
+		view.setToolbar(mode);
 	}
 
 	private void initListener() {
@@ -152,12 +152,19 @@ public class FMitgliederVerwaltungController {
 
 	private void speicherMitglied() {
 		view.trigger.triggerCommit();
-		if (viewmode == EDITMODE.NEW){
-			DAOFactory.getInstance().getMitgliedDAO().save(this.model.getMitglied());
-		}else if (viewmode == EDITMODE.EDIT){
-			DAOFactory.getInstance().getMitgliedDAO().update(this.model.getMitglied());
-			if(model.getFoerderMitglied()!=null){
-				DAOFactory.getInstance().getFoerderMitgliedDAO().update(model.getFoerderMitglied());
+		if (viewmode == EDITMODE.NEW) {
+			DAOFactory.getInstance().getMitgliedDAO()
+					.save(this.model.getMitglied());
+		} else if (viewmode == EDITMODE.EDIT) {
+			DAOFactory.getInstance().getMitgliedDAO()
+					.update(this.model.getMitglied());
+			if (model.getFoerderMitglied() != null) {
+				if (DAOFactory.getInstance().getFoerderMitgliedDAO().EintragDa(model.getMitglied().getId())){
+					DAOFactory.getInstance().getFoerderMitgliedDAO().update(model.getFoerderMitglied());	
+				}else{
+					DAOFactory.getInstance().getFoerderMitgliedDAO().save(model.getFoerderMitglied());
+				}
+				
 			}
 		}
 	}
@@ -178,25 +185,27 @@ public class FMitgliederVerwaltungController {
 		}
 		view.repaint();
 	}
-	
-	class DeleteListener implements ActionListener{
+
+	class DeleteListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if (model.getMitglied().getId()> 0){
-				String msg ="Wollen sie das ausgewählte Mitglied wirklich löschen?";
-				
-				if(JOptionPane.showConfirmDialog(view, msg,"Frage:", JOptionPane.YES_NO_OPTION ,JOptionPane.WARNING_MESSAGE)== JOptionPane.YES_OPTION){
+			if (model.getMitglied().getId() > 0) {
+				String msg = "Wollen sie das ausgewählte Mitglied wirklich löschen?";
+
+				if (JOptionPane.showConfirmDialog(view, msg, "Frage:",
+						JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION) {
 					Mitglied mitglied = model.getMitglied();
 					mitglied.setGeloescht(true);
-					
+
 					DAOFactory.getInstance().getMitgliedDAO().update(mitglied);
 					sucheNaechstesMitglied("right");
 				}
 			}
 		}
-		
+
 	}
+
 	class SeachListener implements ActionListener {
 
 		@Override
@@ -209,19 +218,23 @@ public class FMitgliederVerwaltungController {
 				sucheNaechstesMitglied("right");
 			} else if (e.getActionCommand().equals("edit")) {
 				editMitglied();
+			}else if (e.getActionCommand().equals("newFoerdermitglied")){
+				
+				model.setFoerderMitglied(new FoerderMitglied());
+				model.getFoerderMitglied().setMitglied(model.getMitglied());
+				view.SetFoerderVerein(true);
 			}
 			view.repaint();
 		}
 
 		private void editMitglied() {
-			if (model.getMitglied().getId() != null && model.getMitglied().getId() > 0) {
+			if (model.getMitglied().getId() != null
+					&& model.getMitglied().getId() > 0) {
 				view.enableImput(true);
 				switchViewMode(EDITMODE.EDIT);
 			}
 
 		}
-
-
 
 	}
 
@@ -232,16 +245,19 @@ public class FMitgliederVerwaltungController {
 			view.trigger.triggerCommit();
 			MitgliedValidator validator = new MitgliedValidator();
 			ValidationResult res = validator.validate(model.getMitglied());
-			
-			if (res.hasErrors()==false){
+
+			if (res.hasErrors() == false) {
 				speicherMitglied();
 				switchViewMode(EDITMODE.NONE);
 				view.enableImput(false);
-			}else{
-				ValidationComponentUtils.updateComponentTreeMandatoryAndBlankBackground(view);
-				ValidationComponentUtils.updateComponentTreeMandatoryBackground(view);
-				ValidationComponentUtils.updateComponentTreeMandatoryBorder(view);
-				
+			} else {
+				ValidationComponentUtils
+						.updateComponentTreeMandatoryAndBlankBackground(view);
+				ValidationComponentUtils
+						.updateComponentTreeMandatoryBackground(view);
+				ValidationComponentUtils
+						.updateComponentTreeMandatoryBorder(view);
+
 			}
 
 		}

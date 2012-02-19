@@ -28,4 +28,13 @@ public class FoerderMitgliedDAOImpl extends
 		return list;
 	}
 
+	@Override
+	public boolean EintragDa(Long id) {
+		FoerderMitglied fm = super.load(id);
+		if (fm!=null){
+			return true;
+		}
+		return false;
+	}
+
 }
