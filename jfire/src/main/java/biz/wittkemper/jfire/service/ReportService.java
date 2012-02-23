@@ -34,7 +34,7 @@ import biz.wittkemper.jfire.utils.DateUtils;
 
 public class ReportService {
 	public enum REPORTS {
-		MITGLIEDERFOERDERVEREIN, TELEFONLISTEAKTIVE, TELEFONRESERVE, ANWESENHEIUEBUNG
+		MITGLIEDERFOERDERVEREIN, TELEFONLISTEAKTIVE, TELEFONRESERVE, ANWESENHEIUEBUNG, JUBILAEUMSLISTE
 	}
 
 	public static void showReport(REPORTS name, Map refMap) throws JRException {
