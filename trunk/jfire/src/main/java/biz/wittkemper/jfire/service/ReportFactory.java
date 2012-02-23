@@ -8,6 +8,7 @@ public class ReportFactory {
 	static Report telefonlisteAktiv = new Report("Telefonliste", "Telefonliste (Löschzug)", true,"reports/Telefonliste.jrxml", "1");
 	static Report telefonlisteReserve = new Report("Telefonliste", "Telefonliste (Reservezug)", true,"reports/Telefonliste.jrxml", "2");
 	static Report anwenheitsListe = new Report("Uebungsliste", "Anwesenheitsliste Übung", true, "reports/AnwesenheitUebung.jrxml", "1");
+	static Report jubilaeumsListe = new Report("Jubilaeumsliste", "", true, "reports/Dienstjubiläen.jrxml", "1");
 	
 	public static Report getReport(REPORTS name){
 		Report lreport = null;
@@ -20,6 +21,8 @@ public class ReportFactory {
 			break;
 		case ANWESENHEIUEBUNG: lreport = anwenheitsListe;
 			break;
+		case JUBILAEUMSLISTE: lreport = jubilaeumsListe;
+		break;
 		}
 		
 		return lreport;

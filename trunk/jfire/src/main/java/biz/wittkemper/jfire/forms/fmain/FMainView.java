@@ -38,6 +38,8 @@ public class FMainView extends JFrame {
 	JMenuItem mntmMitgliederFoerderverein;
 	JMenuItem mntnTelefonlisteaktive;
 	JMenuItem mntnTelefonlistereserve;
+	JMenu mntnJubilaeum;
+	JMenuItem mntnDienstjubilaeum;
 	
 	JDesktopPane pane = new MDIDesktopPane();
 	JXStatusBar statusBar = new JXStatusBar();
@@ -97,6 +99,12 @@ public class FMainView extends JFrame {
 		mntmMitgliederFoerderverein.setActionCommand("mitgliederfoerderverein");
 		mnListen.add(mntmMitgliederFoerderverein);
 		
+		mntnJubilaeum = new JMenu("Jubiläen");
+		mnListen.add(mntnJubilaeum);
+		mntnDienstjubilaeum = new JMenuItem("Dienstjubiläen");
+		mntnDienstjubilaeum.setActionCommand("dienstjubilaeum");
+		mntnJubilaeum.add(mntnDienstjubilaeum);
+		
 		frameUtils.MaximiseFrame(this);
 		getContentPane().setLayout(new BorderLayout());
 		getContentPane().add(pane, "Center");		
@@ -123,6 +131,7 @@ public class FMainView extends JFrame {
 		mntnTelefonlisteaktive.addActionListener(al);
 		mntnTelefonlistereserve.addActionListener(al);
 		mntnUebungsListe.addActionListener(al);
+		mntnDienstjubilaeum.addActionListener(al);
 	}
 
 	protected void setBeendenListener(ActionListener al) {

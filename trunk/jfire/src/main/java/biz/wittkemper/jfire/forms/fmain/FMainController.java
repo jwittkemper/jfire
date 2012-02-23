@@ -8,6 +8,7 @@ import java.awt.event.HierarchyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.beans.PropertyVetoException;
+import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
@@ -15,6 +16,7 @@ import javax.swing.JOptionPane;
 
 import net.sf.jasperreports.engine.JRException;
 import biz.wittkemper.jfire.data.dao.DAOFactory;
+import biz.wittkemper.jfire.forms.dienstjubilaeum.FDienstjubilaeum;
 import biz.wittkemper.jfire.forms.fanwesenheit.FAnwesenheit;
 import biz.wittkemper.jfire.forms.fmitgliederverwaltung.FMitgliederVerwaltungController;
 import biz.wittkemper.jfire.forms.fmitgliederverwaltung.FMitgliederVerwaltungView;
@@ -174,6 +176,18 @@ public class FMainController {
 					}
 				}
 
+			}else if (e.getActionCommand().equals("dienstjubilaeum")){
+				FDienstjubilaeum fd = new FDienstjubilaeum();
+				fd.setModal(true);
+				fd.setVisible(true);
+				Map map = new HashMap();
+				map.put("Jahr", fd.getJahr());
+				try {
+					ReportService.showReport(REPORTS.JUBILAEUMSLISTE, map);
+				} catch (JRException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 
 		}
