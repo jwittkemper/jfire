@@ -1,4 +1,4 @@
-package biz.wittkemper.jfire.forms.dienstjubilaeum;
+package biz.wittkemper.jfire.forms.fdienstjubilaeum;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
