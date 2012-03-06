@@ -16,12 +16,14 @@ import javax.swing.JOptionPane;
 
 import net.sf.jasperreports.engine.JRException;
 import biz.wittkemper.jfire.data.dao.DAOFactory;
-import biz.wittkemper.jfire.forms.dienstjubilaeum.FDienstjubilaeum;
+import biz.wittkemper.jfire.forms.fAdressliste.FAdressliste;
 import biz.wittkemper.jfire.forms.fanwesenheit.FAnwesenheit;
+import biz.wittkemper.jfire.forms.fdienstjubilaeum.FDienstjubilaeum;
 import biz.wittkemper.jfire.forms.fmitgliederverwaltung.FMitgliederVerwaltungController;
 import biz.wittkemper.jfire.forms.fmitgliederverwaltung.FMitgliederVerwaltungView;
 import biz.wittkemper.jfire.service.ReportService;
 import biz.wittkemper.jfire.service.ReportService.REPORTS;
+import biz.wittkemper.jfire.service.ReportService.REPORTSAKTION;
 import biz.wittkemper.jfire.utils.DateUtils;
 import biz.wittkemper.jfire.utils.FrameUtils;
 
@@ -140,23 +142,31 @@ public class FMainController {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if (e.getActionCommand().equals("mitgliederfoerderverein")) {
+			if (e.getActionCommand().equals("adresslisten")) {
+				FAdressliste adressliste = new FAdressliste();
+				adressliste.setModal(true);
+				adressliste.setVisible(true);
+
+				REPORTS rep = adressliste.getReport();
+				Map map = adressliste.getMap();
+				REPORTSAKTION action = adressliste.getAktion();
+
 				try {
-					ReportService.showReport(REPORTS.MITGLIEDERFOERDERVEREIN, null);
+					ReportService.showReport(rep, map, action);
 				} catch (JRException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			} else if (e.getActionCommand().equals("telefonlisteactive")) {
 				try {
-					ReportService.showReport(REPORTS.TELEFONLISTEAKTIVE, null);
+					ReportService.showReport(REPORTS.TELEFONLISTEAKTIVE, null,null);
 				} catch (JRException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			} else if (e.getActionCommand().equals("telefonlisteareserve")) {
 				try {
-					ReportService.showReport(REPORTS.TELEFONRESERVE, null);
+					ReportService.showReport(REPORTS.TELEFONRESERVE, null, null);
 				} catch (JRException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -169,21 +179,21 @@ public class FMainController {
 				if (anwesenheit.isCloseOK() == true) {
 					Map map = anwesenheit.getMapValues();
 					try {
-						ReportService.showReport(REPORTS.ANWESENHEIUEBUNG, map);
+						ReportService.showReport(REPORTS.ANWESENHEIUEBUNG, map, null);
 					} catch (JRException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 				}
 
-			}else if (e.getActionCommand().equals("dienstjubilaeum")){
+			} else if (e.getActionCommand().equals("dienstjubilaeum")) {
 				FDienstjubilaeum fd = new FDienstjubilaeum();
 				fd.setModal(true);
 				fd.setVisible(true);
 				Map map = new HashMap();
 				map.put("Jahr", fd.getJahr());
 				try {
-					ReportService.showReport(REPORTS.JUBILAEUMSLISTE, map);
+					ReportService.showReport(REPORTS.JUBILAEUMSLISTE, map,null);
 				} catch (JRException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();

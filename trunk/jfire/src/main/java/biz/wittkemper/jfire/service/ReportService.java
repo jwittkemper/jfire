@@ -34,10 +34,15 @@ import biz.wittkemper.jfire.utils.DateUtils;
 
 public class ReportService {
 	public enum REPORTS {
-		MITGLIEDERFOERDERVEREIN, TELEFONLISTEAKTIVE, TELEFONRESERVE, ANWESENHEIUEBUNG, JUBILAEUMSLISTE
+		MITGLIEDERFOERDERVEREIN, TELEFONLISTEAKTIVE, TELEFONRESERVE, ANWESENHEIUEBUNG, JUBILAEUMSLISTE, MITGLIEDERAKTIVE
 	}
 
-	public static void showReport(REPORTS name, Map refMap) throws JRException {
+	public enum REPORTSAKTION {
+		VIEW, EXPORT;
+	}
+
+	public static void showReport(REPORTS name, Map refMap, REPORTSAKTION aktion)
+			throws JRException {
 
 		Report report = ReportFactory.getReport(name);
 		Map map = fillMap(report, refMap);
@@ -55,16 +60,27 @@ public class ReportService {
 				.connection();
 
 		int res;
-		if (report.isViewOnly()) {
-			res = JOptionPane.YES_OPTION;
+		if (aktion == null) {
+			if (report.isViewOnly()) {
+				res = JOptionPane.YES_OPTION;
+			} else {
+				Object[] options = { "Liste anzeigen", "Liste exportieren",
+						"abbrechen" };
+				res = JOptionPane
+						.showOptionDialog(null,
+								"Was möchten sie mit der Liste tun?", "Frage",
+								JOptionPane.YES_NO_CANCEL_OPTION,
+								JOptionPane.QUESTION_MESSAGE, null, options,
+								options[0]);
+			}
 		} else {
-			Object[] options = { "Liste anzeigen", "Liste exportieren",
-					"abbrechen" };
-			res = JOptionPane.showOptionDialog(null,
-					"Was möchten sie mit der Liste tun?", "Frage",
-					JOptionPane.YES_NO_CANCEL_OPTION,
-					JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+			if (aktion == REPORTSAKTION.VIEW) {
+				res = JOptionPane.YES_OPTION;
+			} else {
+				res = JOptionPane.NO_OPTION;
+			}
 		}
+
 		switch (res) {
 		case JOptionPane.YES_OPTION:
 			zeigeReport(jasperReport, map, con);
@@ -81,7 +97,7 @@ public class ReportService {
 		Map map;
 		if (refMap == null) {
 			map = new HashMap();
-		}else{
+		} else {
 			map = refMap;
 		}
 		map.put("STAND", DateUtils.getCurDateString());

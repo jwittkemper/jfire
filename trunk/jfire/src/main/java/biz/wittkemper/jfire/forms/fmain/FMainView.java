@@ -95,8 +95,8 @@ public class FMainView extends JFrame {
 		mntnTelefonlistereserve.setActionCommand("telefonlisteareserve");
 		mnTelefonListen.add(mntnTelefonlistereserve);
 		
-		mntmMitgliederFoerderverein = new JMenuItem("Mitglieder Föderverein");
-		mntmMitgliederFoerderverein.setActionCommand("mitgliederfoerderverein");
+		mntmMitgliederFoerderverein = new JMenuItem("Addresslisten");
+		mntmMitgliederFoerderverein.setActionCommand("adresslisten");
 		mnListen.add(mntmMitgliederFoerderverein);
 		
 		mntnJubilaeum = new JMenu("Jubiläen");
