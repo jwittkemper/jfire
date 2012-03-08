@@ -34,7 +34,7 @@ public class MitgliedModel {
 
 	private String strasseNr;
 
-	private int plz;
+	private long plz;
 
 	private String ort;
 
@@ -89,7 +89,7 @@ public class MitgliedModel {
 		mitglied.setName(name);
 		mitglied.setVorname(vorname);
 		mitglied.setOrt(ort);
-		mitglied.setPlz(plz);
+		mitglied.setPlz((int) plz);
 		mitglied.setStrasseNr(strasseNr);
 		mitglied.setTelefonDienst(telefondienst);
 		mitglied.setTelefonPrivatFest(telefonPrivatFest);
@@ -129,13 +129,13 @@ public class MitgliedModel {
 		return this.strasseNr;
 	}
 
-	public void setPlz(int plz) {
-		int old = this.plz;
+	public void setPlz(long plz) {
+		long old = this.plz;
 		this.plz = plz;
 		changeSupport.firePropertyChange("plz", old, plz);
 	}
 
-	public int getPlz() {
+	public long getPlz() {
 		return this.plz;
 	}
 

@@ -47,6 +47,9 @@ public class FAdressliste extends JDialog {
 	 * Create the frame.
 	 */
 	public FAdressliste() {
+		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+		setResizable(false);
+		
 		setBounds(100, 100, 302, 300);
 
 		panel = new JPanel();
@@ -131,6 +134,7 @@ public class FAdressliste extends JDialog {
 						.addContainerGap(28, Short.MAX_VALUE)));
 
 		chckbxAktive = new JCheckBox("Aktive");
+		chckbxAktive.setSelected(true);
 
 		chckbxReservezug = new JCheckBox("Reservezug");
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);

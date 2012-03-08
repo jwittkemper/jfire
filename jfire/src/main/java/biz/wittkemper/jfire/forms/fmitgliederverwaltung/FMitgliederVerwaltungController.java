@@ -77,27 +77,31 @@ public class FMitgliederVerwaltungController {
 	}
 
 	private void loadData(Long id) {
-		Mitglied mitglied = DAOFactory.getInstance().getMitgliedDAO().load(id);
-		if (mitglied != null) {
-			model.setMitglied(mitglied);
-			view.setMitgliedLabel("(" + model.getMitglied().getId() + ") "
-					+ model.getMitglied().getVorname() + " "
-					+ model.getMitglied().getName());
 
-			if (DAOFactory.getInstance().getFoerderMitgliedDAO()
-					.load(model.getMitglied().getId()) != null) {
-				model.setFoerderMitglied(DAOFactory.getInstance()
-						.getFoerderMitgliedDAO()
-						.load(model.getMitglied().getId()));
-				view.SetFoerderVerein(true);
+		if (id != null && id > 0) {
+			Mitglied mitglied = DAOFactory.getInstance().getMitgliedDAO()
+					.load(id);
+			if (mitglied != null) {
+				model.setMitglied(mitglied);
+				view.setMitgliedLabel("(" + model.getMitglied().getId() + ") "
+						+ model.getMitglied().getVorname() + " "
+						+ model.getMitglied().getName());
+
+				if (DAOFactory.getInstance().getFoerderMitgliedDAO()
+						.load(model.getMitglied().getId()) != null) {
+					model.setFoerderMitglied(DAOFactory.getInstance()
+							.getFoerderMitgliedDAO()
+							.load(model.getMitglied().getId()));
+					view.SetFoerderVerein(true);
+				} else {
+					view.SetFoerderVerein(false);
+				}
 			} else {
+				model.setMitglied(new Mitglied());
+				view.setMitgliedLabel("");
 				view.SetFoerderVerein(false);
+				view.enableImput(false);
 			}
-		} else {
-			model.setMitglied(new Mitglied());
-			view.setMitgliedLabel("");
-			view.SetFoerderVerein(false);
-			view.enableImput(false);
 		}
 	}
 
@@ -155,16 +159,20 @@ public class FMitgliederVerwaltungController {
 		if (viewmode == EDITMODE.NEW) {
 			DAOFactory.getInstance().getMitgliedDAO()
 					.save(this.model.getMitglied());
+			loadData(model.getMitglied().getId());
 		} else if (viewmode == EDITMODE.EDIT) {
 			DAOFactory.getInstance().getMitgliedDAO()
 					.update(this.model.getMitglied());
 			if (model.getFoerderMitglied() != null) {
-				if (DAOFactory.getInstance().getFoerderMitgliedDAO().EintragDa(model.getMitglied().getId())){
-					DAOFactory.getInstance().getFoerderMitgliedDAO().update(model.getFoerderMitglied());	
-				}else{
-					DAOFactory.getInstance().getFoerderMitgliedDAO().save(model.getFoerderMitglied());
+				if (DAOFactory.getInstance().getFoerderMitgliedDAO()
+						.EintragDa(model.getMitglied().getId())) {
+					DAOFactory.getInstance().getFoerderMitgliedDAO()
+							.update(model.getFoerderMitglied());
+				} else {
+					DAOFactory.getInstance().getFoerderMitgliedDAO()
+							.save(model.getFoerderMitglied());
 				}
-				
+
 			}
 		}
 	}
@@ -177,6 +185,7 @@ public class FMitgliederVerwaltungController {
 			id = model.getMitglied().getId();
 		}
 		if (richtung.equals("left")) {
+
 			loadData(DAOFactory.getInstance().getMitgliedDAO().getPrev(id)
 					.getId());
 		} else if (richtung.equals("right")) {
@@ -218,11 +227,16 @@ public class FMitgliederVerwaltungController {
 				sucheNaechstesMitglied("right");
 			} else if (e.getActionCommand().equals("edit")) {
 				editMitglied();
-			}else if (e.getActionCommand().equals("newFoerdermitglied")){
-				
+			} else if (e.getActionCommand().equals("newFoerdermitglied")) {
+
 				model.setFoerderMitglied(new FoerderMitglied());
 				model.getFoerderMitglied().setMitglied(model.getMitglied());
 				view.SetFoerderVerein(true);
+			} else if (e.getActionCommand().equals("new")) {
+				model.setFoerderMitglied(null);
+				model.setMitglied(new Mitglied());
+				switchViewMode(EDITMODE.NEW);
+				view.enableImput(true);
 			}
 			view.repaint();
 		}
