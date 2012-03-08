@@ -575,7 +575,11 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 		datePicker.setEnabled(value);
 		cbStatus.setEnabled(value);
 		btnSave.setEnabled(value);
-		dPFoerderMitglied.setEnabled(value);
+		if(model.getFoerderMitglied()!=null){
+			dPFoerderMitglied.setEnabled(value);
+		}else {
+			dPFoerderMitglied.setEnabled(false);
+		}
 		cbAnrede.setEnabled(value);
 	}
 

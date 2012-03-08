@@ -150,23 +150,26 @@ public class FMainController {
 				REPORTS rep = adressliste.getReport();
 				Map map = adressliste.getMap();
 				REPORTSAKTION action = adressliste.getAktion();
-
-				try {
-					ReportService.showReport(rep, map, action);
-				} catch (JRException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+				if (adressliste.isCloseOK()) {
+					try {
+						ReportService.showReport(rep, map, action);
+					} catch (JRException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				}
 			} else if (e.getActionCommand().equals("telefonlisteactive")) {
 				try {
-					ReportService.showReport(REPORTS.TELEFONLISTEAKTIVE, null,null);
+					ReportService.showReport(REPORTS.TELEFONLISTEAKTIVE, null,
+							null);
 				} catch (JRException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			} else if (e.getActionCommand().equals("telefonlisteareserve")) {
 				try {
-					ReportService.showReport(REPORTS.TELEFONRESERVE, null, null);
+					ReportService
+							.showReport(REPORTS.TELEFONRESERVE, null, null);
 				} catch (JRException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -179,7 +182,8 @@ public class FMainController {
 				if (anwesenheit.isCloseOK() == true) {
 					Map map = anwesenheit.getMapValues();
 					try {
-						ReportService.showReport(REPORTS.ANWESENHEIUEBUNG, map, null);
+						ReportService.showReport(REPORTS.ANWESENHEIUEBUNG, map,
+								null);
 					} catch (JRException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -193,7 +197,8 @@ public class FMainController {
 				Map map = new HashMap();
 				map.put("Jahr", fd.getJahr());
 				try {
-					ReportService.showReport(REPORTS.JUBILAEUMSLISTE, map,null);
+					ReportService
+							.showReport(REPORTS.JUBILAEUMSLISTE, map, null);
 				} catch (JRException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -201,7 +206,6 @@ public class FMainController {
 			}
 
 		}
-
 	}
 
 	class MitgliederListener implements ActionListener {
