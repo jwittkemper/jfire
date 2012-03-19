@@ -21,8 +21,8 @@ import javax.swing.border.BevelBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import biz.wittkemper.jfire.service.ReportService.REPORTS;
-import biz.wittkemper.jfire.service.ReportService.REPORTSAKTION;
+import biz.wittkemper.jfire.service.report.ReportService.REPORTS;
+import biz.wittkemper.jfire.service.report.ReportService.REPORTSAKTION;
 
 public class FAdressliste extends JDialog {
 	/**

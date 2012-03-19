@@ -102,21 +102,21 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12" isBold="true" isItalic="true"/>
 				</textElement>
-				<text><![CDATA[E]]></text>
+				<text><![CDATA[A]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="366" y="14" width="18" height="20"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12" isBold="true" isItalic="true"/>
 				</textElement>
-				<text><![CDATA[A]]></text>
+				<text><![CDATA[E]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="247" y="14" width="18" height="20"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12" isBold="true" isItalic="true"/>
 				</textElement>
-				<text><![CDATA[U]]></text>
+				<text><![CDATA[bz.]]></text>
 			</staticText>
 			<line>
 				<reportElement x="40" y="12" width="484" height="1"/>
@@ -191,7 +191,7 @@
 			<staticText>
 				<reportElement x="43" y="0" width="365" height="20"/>
 				<textElement/>
-				<text><![CDATA[Erklärung: U= Unentschuldigt, E= Entschuldigt, A= Anwesend]]></text>
+				<text><![CDATA[Erklärung: bz.= bezahlt, E= Entschuldigt, A= Anwesend]]></text>
 			</staticText>
 		</band>
 	</pageFooter>

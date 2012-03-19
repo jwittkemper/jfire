@@ -21,9 +21,9 @@ import biz.wittkemper.jfire.forms.fanwesenheit.FAnwesenheit;
 import biz.wittkemper.jfire.forms.fdienstjubilaeum.FDienstjubilaeum;
 import biz.wittkemper.jfire.forms.fmitgliederverwaltung.FMitgliederVerwaltungController;
 import biz.wittkemper.jfire.forms.fmitgliederverwaltung.FMitgliederVerwaltungView;
-import biz.wittkemper.jfire.service.ReportService;
-import biz.wittkemper.jfire.service.ReportService.REPORTS;
-import biz.wittkemper.jfire.service.ReportService.REPORTSAKTION;
+import biz.wittkemper.jfire.service.report.ReportService;
+import biz.wittkemper.jfire.service.report.ReportService.REPORTS;
+import biz.wittkemper.jfire.service.report.ReportService.REPORTSAKTION;
 import biz.wittkemper.jfire.utils.DateUtils;
 import biz.wittkemper.jfire.utils.FrameUtils;
 
