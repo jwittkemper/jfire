@@ -34,7 +34,7 @@ public class ReplicationWrite {
 		Marshaller ms = jc.createMarshaller();
 		ms.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 
-		OutputStream target = new FileOutputStream(fileName + ".zip");
+		OutputStream target = new FileOutputStream(fileName + ".jfire");
 
 		target = new CipherOutputStream(target,
 				SecurityTools.getCipher(SECURITYTOOLS.encrypt));

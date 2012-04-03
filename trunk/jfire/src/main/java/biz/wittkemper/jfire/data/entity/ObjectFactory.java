@@ -26,6 +26,9 @@ public class ObjectFactory {
 		return new MitgliedStatus();
 	}
 	
+	public FoerderMitglied createFoerderMitglied(){
+		return new FoerderMitglied();
+	}
 	@XmlElementDecl(namespace="", name="Replication")
 	public JAXBElement<Replication> createReplication(Replication repl){
 		return new JAXBElement<Replication>(Q_NAME, Replication.class,null, repl);

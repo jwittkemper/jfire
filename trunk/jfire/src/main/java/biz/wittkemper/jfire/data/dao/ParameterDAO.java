@@ -4,4 +4,6 @@ import biz.wittkemper.jfire.data.entity.Parameter;
 
 public interface ParameterDAO extends AbstractDAO<Parameter, Long> {
 
+	String getParameter(String name);
+
 }
