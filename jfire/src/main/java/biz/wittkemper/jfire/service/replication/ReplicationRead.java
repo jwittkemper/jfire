@@ -1,5 +1,6 @@
 package biz.wittkemper.jfire.service.replication;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,12 +23,12 @@ import biz.wittkemper.jfire.service.replication.SecurityTools.SECURITYTOOLS;
 
 public class ReplicationRead {
 
-	public Replication ReadData(String filename) throws InvalidKeyException,
+	public Replication ReadData(File file) throws InvalidKeyException,
 			NoSuchAlgorithmException, NoSuchPaddingException,
 			InvalidKeySpecException, InvalidAlgorithmParameterException,
 			IOException, JAXBException {
 
-		InputStream target = new FileInputStream(filename + ".zip");
+		InputStream target = new FileInputStream(file);
 
 		target = new CipherInputStream(target,
 				SecurityTools.getCipher(SECURITYTOOLS.decrypt));
