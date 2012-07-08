@@ -9,7 +9,6 @@ import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.SwingWorker;
 
 import biz.wittkemper.jfire.data.dao.DAOFactory;
 import biz.wittkemper.jfire.data.entity.Mitglied;
@@ -36,17 +35,17 @@ public class DateUtils {
 	public void findGeburtstag(JFrame frame) {
 
 		if (wasrun == false) {
-			wasrun=true;
+			wasrun = true;
 			Calendar cal1 = new GregorianCalendar();
 			Calendar cal2 = new GregorianCalendar();
-			
-			
+
 			cal2.setTime(new Date());
 			StringBuilder text = new StringBuilder();
-			String monate = Integer.toString(cal2.get(Calendar.MONTH) + 1) + ",";
+			String monate = Integer.toString(cal2.get(Calendar.MONTH) + 1)
+					+ ",";
 			cal2.add(Calendar.MONTH, 1);
-			monate += Integer.toString(cal2.get(Calendar.MONTH) + 1) ;
-			
+			monate += Integer.toString(cal2.get(Calendar.MONTH) + 1);
+
 			String hql = "From Mitglied m where m.status.id In (1,2)";
 			hql += " and Month(m.gebDatum) IN (" + monate + ") ";
 			hql += " Order by Month(m.gebDatum), DAY(m.gebDatum)";

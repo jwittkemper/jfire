@@ -2,6 +2,8 @@ package biz.wittkemper.jfire.forms.fdienstjubilaeum;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -14,8 +16,6 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class FDienstjubilaeum extends JDialog {
 
@@ -27,6 +27,7 @@ public class FDienstjubilaeum extends JDialog {
 	private JLabel lblJahrInDem;
 	private JComboBox cbJahr;
 	private boolean abbruch = true;
+
 	/**
 	 * Create the dialog.
 	 */
@@ -38,31 +39,47 @@ public class FDienstjubilaeum extends JDialog {
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.WEST);
-		
+
 		lblJahrInDem = new JLabel("Jahr in dem das Jübiläum sein wird:");
 		cbJahr = new JComboBox();
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
-		gl_contentPanel.setHorizontalGroup(
-			gl_contentPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_contentPanel.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(lblJahrInDem))
-						.addGroup(gl_contentPanel.createSequentialGroup()
-							.addGap(87)
-							.addComponent(cbJahr, GroupLayout.PREFERRED_SIZE, 105, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(52, Short.MAX_VALUE))
-		);
-		gl_contentPanel.setVerticalGroup(
-			gl_contentPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addGap(27)
-					.addComponent(lblJahrInDem)
-					.addGap(33)
-					.addComponent(cbJahr, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(44, Short.MAX_VALUE))
-		);
+		gl_contentPanel
+				.setHorizontalGroup(gl_contentPanel
+						.createParallelGroup(Alignment.LEADING)
+						.addGroup(
+								gl_contentPanel
+										.createSequentialGroup()
+										.addGroup(
+												gl_contentPanel
+														.createParallelGroup(
+																Alignment.LEADING)
+														.addGroup(
+																gl_contentPanel
+																		.createSequentialGroup()
+																		.addContainerGap()
+																		.addComponent(
+																				lblJahrInDem))
+														.addGroup(
+																gl_contentPanel
+																		.createSequentialGroup()
+																		.addGap(87)
+																		.addComponent(
+																				cbJahr,
+																				GroupLayout.PREFERRED_SIZE,
+																				105,
+																				GroupLayout.PREFERRED_SIZE)))
+										.addContainerGap(52, Short.MAX_VALUE)));
+		gl_contentPanel.setVerticalGroup(gl_contentPanel.createParallelGroup(
+				Alignment.LEADING).addGroup(
+				gl_contentPanel
+						.createSequentialGroup()
+						.addGap(27)
+						.addComponent(lblJahrInDem)
+						.addGap(33)
+						.addComponent(cbJahr, GroupLayout.PREFERRED_SIZE,
+								GroupLayout.DEFAULT_SIZE,
+								GroupLayout.PREFERRED_SIZE)
+						.addContainerGap(44, Short.MAX_VALUE)));
 		contentPanel.setLayout(gl_contentPanel);
 		{
 			JPanel buttonPane = new JPanel();
@@ -72,7 +89,7 @@ public class FDienstjubilaeum extends JDialog {
 				JButton okButton = new JButton("OK");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						abbruch=false;
+						abbruch = false;
 						setVisible(false);
 					}
 				});
@@ -84,7 +101,7 @@ public class FDienstjubilaeum extends JDialog {
 				JButton cancelButton = new JButton("Cancel");
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						abbruch=true;
+						abbruch = true;
 						setVisible(false);
 					}
 				});
@@ -95,20 +112,22 @@ public class FDienstjubilaeum extends JDialog {
 		fuelleJahre();
 	}
 
-	public String getJahr(){
+	public String getJahr() {
 		return cbJahr.getSelectedItem().toString();
 	}
+
 	private void fuelleJahre() {
 		Calendar cal = new GregorianCalendar();
 		cal.setTime(new Date());
 		cbJahr.removeAllItems();
-		for(int i = -2;i< 5;i++){
-			String value = Integer.toString(cal.get(Calendar.YEAR)+i);
+		for (int i = -2; i < 5; i++) {
+			String value = Integer.toString(cal.get(Calendar.YEAR) + i);
 			cbJahr.addItem(value);
 		}
 		cbJahr.setSelectedIndex(2);
 	}
-	public boolean getAbruch(){
-		return abbruch ;
+
+	public boolean getAbruch() {
+		return abbruch;
 	}
 }

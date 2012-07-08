@@ -6,10 +6,13 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.net.URL;
 import java.util.Properties;
+
 import javax.swing.JFileChooser;
+
 import biz.wittkemper.jfire.data.dao.DAOFactory;
 import biz.wittkemper.jfire.data.entity.Anrede;
 import biz.wittkemper.jfire.data.entity.MitgliedStatus;
+import biz.wittkemper.jfire.data.entity.Parameter;
 
 public class SystemUtils {
 	final static String filename = "jfire.properties";
@@ -19,7 +22,7 @@ public class SystemUtils {
 		Properties configFile = loadConfigFile();
 
 		if (configFile != null) {
-			String pfad =getDBPfad() +"/seg0";
+			String pfad = getDBPfad() + "/seg0";
 			File file = new File(pfad);
 			try {
 				if (file.exists()) {
@@ -32,7 +35,7 @@ public class SystemUtils {
 		} else {
 
 			lreturn = newConfigFile();
-			String pfad =getDBPfad() +"/seg0";
+			String pfad = getDBPfad() + "/seg0";
 			File file = new File(pfad);
 			try {
 				if (file.exists()) {
@@ -66,6 +69,22 @@ public class SystemUtils {
 		return true;
 	}
 
+	public String getOpenFileDialog(String title, boolean directories_only) {
+		JFileChooser chooser = new JFileChooser();
+		chooser.setDialogTitle(title);
+		chooser.setAcceptAllFileFilterUsed(false);
+		if (directories_only) {
+			chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		} else {
+			chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		}
+		if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+			return chooser.getSelectedFile().getAbsolutePath();
+		} else {
+			return "";
+		}
+	}
+
 	private String getDBPFAD() {
 		String dbPfad = "";
 
@@ -74,7 +93,7 @@ public class SystemUtils {
 		chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		chooser.setAcceptAllFileFilterUsed(false);
 		if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-//			dbPfad += chooser.getCurrentDirectory();
+			// dbPfad += chooser.getCurrentDirectory();
 			dbPfad += chooser.getSelectedFile();
 		} else {
 			dbPfad = "";
@@ -107,7 +126,7 @@ public class SystemUtils {
 	}
 
 	public void initDB() {
-		
+
 		Anrede frau = new Anrede();
 		frau.setAnrede("Frau");
 
@@ -130,7 +149,17 @@ public class SystemUtils {
 		statusPV.setBezeichnungKurz("PS");
 		statusPV.setBezeichnungLang("Passives Mitglied");
 		DAOFactory.getInstance().getMitgliedStatusDAO().save(statusPV);
-		
+
+		Parameter dbtyp = new Parameter();
+		dbtyp.setBezeichnung("DBTYP");
+		dbtyp.setValue("slavedb");
+
+		Parameter dbversion = new Parameter();
+		dbversion.setBezeichnung("DBVERSION");
+		dbversion.setValue("1");
+
+		DAOFactory.getInstance().getParameterDAO().save(dbtyp);
+		DAOFactory.getInstance().getParameterDAO().save(dbversion);
 	}
 
 }

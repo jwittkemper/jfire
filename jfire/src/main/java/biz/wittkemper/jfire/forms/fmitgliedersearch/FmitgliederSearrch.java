@@ -2,40 +2,27 @@ package biz.wittkemper.jfire.forms.fmitgliedersearch;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseListener;
 
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.table.TableModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.ListSelectionModel;
+import javax.swing.border.EmptyBorder;
 
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.decorator.HighlighterFactory;
 
 import biz.wittkemper.jfire.data.entity.Mitglied;
-
-import com.jgoodies.binding.adapter.AbstractTableAdapter;
-import com.jgoodies.binding.adapter.SingleListSelectionAdapter;
-import com.jgoodies.binding.list.SelectionInList;
-
-import javax.swing.AbstractAction;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseListener;
-
-import javax.swing.Action;
-import java.awt.Dialog.ModalityType;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import javax.swing.JScrollPane;
-import javax.swing.JCheckBox;
 
 public class FmitgliederSearrch extends JDialog {
 
@@ -72,46 +59,81 @@ public class FmitgliederSearrch extends JDialog {
 
 		textField = new JTextField();
 		textField.setColumns(10);
-		
+
 		scrollPane = new JScrollPane();
-		
+
 		chgeloeschteAnzeigen = new JCheckBox("gelöschte Mitglieder anzeigen");
 
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
-		gl_contentPanel.setHorizontalGroup(
-			gl_contentPanel.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_contentPanel.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(lblSuchbegriff)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(textField, GroupLayout.PREFERRED_SIZE, 316, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_contentPanel.createSequentialGroup()
-							.addContainerGap()
-							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-								.addComponent(chgeloeschteAnzeigen)
-								.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 414, Short.MAX_VALUE))))
-					.addContainerGap())
-		);
-		gl_contentPanel.setVerticalGroup(
-			gl_contentPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblSuchbegriff)
-						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(18)
-					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 391, GroupLayout.PREFERRED_SIZE)
-					.addGap(4)
-					.addComponent(chgeloeschteAnzeigen)
-					.addContainerGap())
-		);
-		
+		gl_contentPanel
+				.setHorizontalGroup(gl_contentPanel
+						.createParallelGroup(Alignment.TRAILING)
+						.addGroup(
+								gl_contentPanel
+										.createSequentialGroup()
+										.addGroup(
+												gl_contentPanel
+														.createParallelGroup(
+																Alignment.LEADING)
+														.addGroup(
+																gl_contentPanel
+																		.createSequentialGroup()
+																		.addContainerGap()
+																		.addComponent(
+																				lblSuchbegriff)
+																		.addPreferredGap(
+																				ComponentPlacement.RELATED)
+																		.addComponent(
+																				textField,
+																				GroupLayout.PREFERRED_SIZE,
+																				316,
+																				GroupLayout.PREFERRED_SIZE))
+														.addGroup(
+																gl_contentPanel
+																		.createSequentialGroup()
+																		.addContainerGap()
+																		.addGroup(
+																				gl_contentPanel
+																						.createParallelGroup(
+																								Alignment.LEADING)
+																						.addComponent(
+																								chgeloeschteAnzeigen)
+																						.addComponent(
+																								scrollPane,
+																								GroupLayout.DEFAULT_SIZE,
+																								414,
+																								Short.MAX_VALUE))))
+										.addContainerGap()));
+		gl_contentPanel
+				.setVerticalGroup(gl_contentPanel
+						.createParallelGroup(Alignment.LEADING)
+						.addGroup(
+								gl_contentPanel
+										.createSequentialGroup()
+										.addContainerGap()
+										.addGroup(
+												gl_contentPanel
+														.createParallelGroup(
+																Alignment.BASELINE)
+														.addComponent(
+																lblSuchbegriff)
+														.addComponent(
+																textField,
+																GroupLayout.PREFERRED_SIZE,
+																GroupLayout.DEFAULT_SIZE,
+																GroupLayout.PREFERRED_SIZE))
+										.addGap(18)
+										.addComponent(scrollPane,
+												GroupLayout.PREFERRED_SIZE,
+												391, GroupLayout.PREFERRED_SIZE)
+										.addGap(4)
+										.addComponent(chgeloeschteAnzeigen)
+										.addContainerGap()));
+
 		table = new JXTable(pm.getTableModel());
 		table.setHighlighters(HighlighterFactory.createAlternateStriping());
-		table.setSelectionMode( ListSelectionModel.SINGLE_INTERVAL_SELECTION );
-		
+		table.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+
 		scrollPane.setViewportView(table);
 		contentPanel.setLayout(gl_contentPanel);
 		{
@@ -133,18 +155,19 @@ public class FmitgliederSearrch extends JDialog {
 		}
 	}
 
-	public Mitglied getSelectedMitglied(){
-		int zeile= table.getSelectedRow();
-		
-		if(zeile >=0){
+	public Mitglied getSelectedMitglied() {
+		int zeile = table.getSelectedRow();
+
+		if (zeile >= 0) {
 			return model.getSelectedMitglied(zeile);
 		}
 		return null;
 	}
-	
-	public void setMouseListener(MouseListener ml){
+
+	public void setMouseListener(MouseListener ml) {
 		table.addMouseListener(ml);
 	}
+
 	public void setCancelListener(ActionListener al) {
 		cancelButton.addActionListener(al);
 	}
@@ -160,12 +183,12 @@ public class FmitgliederSearrch extends JDialog {
 	public void setSearchText(String text) {
 		this.textField.setText(text);
 	}
-	
-	public String getSearchText(){
+
+	public String getSearchText() {
 		return this.textField.getText();
 	}
-	
-	public boolean getGeloschteAnzeigen(){
+
+	public boolean getGeloschteAnzeigen() {
 		return chgeloeschteAnzeigen.isSelected();
 	}
 }
