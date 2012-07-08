@@ -10,6 +10,7 @@ import java.awt.event.WindowListener;
 import java.beans.PropertyVetoException;
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
@@ -67,9 +68,9 @@ public class FMainController {
 	}
 
 	public void showView() {
-		this.view.setSize(1024, 768);
+		// this.view.setSize(1024, 768);
 		this.view.setVisible(true);
-		this.view.setResizable(false);
+		this.view.setResizable(true);
 
 		DateUtils utils = new DateUtils();
 		utils.findGeburtstag(view);

@@ -40,26 +40,28 @@ public class FMainView extends JFrame {
 	JMenuItem mntnTelefonlistereserve;
 	JMenu mntnJubilaeum;
 	JMenuItem mntnDienstjubilaeum;
-	
+
 	JDesktopPane pane = new MDIDesktopPane();
 	JXStatusBar statusBar = new JXStatusBar();
 	JLabel lbMitglieder = new JLabel();
+
 	/**
 	 * Create the frame.
 	 */
 	public FMainView() {
-		setResizable(false);
-		
+		setResizable(true);
+
 		super.setIconImage(iconService.getImage(ICONSERVICE.main));
 		initForm();
 	}
 
-	public void setMitgliederMeldung(String text){
+	public void setMitgliederMeldung(String text) {
 		this.lbMitglieder.setText(text);
 	}
+
 	private void initForm() {
 		setTitle("StationManager");
-		setBounds(100, 100, 1190, 767);
+		// setBounds(100, 100, 1024, 768);
 		setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -75,39 +77,38 @@ public class FMainView extends JFrame {
 
 		mntmMitgliederverwaltung = new JMenuItem("Mitgliederverwaltung");
 		mnVerwaltung.add(mntmMitgliederverwaltung);
-		
+
 		mnListen = new JMenu("Listen");
 		menuBar.add(mnListen);
-		
+
 		mntnUebungsListe = new JMenuItem("Anwesenheit Übung");
 		mntnUebungsListe.setActionCommand("anwesenheit");
 		mnListen.add(mntnUebungsListe);
-		
+
 		mnTelefonListen = new JMenu("Telefonlisten");
 		mnListen.add(mnTelefonListen);
-		
+
 		mntnTelefonlisteaktive = new JMenuItem("Telefonliste (Löschzug)");
 		mntnTelefonlisteaktive.setActionCommand("telefonlisteactive");
 		mnTelefonListen.add(mntnTelefonlisteaktive);
-		
-		
+
 		mntnTelefonlistereserve = new JMenuItem("Telefonliste (Reservezug)");
 		mntnTelefonlistereserve.setActionCommand("telefonlisteareserve");
 		mnTelefonListen.add(mntnTelefonlistereserve);
-		
+
 		mntmMitgliederFoerderverein = new JMenuItem("Addresslisten");
 		mntmMitgliederFoerderverein.setActionCommand("adresslisten");
 		mnListen.add(mntmMitgliederFoerderverein);
-		
+
 		mntnJubilaeum = new JMenu("Jubiläen");
 		mnListen.add(mntnJubilaeum);
 		mntnDienstjubilaeum = new JMenuItem("Dienstjubiläen");
 		mntnDienstjubilaeum.setActionCommand("dienstjubilaeum");
 		mntnJubilaeum.add(mntnDienstjubilaeum);
-		
+
 		frameUtils.MaximiseFrame(this);
 		getContentPane().setLayout(new BorderLayout());
-		getContentPane().add(pane, "Center");		
+		getContentPane().add(pane, "Center");
 		getContentPane().add(statusBar, BorderLayout.SOUTH);
 		statusBar.add(lbMitglieder);
 	}
@@ -122,11 +123,10 @@ public class FMainView extends JFrame {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 
 	}
 
-	protected void setListenListener(ActionListener al){
+	protected void setListenListener(ActionListener al) {
 		mntmMitgliederFoerderverein.addActionListener(al);
 		mntnTelefonlisteaktive.addActionListener(al);
 		mntnTelefonlistereserve.addActionListener(al);

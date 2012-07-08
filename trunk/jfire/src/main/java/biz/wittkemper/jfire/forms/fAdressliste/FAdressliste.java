@@ -42,14 +42,14 @@ public class FAdressliste extends JDialog {
 	private JButton btnAnzeigen;
 	private boolean closeOK = false;
 	private REPORTSAKTION action;
-	
+
 	/**
 	 * Create the frame.
 	 */
 	public FAdressliste() {
 		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 		setResizable(false);
-		
+
 		setBounds(100, 100, 302, 300);
 
 		panel = new JPanel();
@@ -168,12 +168,11 @@ public class FAdressliste extends JDialog {
 		btnExport = new JButton("Export");
 		btnExport.setActionCommand("export");
 		btnExport.addActionListener(new ButtonListener());
-		
-		
+
 		btnAnzeigen = new JButton("anzeigen");
 		btnAnzeigen.setActionCommand("anzeigen");
 		btnAnzeigen.addActionListener(new ButtonListener());
-		
+
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout
 				.setHorizontalGroup(groupLayout
@@ -233,38 +232,39 @@ public class FAdressliste extends JDialog {
 		return closeOK;
 	}
 
-	public Map getMap(){
+	public Map getMap() {
 		Map result = new HashMap();
-		String status="";
-		
-		if(rdbtnAktive.isSelected()){
-			if(chckbxAktive.isSelected()){
+		String status = "";
+
+		if (rdbtnAktive.isSelected()) {
+			if (chckbxAktive.isSelected()) {
 				status = "1";
 			}
-			if(chckbxReservezug.isSelected()){
-				if (status.length()!=0){
+			if (chckbxReservezug.isSelected()) {
+				if (status.length() != 0) {
 					status += ",2";
-				}else{
-					status = "2";	
+				} else {
+					status = "2";
 				}
 			}
 			result.put("mitgliedstatus", status);
 		}
 		return result;
 	}
-	
-	public REPORTS getReport(){
-		if (rdbtnAktive.isSelected()){
+
+	public REPORTS getReport() {
+		if (rdbtnAktive.isSelected()) {
 			return REPORTS.MITGLIEDERAKTIVE;
-		}else{
+		} else {
 			return REPORTS.MITGLIEDERFOERDERVEREIN;
 		}
 	}
-	
-	public REPORTSAKTION getAktion(){
+
+	public REPORTSAKTION getAktion() {
 		return action;
-		
+
 	}
+
 	class ButtonListener implements ActionListener {
 
 		@Override
@@ -273,11 +273,11 @@ public class FAdressliste extends JDialog {
 			if (e.getActionCommand().equals("cancel")) {
 				closeOK = false;
 				setVisible(false);
-			}else if (e.getActionCommand().equals("export")){
+			} else if (e.getActionCommand().equals("export")) {
 				action = REPORTSAKTION.EXPORT;
 				closeOK = true;
 				setVisible(false);
-			}else if(e.getActionCommand().equals("anzeigen")){
+			} else if (e.getActionCommand().equals("anzeigen")) {
 				action = REPORTSAKTION.VIEW;
 				closeOK = true;
 				setVisible(false);
