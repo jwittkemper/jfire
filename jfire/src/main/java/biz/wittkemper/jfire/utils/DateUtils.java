@@ -32,6 +32,11 @@ public class DateUtils {
 		return format.format(date);
 	}
 
+	public static int getJahr() {
+		Calendar calendar = new GregorianCalendar();
+		return calendar.get(Calendar.YEAR);
+	}
+
 	public void findGeburtstag(JFrame frame) {
 
 		if (wasrun == false) {

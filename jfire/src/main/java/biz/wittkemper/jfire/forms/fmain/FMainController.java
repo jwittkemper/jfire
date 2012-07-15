@@ -20,6 +20,7 @@ import biz.wittkemper.jfire.data.dao.DAOFactory;
 import biz.wittkemper.jfire.forms.fAdressliste.FAdressliste;
 import biz.wittkemper.jfire.forms.fanwesenheit.FAnwesenheit;
 import biz.wittkemper.jfire.forms.fdienstjubilaeum.FDienstjubilaeum;
+import biz.wittkemper.jfire.forms.feinsatzliste.FEinsatzliste;
 import biz.wittkemper.jfire.forms.fmitgliederverwaltung.FMitgliederVerwaltungController;
 import biz.wittkemper.jfire.forms.fmitgliederverwaltung.FMitgliederVerwaltungView;
 import biz.wittkemper.jfire.service.report.ReportService;
@@ -204,6 +205,23 @@ public class FMainController {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
+			} else if (e.getActionCommand().equals("anwesenheitEinsatz")) {
+				FEinsatzliste einsatzliste = new FEinsatzliste();
+				einsatzliste.setModal(true);
+				einsatzliste.setVisible(true);
+				if (einsatzliste.getCancel() == false) {
+					System.out.println(einsatzliste.getJahr());
+					Map map = new HashMap<String, Object>();
+					map.put("Jahr", einsatzliste.getJahr());
+					map.put("startwert", 1);
+					try {
+						ReportService.showReport(REPORTS.ANWESENHEITEINSATZ,
+								map, null);
+					} catch (JRException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
 			}
 
 		}
@@ -239,6 +257,7 @@ public class FMainController {
 	}
 
 	class LoadData extends Thread {
+		@Override
 		public void run() {
 
 			try {
