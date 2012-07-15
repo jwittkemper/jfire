@@ -34,6 +34,7 @@ public class FMainView extends JFrame {
 	JMenu mnListen;
 	JMenu mnTelefonListen;
 	JMenuItem mntnUebungsListe;
+	JMenuItem mntnEinsatzListe;
 	JMenuItem mntmMitgliederverwaltung;
 	JMenuItem mntmMitgliederFoerderverein;
 	JMenuItem mntnTelefonlisteaktive;
@@ -85,6 +86,10 @@ public class FMainView extends JFrame {
 		mntnUebungsListe.setActionCommand("anwesenheit");
 		mnListen.add(mntnUebungsListe);
 
+		mntnEinsatzListe = new JMenuItem("Einsatzliste");
+		mntnEinsatzListe.setActionCommand("anwesenheitEinsatz");
+		mnListen.add(mntnEinsatzListe);
+
 		mnTelefonListen = new JMenu("Telefonlisten");
 		mnListen.add(mnTelefonListen);
 
@@ -132,6 +137,7 @@ public class FMainView extends JFrame {
 		mntnTelefonlistereserve.addActionListener(al);
 		mntnUebungsListe.addActionListener(al);
 		mntnDienstjubilaeum.addActionListener(al);
+		mntnEinsatzListe.addActionListener(al);
 	}
 
 	protected void setBeendenListener(ActionListener al) {

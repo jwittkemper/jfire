@@ -20,6 +20,9 @@ public class ReportFactory {
 	static Report aktiveMitglieder = new Report("AktiveMitglieder",
 			"Mitgliederliste Feuerwehr", false,
 			"reports/mitgliederAktive.jrxml", "");
+	static Report anwenheitsEinsatz = new Report("Einsatzliste",
+			"Anwesenheitsliste Einsatz", true,
+			"reports/AnwesenheitEinsatz.jrxml", "1");
 
 	public static Report getReport(REPORTS name) {
 		Report lreport = null;
@@ -42,6 +45,8 @@ public class ReportFactory {
 		case MITGLIEDERAKTIVE:
 			lreport = aktiveMitglieder;
 			break;
+		case ANWESENHEITEINSATZ:
+			lreport = anwenheitsEinsatz;
 		}
 
 		return lreport;
