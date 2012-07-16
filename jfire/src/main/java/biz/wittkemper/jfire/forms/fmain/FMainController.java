@@ -212,8 +212,10 @@ public class FMainController {
 				if (einsatzliste.getCancel() == false) {
 					System.out.println(einsatzliste.getJahr());
 					Map map = new HashMap<String, Object>();
-					map.put("Jahr", einsatzliste.getJahr());
-					map.put("startwert", 1);
+					map.put("jahr", einsatzliste.getJahr());
+					// map.put("jahr", "2013");
+
+					map.put("startwert", einsatzliste.getBlatt().getStartwert());
 					try {
 						ReportService.showReport(REPORTS.ANWESENHEITEINSATZ,
 								map, null);
