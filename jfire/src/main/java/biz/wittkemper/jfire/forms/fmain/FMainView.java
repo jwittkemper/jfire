@@ -45,6 +45,7 @@ public class FMainView extends JFrame {
 	JDesktopPane pane = new MDIDesktopPane();
 	JXStatusBar statusBar = new JXStatusBar();
 	JLabel lbMitglieder = new JLabel();
+	private JMenu mnAnwesenheiten;
 
 	/**
 	 * Create the frame.
@@ -82,13 +83,16 @@ public class FMainView extends JFrame {
 		mnListen = new JMenu("Listen");
 		menuBar.add(mnListen);
 
-		mntnUebungsListe = new JMenuItem("Anwesenheit Übung");
-		mntnUebungsListe.setActionCommand("anwesenheit");
-		mnListen.add(mntnUebungsListe);
+		mnAnwesenheiten = new JMenu("Anwesenheitslisten");
+		mnListen.add(mnAnwesenheiten);
 
-		mntnEinsatzListe = new JMenuItem("Einsatzliste");
+		mntnUebungsListe = new JMenuItem("Anwesenheit Übung");
+		mnAnwesenheiten.add(mntnUebungsListe);
+		mntnUebungsListe.setActionCommand("anwesenheit");
+
+		mntnEinsatzListe = new JMenuItem("Anwesenheit Einsatz");
+		mnAnwesenheiten.add(mntnEinsatzListe);
 		mntnEinsatzListe.setActionCommand("anwesenheitEinsatz");
-		mnListen.add(mntnEinsatzListe);
 
 		mnTelefonListen = new JMenu("Telefonlisten");
 		mnListen.add(mnTelefonListen);
