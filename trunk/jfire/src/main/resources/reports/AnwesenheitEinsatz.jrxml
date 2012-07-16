@@ -11,7 +11,8 @@
 	<field name="VORNAME" class="java.lang.String"/>
 	<field name="NAME" class="java.lang.String"/>
 	<variable name="lfdnr" class="java.lang.Integer">
-		<initialValueExpression><![CDATA[new Integer($P{startwert})]]></initialValueExpression>
+        <variableExpression>$P{startwert}</variableExpression>
+        <initialValueExpression>$P{startwert}</initialValueExpression>
 	</variable>
 	<background>
 		<band splitType="Stretch"/>
