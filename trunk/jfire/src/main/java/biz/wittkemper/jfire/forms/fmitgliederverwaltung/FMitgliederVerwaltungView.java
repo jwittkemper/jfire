@@ -12,8 +12,8 @@ import java.util.List;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -32,6 +32,7 @@ import biz.wittkemper.jfire.utils.IconService;
 import biz.wittkemper.jfire.utils.IconService.ICONSERVICE;
 
 import com.jgoodies.binding.PresentationModel;
+import com.jgoodies.binding.adapter.BasicComponentFactory;
 import com.jgoodies.binding.adapter.Bindings;
 import com.jgoodies.binding.adapter.ComboBoxAdapter;
 import com.jgoodies.binding.value.ConverterFactory;
@@ -63,51 +64,53 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 	ValueModel eintritt;
 	ValueModel foerderEintritt;
 	ValueModel anrede;
+	ValueModel rettungsdienst;
 
 	public Trigger trigger;
-	private JToolBar TBMain;
-	private JPanel panel;
+	private final JToolBar TBMain;
+	private final JPanel panel;
 	JButton btnSave;
 	JButton btnbeenden;
-	private JTextField Iname = new JTextField();
-	private JTextField IVorname;
-	private JLabel lblStrasse;
-	private JTextField IStrasse;
-	private JTextField IPlz;
-	private JLabel lblWohnort;
-	private JTextField Iort;
-	private JTextField ISearch;
+	private final JTextField Iname = new JTextField();
+	private final JTextField IVorname;
+	private final JLabel lblStrasse;
+	private final JTextField IStrasse;
+	private final JTextField IPlz;
+	private final JLabel lblWohnort;
+	private final JTextField Iort;
+	private final JTextField ISearch;
 	JButton bsearch;
-	private JPanel tb_phone;
-	private JLabel lblTelefonnummer;
-	private JLabel lblFestnetzprivat;
-	private JLabel lblHandyprivat;
-	private JLabel lblDienstlich;
-	private JTextField IFestnetz;
-	private JTextField IHandy;
-	private JTextField IDienstl;
-	private JLabel lblEmail;
-	private JTextField Iemail;
-	private JXDatePicker datePicker;
-	private JLabel lblGeburtsdatum;
-	private JPanel pnDienstlich;
-	private JLabel lblMitgliedSeit;
-	private JXDatePicker IEintritt;
-	private JLabel lblMitgliedstatus;
-	private JComboBox cbStatus;
-	private JButton btnLeft;
-	private JButton btnRight;
-	private JButton btnEdit;
-	private JButton btnNew;
-	private JButton btnDel;
-	private JButton btnFoerderMitglied;
-	private JLabel lbMitglied;
-	private JPanel tpFoerderMitglied;
-	private JLabel lblMitgliedSeit_1;
-	private JXDatePicker dPFoerderMitglied;
-	private JTabbedPane tbStammdaten;
-	private JComboBox cbAnrede;
-	private JLabel lblAnrede;
+	private final JPanel tb_phone;
+	private final JLabel lblTelefonnummer;
+	private final JLabel lblFestnetzprivat;
+	private final JLabel lblHandyprivat;
+	private final JLabel lblDienstlich;
+	private final JTextField IFestnetz;
+	private final JTextField IHandy;
+	private final JTextField IDienstl;
+	private final JLabel lblEmail;
+	private final JTextField Iemail;
+	private final JXDatePicker datePicker;
+	private final JLabel lblGeburtsdatum;
+	private final JPanel pnDienstlich;
+	private final JLabel lblMitgliedSeit;
+	private final JXDatePicker IEintritt;
+	private final JLabel lblMitgliedstatus;
+	private final JComboBox cbStatus;
+	private final JButton btnLeft;
+	private final JButton btnRight;
+	private final JButton btnEdit;
+	private final JButton btnNew;
+	private final JButton btnDel;
+	private final JButton btnFoerderMitglied;
+	private final JLabel lbMitglied;
+	private final JPanel tpFoerderMitglied;
+	private final JLabel lblMitgliedSeit_1;
+	private final JXDatePicker dPFoerderMitglied;
+	private final JTabbedPane tbStammdaten;
+	private final JComboBox cbAnrede;
+	private final JLabel lblAnrede;
+	private final JCheckBox cbRettungsdienst;
 
 	/**
 	 * Create the frame.
@@ -139,6 +142,7 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 		eintritt = pmodel.getBufferedModel("eintritt");
 		foerderEintritt = pmodel.getBufferedModel("foerderMitgliedSeit");
 		anrede = pmodel.getBufferedModel("anrede");
+		rettungsdienst = pmodel.getBufferedModel("rettungsdienst");
 
 		List<MitgliedStatus> gueltigStatus = model.getMitgliedStatuse();
 		List<Anrede> anreden = model.getAnreden();
@@ -309,7 +313,7 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 		Bindings.bind(Iemail, email);
 
 		datePicker = new JXDatePicker();
-		Bindings.bind((JComponent) datePicker, "date", gebDatum);
+		Bindings.bind(datePicker, "date", gebDatum);
 		lblGeburtsdatum = new JLabel("Geburtstag:");
 
 		pnDienstlich = new JPanel();
@@ -318,6 +322,9 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 
 		lblAnrede = new JLabel("Anrede");
 		cbAnrede = new JComboBox(new ComboBoxAdapter<Anrede>(anreden, anrede));
+
+		cbRettungsdienst = BasicComponentFactory.createCheckBox(rettungsdienst,
+				"Mitglied Rettungsdienst");
 
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
 		gl_panel_1
@@ -347,114 +354,113 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 																				gl_panel_1
 																						.createParallelGroup(
 																								Alignment.LEADING)
+																						.addComponent(
+																								lblAnrede)
 																						.addGroup(
 																								gl_panel_1
-																										.createParallelGroup(
-																												Alignment.TRAILING)
-																										.addComponent(
-																												lblAnrede,
-																												Alignment.LEADING)
+																										.createSequentialGroup()
 																										.addGroup(
-																												Alignment.LEADING,
 																												gl_panel_1
-																														.createSequentialGroup()
+																														.createParallelGroup(
+																																Alignment.LEADING)
+																														.addComponent(
+																																lblName)
+																														.addComponent(
+																																lblStrasse)
+																														.addComponent(
+																																lblWohnort,
+																																GroupLayout.PREFERRED_SIZE,
+																																79,
+																																GroupLayout.PREFERRED_SIZE)
+																														.addComponent(
+																																lblGeburtsdatum,
+																																GroupLayout.PREFERRED_SIZE,
+																																100,
+																																GroupLayout.PREFERRED_SIZE))
+																										.addPreferredGap(
+																												ComponentPlacement.RELATED)
+																										.addGroup(
+																												gl_panel_1
+																														.createParallelGroup(
+																																Alignment.LEADING)
+																														.addComponent(
+																																IStrasse,
+																																162,
+																																162,
+																																162)
 																														.addGroup(
 																																gl_panel_1
-																																		.createParallelGroup(
-																																				Alignment.LEADING)
+																																		.createSequentialGroup()
 																																		.addComponent(
-																																				lblName)
-																																		.addComponent(
-																																				lblStrasse)
-																																		.addComponent(
-																																				lblWohnort,
+																																				IPlz,
 																																				GroupLayout.PREFERRED_SIZE,
-																																				79,
+																																				61,
 																																				GroupLayout.PREFERRED_SIZE)
+																																		.addPreferredGap(
+																																				ComponentPlacement.RELATED)
 																																		.addComponent(
-																																				lblGeburtsdatum,
-																																				GroupLayout.PREFERRED_SIZE,
-																																				100,
-																																				GroupLayout.PREFERRED_SIZE))
-																														.addPreferredGap(
-																																ComponentPlacement.RELATED)
-																														.addGroup(
-																																gl_panel_1
-																																		.createParallelGroup(
-																																				Alignment.LEADING)
-																																		.addComponent(
-																																				IStrasse,
-																																				162,
-																																				162,
-																																				162)
-																																		.addGroup(
-																																				gl_panel_1
-																																						.createSequentialGroup()
-																																						.addComponent(
-																																								IPlz,
-																																								GroupLayout.PREFERRED_SIZE,
-																																								61,
-																																								GroupLayout.PREFERRED_SIZE)
-																																						.addPreferredGap(
-																																								ComponentPlacement.RELATED)
-																																						.addComponent(
-																																								Iort,
-																																								GroupLayout.PREFERRED_SIZE,
-																																								GroupLayout.DEFAULT_SIZE,
-																																								GroupLayout.PREFERRED_SIZE))
-																																		.addGroup(
-																																				gl_panel_1
-																																						.createSequentialGroup()
-																																						.addGroup(
-																																								gl_panel_1
-																																										.createParallelGroup(
-																																												Alignment.TRAILING,
-																																												false)
-																																										.addComponent(
-																																												cbAnrede,
-																																												Alignment.LEADING,
-																																												0,
-																																												GroupLayout.DEFAULT_SIZE,
-																																												Short.MAX_VALUE)
-																																										.addComponent(
-																																												IVorname,
-																																												Alignment.LEADING,
-																																												GroupLayout.PREFERRED_SIZE,
-																																												128,
-																																												GroupLayout.PREFERRED_SIZE))
-																																						.addPreferredGap(
-																																								ComponentPlacement.RELATED)
-																																						.addComponent(
-																																								Iname,
-																																								GroupLayout.PREFERRED_SIZE,
-																																								162,
-																																								GroupLayout.PREFERRED_SIZE))
-																																		.addComponent(
-																																				Iemail,
-																																				GroupLayout.PREFERRED_SIZE,
-																																				213,
-																																				GroupLayout.PREFERRED_SIZE)
-																																		.addComponent(
-																																				datePicker,
+																																				Iort,
 																																				GroupLayout.PREFERRED_SIZE,
 																																				GroupLayout.DEFAULT_SIZE,
-																																				GroupLayout.PREFERRED_SIZE))))
+																																				GroupLayout.PREFERRED_SIZE))
+																														.addGroup(
+																																gl_panel_1
+																																		.createSequentialGroup()
+																																		.addGroup(
+																																				gl_panel_1
+																																						.createParallelGroup(
+																																								Alignment.TRAILING,
+																																								false)
+																																						.addComponent(
+																																								cbAnrede,
+																																								Alignment.LEADING,
+																																								0,
+																																								GroupLayout.DEFAULT_SIZE,
+																																								Short.MAX_VALUE)
+																																						.addComponent(
+																																								IVorname,
+																																								Alignment.LEADING,
+																																								GroupLayout.PREFERRED_SIZE,
+																																								128,
+																																								GroupLayout.PREFERRED_SIZE))
+																																		.addPreferredGap(
+																																				ComponentPlacement.RELATED)
+																																		.addComponent(
+																																				Iname,
+																																				GroupLayout.PREFERRED_SIZE,
+																																				162,
+																																				GroupLayout.PREFERRED_SIZE))
+																														.addComponent(
+																																Iemail,
+																																GroupLayout.PREFERRED_SIZE,
+																																213,
+																																GroupLayout.PREFERRED_SIZE)
+																														.addComponent(
+																																datePicker,
+																																GroupLayout.PREFERRED_SIZE,
+																																GroupLayout.DEFAULT_SIZE,
+																																GroupLayout.PREFERRED_SIZE)))
 																						.addComponent(
 																								lblEmail))
 																		.addGap(91)
-																		.addComponent(
-																				tb_phone,
-																				GroupLayout.PREFERRED_SIZE,
-																				338,
-																				GroupLayout.PREFERRED_SIZE)
+																		.addGroup(
+																				gl_panel_1
+																						.createParallelGroup(
+																								Alignment.LEADING)
+																						.addComponent(
+																								tb_phone,
+																								GroupLayout.PREFERRED_SIZE,
+																								338,
+																								GroupLayout.PREFERRED_SIZE)
+																						.addComponent(
+																								cbRettungsdienst))
 																		.addContainerGap(
 																				GroupLayout.DEFAULT_SIZE,
 																				Short.MAX_VALUE)))));
 		gl_panel_1
 				.setVerticalGroup(gl_panel_1
-						.createParallelGroup(Alignment.TRAILING)
+						.createParallelGroup(Alignment.LEADING)
 						.addGroup(
-								Alignment.LEADING,
 								gl_panel_1
 										.createSequentialGroup()
 										.addGap(20)
@@ -562,7 +568,11 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 																																GroupLayout.PREFERRED_SIZE,
 																																GroupLayout.DEFAULT_SIZE,
 																																GroupLayout.PREFERRED_SIZE))))
-																		.addGap(27)))
+																		.addGap(18)
+																		.addComponent(
+																				cbRettungsdienst)
+																		.addPreferredGap(
+																				ComponentPlacement.RELATED)))
 										.addPreferredGap(
 												ComponentPlacement.RELATED,
 												128, Short.MAX_VALUE)
@@ -574,7 +584,7 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 		lblMitgliedSeit = new JLabel("Mitglied seit: ");
 
 		IEintritt = new JXDatePicker();
-		Bindings.bind((JComponent) IEintritt, "date", eintritt);
+		Bindings.bind(IEintritt, "date", eintritt);
 
 		lblMitgliedstatus = new JLabel("Mitgliedstatus ");
 
@@ -805,7 +815,7 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 										.addContainerGap(362, Short.MAX_VALUE)));
 		tpFoerderMitglied.setLayout(gl_tpFoerderMitglied);
 
-		Bindings.bind((JComponent) dPFoerderMitglied, "date", foerderEintritt);
+		Bindings.bind(dPFoerderMitglied, "date", foerderEintritt);
 		panel.setLayout(gl_panel);
 
 	}
@@ -886,6 +896,7 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 			dPFoerderMitglied.setEnabled(false);
 		}
 		cbAnrede.setEnabled(value);
+		cbRettungsdienst.setEnabled(value);
 	}
 
 	public void setToolbar(EDITMODE value) {

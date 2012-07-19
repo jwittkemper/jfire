@@ -2,7 +2,6 @@ package biz.wittkemper.jfire.data.entity;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,19 +9,16 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Proxy;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType( name = "" )
+@XmlType(name = "")
 @XmlRootElement(name = "Mitglied")
 @Entity
 @Proxy(lazy = false)
@@ -51,7 +47,8 @@ public class Mitglied implements Serializable {
 	Date masterInsert;
 	Date lastChange = new Date();
 	boolean geloescht;
-	
+	boolean rettungsdienst;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long getId() {
@@ -70,7 +67,7 @@ public class Mitglied implements Serializable {
 		this.masterId = masterId;
 	}
 
-	@Column(length=30)
+	@Column(length = 30)
 	public String getName() {
 		return name;
 	}
@@ -79,7 +76,7 @@ public class Mitglied implements Serializable {
 		this.name = name;
 	}
 
-	@Column(length=30)
+	@Column(length = 30)
 	public String getVorname() {
 		return vorname;
 	}
@@ -88,7 +85,7 @@ public class Mitglied implements Serializable {
 		this.vorname = vorname;
 	}
 
-	@Column(length=100)
+	@Column(length = 100)
 	public String getStrasseNr() {
 		return strasseNr;
 	}
@@ -105,7 +102,7 @@ public class Mitglied implements Serializable {
 		this.plz = plz;
 	}
 
-	@Column(length=30)
+	@Column(length = 30)
 	public String getOrt() {
 		return ort;
 	}
@@ -122,7 +119,7 @@ public class Mitglied implements Serializable {
 		this.gebDatum = gebDatum;
 	}
 
-	@Column(length=30)
+	@Column(length = 30)
 	public String getTelefonPrivatFest() {
 		return telefonPrivatFest;
 	}
@@ -131,7 +128,7 @@ public class Mitglied implements Serializable {
 		this.telefonPrivatFest = telefonPrivatFest;
 	}
 
-	@Column(length=30)
+	@Column(length = 30)
 	public String getTelefonPrivatMobil() {
 		return telefonPrivatMobil;
 	}
@@ -140,7 +137,7 @@ public class Mitglied implements Serializable {
 		this.telefonPrivatMobil = telefonPrivatMobil;
 	}
 
-	@Column(length=30)
+	@Column(length = 30)
 	public String getTelefonDienst() {
 		return telefonDienst;
 	}
@@ -149,7 +146,7 @@ public class Mitglied implements Serializable {
 		this.telefonDienst = telefonDienst;
 	}
 
-	@Column(length=60)
+	@Column(length = 60)
 	public String geteMail() {
 		return eMail;
 	}
@@ -166,7 +163,7 @@ public class Mitglied implements Serializable {
 		this.eintritt = eintritt;
 	}
 
-	@ManyToOne(fetch=FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER)
 	public MitgliedStatus getStatus() {
 		return status;
 	}
@@ -191,7 +188,7 @@ public class Mitglied implements Serializable {
 		this.lastChange = lastChange;
 	}
 
-	@ManyToOne(fetch=FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER)
 	public Anrede getAnrede() {
 		return anrede;
 	}
@@ -206,6 +203,14 @@ public class Mitglied implements Serializable {
 
 	public void setGeloescht(boolean geloescht) {
 		this.geloescht = geloescht;
+	}
+
+	public boolean isRettungsdienst() {
+		return rettungsdienst;
+	}
+
+	public void setRettungsdienst(boolean rettungsdienst) {
+		this.rettungsdienst = rettungsdienst;
 	}
 
 }
