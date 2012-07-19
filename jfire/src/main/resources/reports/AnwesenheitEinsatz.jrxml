@@ -2,17 +2,19 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="AnwesenheitUebung" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 	<property name="ireport.zoom" value="3.0"/>
 	<property name="ireport.x" value="38"/>
-	<property name="ireport.y" value="144"/>
+	<property name="ireport.y" value="0"/>
 	<parameter name="jahr" class="java.lang.String"/>
 	<parameter name="startwert" class="java.lang.Integer"/>
+	<parameter name="typ" class="java.lang.String"/>
+	<parameter name="whereand" class="java.lang.String"/>
 	<queryString language="SQL">
-		<![CDATA[Select * from Mitglied Where status_id = 1 and geloescht = 0 Order by lower(Name), lower(Vorname)]]>
+		<![CDATA[Select * from Mitglied Where status_id = 1 and geloescht = 0 and $P!{whereand}  Order by lower(Name), lower(Vorname)]]>
 	</queryString>
 	<field name="VORNAME" class="java.lang.String"/>
 	<field name="NAME" class="java.lang.String"/>
 	<variable name="lfdnr" class="java.lang.Integer">
-        <variableExpression>$P{startwert}</variableExpression>
-        <initialValueExpression>$P{startwert}</initialValueExpression>
+		<variableExpression><![CDATA[$P{startwert}]]></variableExpression>
+		<initialValueExpression><![CDATA[$P{startwert}]]></initialValueExpression>
 	</variable>
 	<background>
 		<band splitType="Stretch"/>
@@ -38,11 +40,18 @@
 				<text><![CDATA[Anwesenheitsliste Einsätze]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="229" y="6" width="100" height="20"/>
+				<reportElement x="351" y="6" width="100" height="20"/>
 				<textElement>
 					<font size="13"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{jahr}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="223" y="6" width="125" height="20"/>
+				<textElement>
+					<font size="13"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{typ}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
@@ -284,7 +293,7 @@
 			<textField>
 				<reportElement x="39" y="0" width="108" height="16"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{NAME} + " " +  $F{VORNAME} ]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{NAME} + " " +  $F{VORNAME}]]></textFieldExpression>
 			</textField>
 			<line>
 				<reportElement x="40" y="15" width="507" height="1"/>
