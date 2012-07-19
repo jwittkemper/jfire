@@ -4,6 +4,7 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 import biz.wittkemper.jfire.data.dao.DAOFactory;
 import biz.wittkemper.jfire.data.entity.Anrede;
 import biz.wittkemper.jfire.data.entity.FoerderMitglied;
@@ -20,16 +21,16 @@ public class MitgliedModel {
 	Date eintritt;
 	String email;
 	Date gebDatum;
-	
-	private ExtendedPropertyChangeSupport changeSupport;
+
+	private final ExtendedPropertyChangeSupport changeSupport;
 
 	private List<MitgliedStatus> mitgliedStatuse = new ArrayList<MitgliedStatus>();
 	private List<Anrede> anreden = new ArrayList<Anrede>();
-	
+
 	private FoerderMitglied foerderMitglied;
 
 	private Anrede anrede;
-	
+
 	private MitgliedStatus status;
 
 	private String strasseNr;
@@ -42,7 +43,9 @@ public class MitgliedModel {
 
 	private String telefonPrivatFest;
 
-	private String telefonPrivatMobil;	
+	private String telefonPrivatMobil;
+
+	private boolean rettungsdienst;
 
 	public MitgliedModel() {
 		changeSupport = new ExtendedPropertyChangeSupport(this);
@@ -75,6 +78,7 @@ public class MitgliedModel {
 		this.setTelefonPrivatFest(mitglied.getTelefonPrivatFest());
 		this.setTelefonPrivatMobil(mitglied.getTelefonPrivatMobil());
 		this.setAnrede(mitglied.getAnrede());
+		this.setRettungsdienst(mitglied.isRettungsdienst());
 	}
 
 	public Mitglied getMitglied() {
@@ -96,6 +100,7 @@ public class MitgliedModel {
 		mitglied.setTelefonPrivatMobil(telefonPrivatMobil);
 		mitglied.setStatus(status);
 		mitglied.setAnrede(anrede);
+		mitglied.setRettungsdienst(rettungsdienst);
 		return mitglied;
 	}
 
@@ -201,7 +206,7 @@ public class MitgliedModel {
 
 	public void setStatus(MitgliedStatus status) {
 		MitgliedStatus old = this.status;
-		this.status =status;
+		this.status = status;
 		changeSupport.firePropertyChange("status", old, status);
 	}
 
@@ -228,11 +233,13 @@ public class MitgliedModel {
 		this.anrede = anrede;
 		changeSupport.firePropertyChange("anrede", old, anrede);
 	}
-	
-	public List<Anrede> getAnreden(){
-		anreden = DAOFactory.getInstance().getAnredeDAO().findByQueryString("From Anrede a");
+
+	public List<Anrede> getAnreden() {
+		anreden = DAOFactory.getInstance().getAnredeDAO()
+				.findByQueryString("From Anrede a");
 		return anreden;
 	}
+
 	public List<MitgliedStatus> getMitgliedStatuse() {
 
 		mitgliedStatuse = DAOFactory.getInstance().getMitgliedStatusDAO()
@@ -240,9 +247,6 @@ public class MitgliedModel {
 		return mitgliedStatuse;
 	}
 
-
-	
-	
 	public FoerderMitglied getFoerderMitglied() {
 		return foerderMitglied;
 	}
@@ -253,9 +257,9 @@ public class MitgliedModel {
 	}
 
 	public Date getFoerderMitgliedSeit() {
-		if (foerderMitglied!=null){
+		if (foerderMitglied != null) {
 			return foerderMitglied.getEintritt();
-		}else{
+		} else {
 			return null;
 		}
 	}
@@ -263,9 +267,19 @@ public class MitgliedModel {
 	public void setFoerderMitgliedSeit(Date foerderMitgliedSeit) {
 		Date old = foerderMitgliedSeit;
 		this.foerderMitglied.setEintritt(foerderMitgliedSeit);
-		changeSupport.firePropertyChange("foerderMitgliedSeit", old, foerderMitgliedSeit);
+		changeSupport.firePropertyChange("foerderMitgliedSeit", old,
+				foerderMitgliedSeit);
 	}
 
+	public boolean isRettungsdienst() {
+		return rettungsdienst;
+	}
 
+	public void setRettungsdienst(boolean rettungsdienst) {
+		boolean old = this.rettungsdienst;
+		this.rettungsdienst = rettungsdienst;
+		changeSupport.firePropertyChange("rettungsdienst", old, rettungsdienst);
+		this.rettungsdienst = rettungsdienst;
+	}
 
 }

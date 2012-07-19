@@ -205,7 +205,7 @@ public class FMainController {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-			} else if (e.getActionCommand().equals("anwesenheitEinsatz")) {
+			} else if (e.getActionCommand().equals("anwesenheitEinsatzL")) {
 				FEinsatzliste einsatzliste = new FEinsatzliste();
 				einsatzliste.setModal(true);
 				einsatzliste.setVisible(true);
@@ -213,7 +213,28 @@ public class FMainController {
 					System.out.println(einsatzliste.getJahr());
 					Map map = new HashMap<String, Object>();
 					map.put("jahr", einsatzliste.getJahr());
-					// map.put("jahr", "2013");
+					map.put("typ", "(Löschzug)");
+					map.put("whereand", "1=1");
+
+					map.put("startwert", einsatzliste.getBlatt().getStartwert());
+					try {
+						ReportService.showReport(REPORTS.ANWESENHEITEINSATZ,
+								map, null);
+					} catch (JRException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+			} else if (e.getActionCommand().equals("anwesenheitEinsatzR")) {
+				FEinsatzliste einsatzliste = new FEinsatzliste();
+				einsatzliste.setModal(true);
+				einsatzliste.setVisible(true);
+				if (einsatzliste.getCancel() == false) {
+					System.out.println(einsatzliste.getJahr());
+					Map map = new HashMap<String, Object>();
+					map.put("jahr", einsatzliste.getJahr());
+					map.put("typ", "(Rettungsdienst)");
+					map.put("whereand", "rettungsdienst=1");
 
 					map.put("startwert", einsatzliste.getBlatt().getStartwert());
 					try {

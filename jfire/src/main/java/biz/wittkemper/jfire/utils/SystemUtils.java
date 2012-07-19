@@ -5,11 +5,17 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Properties;
 
 import javax.swing.JFileChooser;
 
+import org.hibernate.Transaction;
+
 import biz.wittkemper.jfire.data.dao.DAOFactory;
+import biz.wittkemper.jfire.data.dao.SessionFactotyUtil;
 import biz.wittkemper.jfire.data.entity.Anrede;
 import biz.wittkemper.jfire.data.entity.MitgliedStatus;
 import biz.wittkemper.jfire.data.entity.Parameter;
@@ -162,4 +168,37 @@ public class SystemUtils {
 		DAOFactory.getInstance().getParameterDAO().save(dbversion);
 	}
 
+	public void checkDB() {
+		switch (ParameterUtils.getDBVersion()) {
+		case 1:
+			setVersion2();
+		}
+	}
+
+	private void setVersion2() {
+
+		String sql = "";
+		sql = "ALTER TABLE MITGLIED add rettungsdienst SMALLINT NOT NULL DEFAULT 0";
+
+		executeSQL(sql);
+		sql = "Update Parameter set VALUE = '2' WHERE BEZEICHNUNG = 'DBVERSION'";
+		executeSQL(sql);
+
+	}
+
+	private void executeSQL(String sql) {
+
+		Transaction tx = SessionFactotyUtil.getInstance().getCurrentSession()
+				.beginTransaction();
+		Connection con = SessionFactotyUtil.getInstance().getCurrentSession()
+				.connection();
+		try {
+			Statement st = con.createStatement();
+			st.execute(sql);
+			tx.commit();
+		} catch (SQLException e) {
+			tx.rollback();
+		}
+
+	}
 }

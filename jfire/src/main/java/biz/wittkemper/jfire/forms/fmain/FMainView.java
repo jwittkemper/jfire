@@ -34,7 +34,8 @@ public class FMainView extends JFrame {
 	JMenu mnListen;
 	JMenu mnTelefonListen;
 	JMenuItem mntnUebungsListe;
-	JMenuItem mntnEinsatzListe;
+	JMenuItem mntnEinsatzListeL;
+	JMenuItem mntnEinsatzListeR;
 	JMenuItem mntmMitgliederverwaltung;
 	JMenuItem mntmMitgliederFoerderverein;
 	JMenuItem mntnTelefonlisteaktive;
@@ -90,9 +91,14 @@ public class FMainView extends JFrame {
 		mnAnwesenheiten.add(mntnUebungsListe);
 		mntnUebungsListe.setActionCommand("anwesenheit");
 
-		mntnEinsatzListe = new JMenuItem("Anwesenheit Einsatz");
-		mnAnwesenheiten.add(mntnEinsatzListe);
-		mntnEinsatzListe.setActionCommand("anwesenheitEinsatz");
+		mntnEinsatzListeL = new JMenuItem("Anwesenheit Einsatz (Löschzug)");
+		mnAnwesenheiten.add(mntnEinsatzListeL);
+		mntnEinsatzListeL.setActionCommand("anwesenheitEinsatzL");
+
+		mntnEinsatzListeR = new JMenuItem(
+				"Anwesenheit Einsatz (Rettungsdienst)");
+		mnAnwesenheiten.add(mntnEinsatzListeR);
+		mntnEinsatzListeR.setActionCommand("anwesenheitEinsatzR");
 
 		mnTelefonListen = new JMenu("Telefonlisten");
 		mnListen.add(mnTelefonListen);
@@ -141,7 +147,8 @@ public class FMainView extends JFrame {
 		mntnTelefonlistereserve.addActionListener(al);
 		mntnUebungsListe.addActionListener(al);
 		mntnDienstjubilaeum.addActionListener(al);
-		mntnEinsatzListe.addActionListener(al);
+		mntnEinsatzListeL.addActionListener(al);
+		mntnEinsatzListeR.addActionListener(al);
 	}
 
 	protected void setBeendenListener(ActionListener al) {
