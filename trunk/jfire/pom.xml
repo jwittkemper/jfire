@@ -121,9 +121,9 @@
 			<version>1.6.1</version>
 		</dependency>
 		<dependency>
-			<groupId>jasperreports</groupId>
+			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports</artifactId>
-			<version>3.5.3</version>
+			<version>4.5.1</version>
 		</dependency>
 	</dependencies>
 </project>
