@@ -11,6 +11,7 @@ import java.sql.Statement;
 import java.util.Properties;
 
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 import org.hibernate.Transaction;
 
@@ -162,7 +163,7 @@ public class SystemUtils {
 
 		Parameter dbversion = new Parameter();
 		dbversion.setBezeichnung("DBVERSION");
-		dbversion.setValue("1");
+		dbversion.setValue("2");
 
 		DAOFactory.getInstance().getParameterDAO().save(dbtyp);
 		DAOFactory.getInstance().getParameterDAO().save(dbversion);
@@ -177,28 +178,33 @@ public class SystemUtils {
 
 	private void setVersion2() {
 
-		String sql = "";
-		sql = "ALTER TABLE MITGLIED add rettungsdienst SMALLINT NOT NULL DEFAULT 0";
-
-		executeSQL(sql);
-		sql = "Update Parameter set VALUE = '2' WHERE BEZEICHNUNG = 'DBVERSION'";
-		executeSQL(sql);
-
-	}
-
-	private void executeSQL(String sql) {
-
 		Transaction tx = SessionFactotyUtil.getInstance().getCurrentSession()
 				.beginTransaction();
-		Connection con = SessionFactotyUtil.getInstance().getCurrentSession()
-				.connection();
+
 		try {
-			Statement st = con.createStatement();
-			st.execute(sql);
+			String sql = "";
+			sql = "ALTER TABLE MITGLIED add rettungsdienst SMALLINT NOT NULL DEFAULT 0";
+			executeSQL(sql);
+			sql = "Update Parameter set VALUE = '2' WHERE BEZEICHNUNG = 'DBVERSION'";
+			executeSQL(sql);
 			tx.commit();
 		} catch (SQLException e) {
 			tx.rollback();
+			JOptionPane.showConfirmDialog(null,
+					"Update fehlgeschlagen!\n" + e.getMessage(),
+					"Fehler beim Update", JOptionPane.ERROR_MESSAGE
+							+ JOptionPane.OK_OPTION);
 		}
+
+	}
+
+	private void executeSQL(String sql) throws SQLException {
+
+		Connection con = SessionFactotyUtil.getInstance().getCurrentSession()
+				.connection();
+
+		Statement st = con.createStatement();
+		st.execute(sql);
 
 	}
 }
