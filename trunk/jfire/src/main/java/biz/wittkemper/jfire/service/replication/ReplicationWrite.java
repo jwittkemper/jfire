@@ -1,5 +1,6 @@
 package biz.wittkemper.jfire.service.replication;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -21,7 +22,7 @@ import biz.wittkemper.jfire.service.replication.SecurityTools.SECURITYTOOLS;
 
 public class ReplicationWrite {
 
-	public void WriteData(String fileName, Replication replication)
+	public void WriteData(File fileName, Replication replication)
 			throws JAXBException, InvalidKeyException,
 			NoSuchAlgorithmException, NoSuchPaddingException,
 			InvalidKeySpecException, InvalidAlgorithmParameterException,
@@ -34,7 +35,10 @@ public class ReplicationWrite {
 		Marshaller ms = jc.createMarshaller();
 		ms.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 
-		OutputStream target = new FileOutputStream(fileName + ".jfire");
+		if (fileName.exists() == false) {
+			fileName.createNewFile();
+		}
+		OutputStream target = new FileOutputStream(fileName);
 
 		target = new CipherOutputStream(target,
 				SecurityTools.getCipher(SECURITYTOOLS.encrypt));
