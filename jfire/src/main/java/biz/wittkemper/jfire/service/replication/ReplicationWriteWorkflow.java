@@ -1,16 +1,7 @@
 package biz.wittkemper.jfire.service.replication;
 
-import java.io.IOException;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
+import java.io.File;
 import java.util.List;
-
-import javax.crypto.NoSuchPaddingException;
-import javax.xml.bind.JAXBException;
-
-import org.apache.derby.iapi.services.daemon.DaemonFactory;
 
 import biz.wittkemper.jfire.data.dao.DAOFactory;
 import biz.wittkemper.jfire.data.entity.FoerderMitglied;
@@ -20,7 +11,7 @@ import biz.wittkemper.jfire.utils.ParameterUtils;
 
 public class ReplicationWriteWorkflow {
 
-	public void Excecute() throws Exception{
+	public void Excecute(File file) throws Exception {
 		Replication replication = new Replication();
 
 		getdReplicationProperty(replication);
@@ -28,7 +19,7 @@ public class ReplicationWriteWorkflow {
 		getFoederMitglieder(replication);
 		ReplicationWrite replicationWrite = new ReplicationWrite();
 
-		replicationWrite.WriteData("myreplication", replication);
+		replicationWrite.WriteData(file, replication);
 
 	}
 

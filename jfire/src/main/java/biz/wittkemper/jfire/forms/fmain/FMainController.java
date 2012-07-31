@@ -8,12 +8,16 @@ import java.awt.event.HierarchyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.beans.PropertyVetoException;
+import java.io.File;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.JDesktopPane;
+import javax.swing.JFileChooser;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import net.sf.jasperreports.engine.JRException;
 import biz.wittkemper.jfire.data.dao.DAOFactory;
@@ -23,6 +27,7 @@ import biz.wittkemper.jfire.forms.fdienstjubilaeum.FDienstjubilaeum;
 import biz.wittkemper.jfire.forms.feinsatzliste.FEinsatzliste;
 import biz.wittkemper.jfire.forms.fmitgliederverwaltung.FMitgliederVerwaltungController;
 import biz.wittkemper.jfire.forms.fmitgliederverwaltung.FMitgliederVerwaltungView;
+import biz.wittkemper.jfire.service.replication.ReplicationWriteWorkflow;
 import biz.wittkemper.jfire.service.report.ReportService;
 import biz.wittkemper.jfire.service.report.ReportService.REPORTS;
 import biz.wittkemper.jfire.service.report.ReportService.REPORTSAKTION;
@@ -245,6 +250,33 @@ public class FMainController {
 						e1.printStackTrace();
 					}
 				}
+			} else if (e.getActionCommand().equals("datenexport")) {
+				JFileChooser fc = new JFileChooser();
+
+				fc.setFileFilter(new FileNameExtensionFilter(
+						"JFire Daten(*.jfire)", "jfire"));
+				Date date = new Date();
+
+				fc.setSelectedFile(new File("daten.jfire"));
+				int fcr = fc.showSaveDialog(view);
+				if (fcr == JFileChooser.CANCEL_OPTION) {
+					System.out.println("Datenexport, abbruch");
+				} else {
+					ReplicationWriteWorkflow workflow = new ReplicationWriteWorkflow();
+					try {
+						workflow.Excecute(fc.getSelectedFile());
+						JOptionPane.showMessageDialog(view,
+								"Daten erfolgreich exportiert", "Datenexport",
+								JOptionPane.INFORMATION_MESSAGE);
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					System.out.println(fc.getSelectedFile());
+				}
+
+			} else if (e.getActionCommand().equals("datenimport")) {
+				System.out.println("Datenimport");
 			}
 
 		}

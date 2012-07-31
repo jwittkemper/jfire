@@ -32,6 +32,9 @@ public class FMainView extends JFrame {
 	JMenuItem mntmBeenden;
 	JMenu mnVerwaltung;
 	JMenu mnListen;
+	JMenu mnDaten;
+	JMenuItem mnDatenExport;
+	JMenuItem mnDatenImport;
 	JMenu mnTelefonListen;
 	JMenuItem mntnUebungsListe;
 	JMenuItem mntnEinsatzListeL;
@@ -64,13 +67,21 @@ public class FMainView extends JFrame {
 
 	private void initForm() {
 		setTitle("StationManager");
-		// setBounds(100, 100, 1024, 768);
 		setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 
 		mnDatei = new JMenu("Datei");
 		menuBar.add(mnDatei);
+
+		mnDaten = new JMenu("Daten");
+		mnDatenExport = new JMenuItem("Export");
+		mnDatenExport.setActionCommand("datenexport");
+		mnDatenImport = new JMenuItem("Importieren");
+		mnDatenImport.setActionCommand("datenimport");
+		mnDaten.add(mnDatenImport);
+		mnDaten.add(mnDatenExport);
+		menuBar.add(mnDaten);
 
 		mntmBeenden = new JMenuItem("beenden");
 		mnDatei.add(mntmBeenden);
@@ -149,6 +160,8 @@ public class FMainView extends JFrame {
 		mntnDienstjubilaeum.addActionListener(al);
 		mntnEinsatzListeL.addActionListener(al);
 		mntnEinsatzListeR.addActionListener(al);
+		mnDatenImport.addActionListener(al);
+		mnDatenExport.addActionListener(al);
 	}
 
 	protected void setBeendenListener(ActionListener al) {

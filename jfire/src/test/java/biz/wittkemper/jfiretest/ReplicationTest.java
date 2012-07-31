@@ -25,7 +25,7 @@ public class ReplicationTest {
 	public void Workflow() {
 		ReplicationWriteWorkflow workflow = new ReplicationWriteWorkflow();
 		try {
-			workflow.Excecute();
+			workflow.Excecute(null);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -45,7 +45,7 @@ public class ReplicationTest {
 
 		ReplicationWrite replicationWrite = new ReplicationWrite();
 		try {
-			replicationWrite.WriteData("replout", replication);
+			replicationWrite.WriteData(null, replication);
 		} catch (InvalidKeyException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
