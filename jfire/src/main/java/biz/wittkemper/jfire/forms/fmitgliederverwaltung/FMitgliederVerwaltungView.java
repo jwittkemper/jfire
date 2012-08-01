@@ -45,7 +45,7 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 	 * 
 	 */
 	MitgliedModel model = new MitgliedModel();
-
+	boolean masterdb = false;
 	private static final long serialVersionUID = -8498808806506779920L;
 	public PresentationModel<MitgliedModel> pmodel;
 	IconService iconService = new IconService();
@@ -112,14 +112,17 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 	private final JLabel lblAnrede;
 	private final JCheckBox cbRettungsdienst;
 
-	public void setNewUserActice(boolean value){
+	public void setNewUserActice(boolean value) {
 		btnNew.setEnabled(value);
-		if (value== false){
+		if (value == false) {
+			masterdb = false;
 			btnNew.setToolTipText("Neue Mitglieser können nur auf dem Master eingefügt werden");
-		}else{
+		} else {
+			masterdb = true;
 			btnNew.setToolTipText("Neues Mitglied einfügen.");
 		}
 	}
+
 	/**
 	 * Create the frame.
 	 * 
@@ -915,7 +918,9 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 			btnLeft.setEnabled(true);
 			btnRight.setEnabled(true);
 			ISearch.setEnabled(true);
-			btnNew.setEnabled(true);
+			if (masterdb) {
+				btnNew.setEnabled(true);
+			}
 			btnEdit.setEnabled(true);
 			btnDel.setEnabled(false);
 			btnFoerderMitglied.setEnabled(false);
