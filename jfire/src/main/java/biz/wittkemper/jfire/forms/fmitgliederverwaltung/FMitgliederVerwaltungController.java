@@ -22,6 +22,7 @@ import biz.wittkemper.jfire.forms.fmitgliedersearch.FmitgliederSearrch;
 import biz.wittkemper.jfire.forms.fmitgliedersearch.MitgliederSeachControler;
 import biz.wittkemper.jfire.utils.FrameUtils;
 import biz.wittkemper.jfire.utils.NumberUtils;
+import biz.wittkemper.jfire.utils.ParameterUtils;
 
 public class FMitgliederVerwaltungController {
 
@@ -62,6 +63,11 @@ public class FMitgliederVerwaltungController {
 			initClass();
 			view.enableImput(false);
 			view.SetFoerderVerein(false);
+			if (ParameterUtils.isMasterDB()){
+				view.setNewUserActice(true);
+			}else{
+				view.setNewUserActice(false);
+			}
 		} catch (PropertyVetoException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -82,6 +88,7 @@ public class FMitgliederVerwaltungController {
 			Mitglied mitglied = DAOFactory.getInstance().getMitgliedDAO()
 					.load(id);
 			if (mitglied != null) {
+				model.setFoerderMitglied(null);
 				model.setMitglied(mitglied);
 				view.setMitgliedLabel("(" + model.getMitglied().getId() + ") "
 						+ model.getMitglied().getVorname() + " "
@@ -94,6 +101,7 @@ public class FMitgliederVerwaltungController {
 							.load(model.getMitglied().getId()));
 					view.SetFoerderVerein(true);
 				} else {
+					model.setFoerderMitglied(null);
 					view.SetFoerderVerein(false);
 				}
 			} else {

@@ -112,6 +112,14 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 	private final JLabel lblAnrede;
 	private final JCheckBox cbRettungsdienst;
 
+	public void setNewUserActice(boolean value){
+		btnNew.setEnabled(value);
+		if (value== false){
+			btnNew.setToolTipText("Neue Mitglieser können nur auf dem Master eingefügt werden");
+		}else{
+			btnNew.setToolTipText("Neues Mitglied einfügen.");
+		}
+	}
 	/**
 	 * Create the frame.
 	 * 

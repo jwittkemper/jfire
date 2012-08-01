@@ -3,6 +3,7 @@ package biz.wittkemper.jfire.service.replication;
 import java.util.List;
 
 import biz.wittkemper.jfire.data.dao.DAOFactory;
+import biz.wittkemper.jfire.data.entity.FoerderMitglied;
 import biz.wittkemper.jfire.data.entity.Mitglied;
 import biz.wittkemper.jfire.data.entity.Replication;
 
@@ -11,7 +12,22 @@ public class ReplicationSlaveImport {
 	public void importReplication(Replication replication) {
 
 		imporMitglieder(replication.getMitglied());
+		importFoerderMitglieder(replication.getFoerdermitglieder());
 
+	}
+
+	private void importFoerderMitglieder(List<FoerderMitglied> foerdermitglieder) {
+		
+		List<FoerderMitglied> flist = DAOFactory.getInstance().getFoerderMitgliedDAO().getAllList();
+		for(FoerderMitglied fm: flist){
+			DAOFactory.getInstance().getFoerderMitgliedDAO().delete(fm);
+		}
+		for(FoerderMitglied fmitglied: foerdermitglieder){
+			Mitglied mg = DAOFactory.getInstance().getMitgliedDAO().getByMasterID(fmitglied.getMitglied().getId());
+			fmitglied.setMitglied(mg);
+			DAOFactory.getInstance().getFoerderMitgliedDAO().save(fmitglied);
+		}
+		
 	}
 
 	private void imporMitglieder(List<Mitglied> mitglieder) {

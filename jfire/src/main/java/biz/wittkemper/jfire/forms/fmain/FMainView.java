@@ -126,9 +126,9 @@ public class FMainView extends JFrame {
 		mntmMitgliederFoerderverein.setActionCommand("adresslisten");
 		mnListen.add(mntmMitgliederFoerderverein);
 
-		mntnJubilaeum = new JMenu("Jubiläen");
+		mntnJubilaeum = new JMenu("Jubil\u00E4en");
 		mnListen.add(mntnJubilaeum);
-		mntnDienstjubilaeum = new JMenuItem("Dienstjubiläen");
+		mntnDienstjubilaeum = new JMenuItem("Dienstjubil\u00E4en");
 		mntnDienstjubilaeum.setActionCommand("dienstjubilaeum");
 		mntnJubilaeum.add(mntnDienstjubilaeum);
 
