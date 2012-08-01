@@ -140,5 +140,19 @@ public class MitgliedDAOImpl extends AbstractDAOImpl<Mitglied, Long> implements
 		return list;
 
 	}
+	
+	public Mitglied getByMasterID(long id){
+		String hql;
 
+		hql = "";
+		hql += " FROM Mitglied a WHERE a.masterId = " + id ;
+		
+		List<Mitglied> list = super.findByQueryString(hql);
+		
+		if (list== null||  list.size()<=0 || list.size()>1){
+			return null;
+		}else{
+			return list.get(0);
+		}
+	}
 }

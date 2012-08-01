@@ -24,6 +24,7 @@
 							<addClasspath>true</addClasspath>
 						</manifest>
 					</archive>
+					 <encoding>UTF-8</encoding>
 				</configuration>
 				<executions>
 					<execution>
@@ -42,8 +43,26 @@
 				<configuration>
 					<source>1.6</source>
 					<target>1.6</target>
+					 <encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>
+			<plugin>
+				<artifactId>maven-eclipse-plugin</artifactId>
+				<version>2.6</version>
+				<configuration>
+					<downloadSources>true</downloadSources>
+					<downloadJavadocs>false</downloadJavadocs>
+					 <encoding>UTF-8</encoding>
+				</configuration>
+			</plugin> 
+			<plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>2.5</version>
+        <configuration>
+          <encoding>UTF-8</encoding>
+        </configuration>
+      </plugin>
 		</plugins>
 	</build>
 

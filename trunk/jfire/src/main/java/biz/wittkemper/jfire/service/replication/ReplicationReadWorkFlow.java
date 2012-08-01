@@ -8,6 +8,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
 import javax.crypto.NoSuchPaddingException;
+import javax.swing.JOptionPane;
 import javax.xml.bind.JAXBException;
 
 import biz.wittkemper.jfire.data.entity.Replication;
@@ -54,6 +55,7 @@ public class ReplicationReadWorkFlow {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		JOptionPane.showMessageDialog(null, "Import erfolgreich durchgelaufen.", "Daten Import", JOptionPane.INFORMATION_MESSAGE + JOptionPane.OK_OPTION);
 	}
 
 	private boolean plausiReplication(Replication replication) {

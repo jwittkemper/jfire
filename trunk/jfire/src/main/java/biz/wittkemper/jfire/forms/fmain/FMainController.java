@@ -27,6 +27,7 @@ import biz.wittkemper.jfire.forms.fdienstjubilaeum.FDienstjubilaeum;
 import biz.wittkemper.jfire.forms.feinsatzliste.FEinsatzliste;
 import biz.wittkemper.jfire.forms.fmitgliederverwaltung.FMitgliederVerwaltungController;
 import biz.wittkemper.jfire.forms.fmitgliederverwaltung.FMitgliederVerwaltungView;
+import biz.wittkemper.jfire.service.replication.ReplicationReadWorkFlow;
 import biz.wittkemper.jfire.service.replication.ReplicationWriteWorkflow;
 import biz.wittkemper.jfire.service.report.ReportService;
 import biz.wittkemper.jfire.service.report.ReportService.REPORTS;
@@ -255,9 +256,9 @@ public class FMainController {
 
 				fc.setFileFilter(new FileNameExtensionFilter(
 						"JFire Daten(*.jfire)", "jfire"));
-				Date date = new Date();
-
-				fc.setSelectedFile(new File("daten.jfire"));
+				String date = DateUtils.getCurDateString(new Date());
+				
+				fc.setSelectedFile(new File("daten_"+ date+".jfire"));
 				int fcr = fc.showSaveDialog(view);
 				if (fcr == JFileChooser.CANCEL_OPTION) {
 					System.out.println("Datenexport, abbruch");
@@ -276,7 +277,9 @@ public class FMainController {
 				}
 
 			} else if (e.getActionCommand().equals("datenimport")) {
-				System.out.println("Datenimport");
+				ReplicationReadWorkFlow readWorkFlow = new ReplicationReadWorkFlow();
+				readWorkFlow.Excecute();
+				loadMitgliederMeldung();
 			}
 
 		}
