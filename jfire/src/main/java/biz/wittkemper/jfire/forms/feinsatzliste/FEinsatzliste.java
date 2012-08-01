@@ -196,6 +196,11 @@ public class FEinsatzliste extends JDialog {
 		EinsatzBlatt blatt8 = new EinsatzBlatt("Blatt 8 (141 - 160)", 141);
 		EinsatzBlatt blatt9 = new EinsatzBlatt("Blatt 9  (161 - 180)", 161);
 		EinsatzBlatt blatt10 = new EinsatzBlatt("Blatt 10 (181 - 200)", 181);
+		EinsatzBlatt blatt11 = new EinsatzBlatt("Blatt 11 (201 - 220)", 201);
+		EinsatzBlatt blatt12 = new EinsatzBlatt("Blatt 12 (221 - 240)", 221);
+		EinsatzBlatt blatt13 = new EinsatzBlatt("Blatt 13 (241 - 260)", 241);
+		EinsatzBlatt blatt14 = new EinsatzBlatt("Blatt 14 (261 - 280)", 261);
+		EinsatzBlatt blatt15 = new EinsatzBlatt("Blatt 15 (281 - 300)", 281);
 
 		cbBlatt2.removeAllItems();
 		cbBlatt2.addItem(blatt1);
@@ -208,5 +213,10 @@ public class FEinsatzliste extends JDialog {
 		cbBlatt2.addItem(blatt8);
 		cbBlatt2.addItem(blatt9);
 		cbBlatt2.addItem(blatt10);
+		cbBlatt2.addItem(blatt11);
+		cbBlatt2.addItem(blatt12);
+		cbBlatt2.addItem(blatt13);
+		cbBlatt2.addItem(blatt14);
+		cbBlatt2.addItem(blatt15);
 	}
 }
