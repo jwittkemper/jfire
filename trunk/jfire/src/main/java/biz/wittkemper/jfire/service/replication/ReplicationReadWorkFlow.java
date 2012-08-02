@@ -11,6 +11,7 @@ import java.security.spec.InvalidKeySpecException;
 import javax.crypto.NoSuchPaddingException;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.xml.bind.JAXBException;
 
 import biz.wittkemper.jfire.data.entity.Replication;
@@ -24,7 +25,8 @@ public class ReplicationReadWorkFlow {
 	public void Excecute(JFrame frame) {
 
 		File file = new File(systemUtils.getOpenFileDialog(
-				"Wo befindet sich die Datei?", false));
+				"Wo befindet sich die Datei?", false,
+				new FileNameExtensionFilter("JFire Daten(*.jfire)", "jfire")));
 
 		if (file != null) {
 			Cursor hourglassCursor = new Cursor(Cursor.WAIT_CURSOR);
