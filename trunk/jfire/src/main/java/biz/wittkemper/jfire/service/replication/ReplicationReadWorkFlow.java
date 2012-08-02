@@ -1,5 +1,6 @@
 package biz.wittkemper.jfire.service.replication;
 
+import java.awt.Cursor;
 import java.io.File;
 import java.io.IOException;
 import java.security.InvalidAlgorithmParameterException;
@@ -8,6 +9,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
 import javax.crypto.NoSuchPaddingException;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.xml.bind.JAXBException;
 
@@ -19,43 +21,106 @@ public class ReplicationReadWorkFlow {
 
 	SystemUtils systemUtils = new SystemUtils();
 
-	public void Excecute() {
+	public void Excecute(JFrame frame) {
 
 		File file = new File(systemUtils.getOpenFileDialog(
 				"Wo befindet sich die Datei?", false));
-		ReplicationRead read = new ReplicationRead();
-		try {
-			Replication replication = read.ReadData(file);
-			if (plausiReplication(replication)) {
-				if (replication.getHerkunft().equals("MASTERDB")) {
-					ReplicationSlaveImport si = new ReplicationSlaveImport();
-					si.importReplication(replication);
+
+		if (file != null) {
+			Cursor hourglassCursor = new Cursor(Cursor.WAIT_CURSOR);
+			Cursor defaultCursor = new Cursor(Cursor.DEFAULT_CURSOR);
+
+			frame.setCursor(hourglassCursor);
+
+			ReplicationRead read = new ReplicationRead();
+			try {
+				Replication replication = read.ReadData(file);
+				if (plausiReplication(replication)) {
+					if (replication.getHerkunft().equals("MASTERDB")) {
+						ReplicationSlaveImport si = new ReplicationSlaveImport();
+						si.importReplication(replication);
+
+						File newFile = new File(file.getAbsolutePath()
+								+ "_imported");
+						file.renameTo(newFile);
+
+						frame.setCursor(defaultCursor);
+						JOptionPane.showMessageDialog(frame,
+								"Import erfolgreich durchgelaufen.",
+								"Daten Import", JOptionPane.INFORMATION_MESSAGE
+										+ JOptionPane.OK_OPTION);
+					} else {
+						ReplicationMasterImport mi = new ReplicationMasterImport();
+						mi.importReplication(replication);
+
+						File newFile = new File(file.getAbsolutePath()
+								+ "_imported");
+						file.renameTo(newFile);
+
+						frame.setCursor(defaultCursor);
+						JOptionPane.showMessageDialog(frame,
+								"Import erfolgreich durchgelaufen.",
+								"Daten Import", JOptionPane.INFORMATION_MESSAGE
+										+ JOptionPane.OK_OPTION);
+					}
+				} else {
+					frame.setCursor(defaultCursor);
+					JOptionPane
+							.showMessageDialog(
+									frame,
+									"Import kann nicht ausgeführt werden. Die Datendatei ist nicht plausibel!",
+									"Import fehlgeschlagen.",
+									JOptionPane.ERROR_MESSAGE
+											+ JOptionPane.OK_OPTION);
 				}
-			} else {
-				System.out.println("File passt nicht zur Datenbank.....");
+			} catch (InvalidKeyException e) {
+				JOptionPane.showMessageDialog(
+						frame,
+						"Import kann nicht ausgeführt werden.\n"
+								+ e.getMessage(), "Import fehlgeschlagen",
+						JOptionPane.ERROR_MESSAGE + JOptionPane.OK_OPTION);
+
+			} catch (NoSuchAlgorithmException e) {
+
+				JOptionPane.showMessageDialog(
+						frame,
+						"Import kann nicht ausgeführt werden.\n"
+								+ e.getMessage(), "Import fehlgeschlagen",
+						JOptionPane.ERROR_MESSAGE + JOptionPane.OK_OPTION);
+			} catch (NoSuchPaddingException e) {
+				JOptionPane.showMessageDialog(
+						frame,
+						"Import kann nicht ausgeführt werden.\n"
+								+ e.getMessage(), "Import fehlgeschlagen",
+						JOptionPane.ERROR_MESSAGE + JOptionPane.OK_OPTION);
+			} catch (InvalidKeySpecException e) {
+				JOptionPane.showMessageDialog(
+						frame,
+						"Import kann nicht ausgeführt werden.\n"
+								+ e.getMessage(), "Import fehlgeschlagen",
+						JOptionPane.ERROR_MESSAGE + JOptionPane.OK_OPTION);
+			} catch (InvalidAlgorithmParameterException e) {
+				JOptionPane.showMessageDialog(
+						frame,
+						"Import kann nicht ausgeführt werden.\n"
+								+ e.getMessage(), "Import fehlgeschlagen",
+						JOptionPane.ERROR_MESSAGE + JOptionPane.OK_OPTION);
+			} catch (IOException e) {
+				JOptionPane.showMessageDialog(
+						frame,
+						"Import kann nicht ausgeführt werden.\n"
+								+ e.getMessage(), "Import fehlgeschlagen",
+						JOptionPane.ERROR_MESSAGE + JOptionPane.OK_OPTION);
+			} catch (JAXBException e) {
+				JOptionPane.showMessageDialog(
+						frame,
+						"Import kann nicht ausgeführt werden.\n"
+								+ e.getMessage(), "Import fehlgeschlagen",
+						JOptionPane.ERROR_MESSAGE + JOptionPane.OK_OPTION);
+			} finally {
+				frame.setCursor(defaultCursor);
 			}
-		} catch (InvalidKeyException e) {
-			e.printStackTrace();
-		} catch (NoSuchAlgorithmException e) {
-
-			e.printStackTrace();
-		} catch (NoSuchPaddingException e) {
-
-			e.printStackTrace();
-		} catch (InvalidKeySpecException e) {
-
-			e.printStackTrace();
-		} catch (InvalidAlgorithmParameterException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (JAXBException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
-		JOptionPane.showMessageDialog(null, "Import erfolgreich durchgelaufen.", "Daten Import", JOptionPane.INFORMATION_MESSAGE + JOptionPane.OK_OPTION);
 	}
 
 	private boolean plausiReplication(Replication replication) {

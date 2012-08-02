@@ -7,25 +7,24 @@ import biz.wittkemper.jfire.data.entity.FoerderMitglied;
 import biz.wittkemper.jfire.data.entity.Mitglied;
 import biz.wittkemper.jfire.data.entity.Replication;
 
-public class ReplicationSlaveImport {
+public class ReplicationMasterImport {
 
 	public void importReplication(Replication replication) {
-
 		imporMitglieder(replication.getMitglied());
 		importFoerderMitglieder(replication.getFoerdermitglieder());
 
 	}
 
 	private void importFoerderMitglieder(List<FoerderMitglied> foerdermitglieder) {
-
 		List<FoerderMitglied> flist = DAOFactory.getInstance()
 				.getFoerderMitgliedDAO().getAllList();
 		for (FoerderMitglied fm : flist) {
 			DAOFactory.getInstance().getFoerderMitgliedDAO().delete(fm);
 		}
+
 		for (FoerderMitglied fmitglied : foerdermitglieder) {
 			Mitglied mg = DAOFactory.getInstance().getMitgliedDAO()
-					.getByMasterID(fmitglied.getMitglied().getId());
+					.load(fmitglied.getMitglied().getMasterId());
 			fmitglied.setMitglied(mg);
 			DAOFactory.getInstance().getFoerderMitgliedDAO().save(fmitglied);
 		}
@@ -37,22 +36,15 @@ public class ReplicationSlaveImport {
 			if (mitgliedAvailable(mitglied)) {
 				updateMitglied(mitglied);
 			} else {
-				saveMitglied(mitglied);
+				// saveMitglied(mitglied);
 			}
 		}
 
 	}
 
-	private void saveMitglied(Mitglied mitglied) {
-		mitglied.setMasterId(mitglied.getId());
-		mitglied.setId(null);
-		DAOFactory.getInstance().getMitgliedDAO().save(mitglied);
-
-	}
-
 	private void updateMitglied(Mitglied mitglied) {
 		Mitglied mg = DAOFactory.getInstance().getMitgliedDAO()
-				.getByMasterID(mitglied.getId());
+				.load(mitglied.getMasterId());
 
 		if (mg != null) {
 			mg.mergeMitglied(mitglied);
@@ -63,19 +55,14 @@ public class ReplicationSlaveImport {
 
 	private boolean mitgliedAvailable(Mitglied mitglied) {
 		boolean lreturn = false;
-		List<Mitglied> mg = DAOFactory
-				.getInstance()
-				.getMitgliedDAO()
-				.findByQueryString(
-						" FROM Mitglied m WHERE m.masterId = "
-								+ mitglied.getId());
-		if (mg == null || mg.size() == 0 || mg.size() > 1) {
-
+		Mitglied mg = DAOFactory.getInstance().getMitgliedDAO()
+				.load(mitglied.getMasterId());
+		if (mg == null) {
+			lreturn = false;
 		} else {
 			lreturn = true;
 		}
 
 		return lreturn;
 	}
-
 }
