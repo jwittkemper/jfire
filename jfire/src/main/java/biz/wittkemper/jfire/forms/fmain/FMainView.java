@@ -66,7 +66,7 @@ public class FMainView extends JFrame {
 	}
 
 	private void initForm() {
-		setTitle("StationManager");
+		setTitle("JFIRE");
 		setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -81,7 +81,7 @@ public class FMainView extends JFrame {
 		mnDatenImport.setActionCommand("datenimport");
 		mnDaten.add(mnDatenImport);
 		mnDaten.add(mnDatenExport);
-		menuBar.add(mnDaten);
+		mnDatei.add(mnDaten);
 
 		mntmBeenden = new JMenuItem("beenden");
 		mnDatei.add(mntmBeenden);
@@ -160,8 +160,8 @@ public class FMainView extends JFrame {
 		mntnDienstjubilaeum.addActionListener(al);
 		mntnEinsatzListeL.addActionListener(al);
 		mntnEinsatzListeR.addActionListener(al);
-		 mnDatenImport.addActionListener(al);
-		 mnDatenExport.addActionListener(al);
+		mnDatenImport.addActionListener(al);
+		mnDatenExport.addActionListener(al);
 	}
 
 	protected void setBeendenListener(ActionListener al) {

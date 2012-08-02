@@ -12,6 +12,7 @@ import java.util.Properties;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.hibernate.Transaction;
 
@@ -76,10 +77,18 @@ public class SystemUtils {
 		return true;
 	}
 
-	public String getOpenFileDialog(String title, boolean directories_only) {
+	public String getOpenFileDialog(String title, boolean directories_only,
+			FileNameExtensionFilter filter) {
 		JFileChooser chooser = new JFileChooser();
 		chooser.setDialogTitle(title);
 		chooser.setAcceptAllFileFilterUsed(false);
+
+		if (filter != null) {
+			chooser.setFileFilter(filter);
+		}
+		chooser.setFileFilter(new FileNameExtensionFilter(
+				"JFire Daten(*.jfire)", "jfire"));
+
 		if (directories_only) {
 			chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		} else {
