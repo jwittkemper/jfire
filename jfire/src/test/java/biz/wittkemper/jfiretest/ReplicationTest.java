@@ -36,7 +36,7 @@ public class ReplicationTest {
 	@Test
 	public void testRead() {
 		ReplicationReadWorkFlow readWorkFlow = new ReplicationReadWorkFlow();
-		readWorkFlow.Excecute();
+		readWorkFlow.Excecute(null);
 	}
 
 	@Ignore
