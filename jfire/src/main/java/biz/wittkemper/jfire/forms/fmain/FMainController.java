@@ -257,8 +257,8 @@ public class FMainController {
 				fc.setFileFilter(new FileNameExtensionFilter(
 						"JFire Daten(*.jfire)", "jfire"));
 				String date = DateUtils.getCurDateString(new Date());
-				
-				fc.setSelectedFile(new File("daten_"+ date+".jfire"));
+
+				fc.setSelectedFile(new File("daten_" + date + ".jfire"));
 				int fcr = fc.showSaveDialog(view);
 				if (fcr == JFileChooser.CANCEL_OPTION) {
 					System.out.println("Datenexport, abbruch");
@@ -278,7 +278,7 @@ public class FMainController {
 
 			} else if (e.getActionCommand().equals("datenimport")) {
 				ReplicationReadWorkFlow readWorkFlow = new ReplicationReadWorkFlow();
-				readWorkFlow.Excecute();
+				readWorkFlow.Excecute(view);
 				loadMitgliederMeldung();
 			}
 

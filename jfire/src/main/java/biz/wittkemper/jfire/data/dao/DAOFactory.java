@@ -1,23 +1,24 @@
 package biz.wittkemper.jfire.data.dao;
 
+
 public class DAOFactory {
-	
+
 	private static DAOFactory daoFactory;
-	
+
 	MitgliedDAO mitgliedDAO = new MitgliedDAOImpl();
 	MitgliedStatusDAO mitgliedStatusDAO = new MitgliedStatusDAOImpl();
 	FoerderMitgliedDAO foerderMitgliedDAO = new FoerderMitgliedDAOImpl();
 	ParameterDAO parameterDAO = new ParameterDAOImpl();
 	AnredeDAO anredeDAO = new AnredeDAOImpl();
 
-	private DAOFactory(){
+	private DAOFactory() {
 	}
-	
-	static{
+
+	static {
 		daoFactory = new DAOFactory();
 	}
-	
-	public static DAOFactory getInstance(){
+
+	public static DAOFactory getInstance() {
 		return daoFactory;
 	}
 
@@ -60,5 +61,5 @@ public class DAOFactory {
 	public void setAnredeDAO(AnredeDAO anredeDAO) {
 		this.anredeDAO = anredeDAO;
 	}
-	
+
 }

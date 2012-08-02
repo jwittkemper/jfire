@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -213,4 +214,24 @@ public class Mitglied implements Serializable {
 		this.rettungsdienst = rettungsdienst;
 	}
 
+	@Transient
+	public void mergeMitglied(Mitglied mg) {
+		this.setAnrede(mg.getAnrede());
+		this.setEintritt(mg.getEintritt());
+		this.seteMail(mg.geteMail());
+		this.setGebDatum(mg.getGebDatum());
+		this.setGeloescht(mg.isGeloescht());
+		this.setLastChange(mg.getLastChange());
+		this.setMasterInsert(mg.getMasterInsert());
+		this.setName(mg.getName());
+		this.setOrt(mg.getOrt());
+		this.setPlz(mg.getPlz());
+		this.setRettungsdienst(mg.isRettungsdienst());
+		this.setStatus(mg.getStatus());
+		this.setStrasseNr(mg.getStrasseNr());
+		this.setTelefonDienst(mg.getTelefonDienst());
+		this.setTelefonPrivatFest(mg.getTelefonPrivatFest());
+		this.setTelefonPrivatMobil(mg.getTelefonPrivatMobil());
+		this.setVorname(mg.getVorname());
+	}
 }

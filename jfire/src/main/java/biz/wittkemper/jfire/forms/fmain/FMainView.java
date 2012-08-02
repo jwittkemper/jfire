@@ -160,8 +160,8 @@ public class FMainView extends JFrame {
 		mntnDienstjubilaeum.addActionListener(al);
 		mntnEinsatzListeL.addActionListener(al);
 		mntnEinsatzListeR.addActionListener(al);
-		// mnDatenImport.addActionListener(al);
-		// mnDatenExport.addActionListener(al);
+		 mnDatenImport.addActionListener(al);
+		 mnDatenExport.addActionListener(al);
 	}
 
 	protected void setBeendenListener(ActionListener al) {
