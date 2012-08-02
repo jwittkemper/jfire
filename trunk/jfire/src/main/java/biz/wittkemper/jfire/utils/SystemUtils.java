@@ -30,7 +30,7 @@ public class SystemUtils {
 		Properties configFile = loadConfigFile();
 
 		if (configFile != null) {
-			String pfad = getDBPfad() + "/seg0";
+			String pfad = getDBPfad() + File.separator + "seg0";
 			File file = new File(pfad);
 			try {
 				if (file.exists()) {
@@ -42,8 +42,8 @@ public class SystemUtils {
 
 		} else {
 
-			lreturn = newConfigFile();
-			String pfad = getDBPfad() + "/seg0";
+			newConfigFile();
+			String pfad = getDBPfad() + File.separator + "seg0";
 			File file = new File(pfad);
 			try {
 				if (file.exists()) {

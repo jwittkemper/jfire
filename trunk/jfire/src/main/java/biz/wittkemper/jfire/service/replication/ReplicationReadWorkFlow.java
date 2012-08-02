@@ -15,6 +15,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.xml.bind.JAXBException;
 
 import biz.wittkemper.jfire.data.entity.Replication;
+import biz.wittkemper.jfire.utils.DateUtils;
 import biz.wittkemper.jfire.utils.ParameterUtils;
 import biz.wittkemper.jfire.utils.SystemUtils;
 
@@ -42,8 +43,13 @@ public class ReplicationReadWorkFlow {
 						ReplicationSlaveImport si = new ReplicationSlaveImport();
 						si.importReplication(replication);
 
-						File newFile = new File(file.getAbsolutePath()
-								+ "_imported");
+						String newName = DateUtils.getCurDateString();
+						newName = newName.replace(".", "-");
+						newName = newName.replace(":", "-");
+						newName = newName.replace(" ", "_");
+						newName = file.getAbsolutePath() + "_imported"
+								+ newName;
+						File newFile = new File(newName);
 						file.renameTo(newFile);
 
 						frame.setCursor(defaultCursor);
@@ -55,8 +61,13 @@ public class ReplicationReadWorkFlow {
 						ReplicationMasterImport mi = new ReplicationMasterImport();
 						mi.importReplication(replication);
 
-						File newFile = new File(file.getAbsolutePath()
-								+ "_imported");
+						String newName = DateUtils.getCurDateString();
+						newName = newName.replace(".", "-");
+						newName = newName.replace(":", "-");
+						newName = newName.replace(" ", "_");
+						newName = file.getAbsolutePath() + "_imported"
+								+ newName;
+						File newFile = new File(newName);
 						file.renameTo(newFile);
 
 						frame.setCursor(defaultCursor);
