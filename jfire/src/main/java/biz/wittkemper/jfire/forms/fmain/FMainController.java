@@ -47,9 +47,9 @@ public class FMainController {
 	}
 
 	private void loadMitgliederMeldung() {
+
 		LoadData data = new LoadData();
 		data.run();
-
 	}
 
 	private void initListener() {
@@ -318,24 +318,18 @@ public class FMainController {
 		@Override
 		public void run() {
 
-			try {
+			int aktive = 0;
+			int reserve = 0;
+			int passive = 0;
 
-				int aktive = 0;
-				int reserve = 0;
-				int passive = 0;
+			aktive = DAOFactory.getInstance().getMitgliedDAO().getAktive();
+			reserve = DAOFactory.getInstance().getMitgliedDAO().getReserve();
+			passive = DAOFactory.getInstance().getFoerderMitgliedDAO().getAll();
+			String text = "Aktive Mitglieder: " + aktive + "; ";
+			text += "Reservezug: " + reserve + "; ";
+			text += "Förderer: " + passive + " ";
 
-				aktive = DAOFactory.getInstance().getMitgliedDAO().getAktive();
-				reserve = DAOFactory.getInstance().getMitgliedDAO()
-						.getReserve();
-				passive = DAOFactory.getInstance().getFoerderMitgliedDAO()
-						.getAll();
-				String text = "Aktive Mitglieder: " + aktive + "; ";
-				text += "Reservezug: " + reserve + "; ";
-				text += "Förderer: " + passive + " ";
-
-				view.setMitgliederMeldung(text);
-			} catch (Exception e) {
-			}
+			view.setMitgliederMeldung(text);
 
 		}
 	}
