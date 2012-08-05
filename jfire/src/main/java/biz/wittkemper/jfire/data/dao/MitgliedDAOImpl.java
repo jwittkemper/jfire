@@ -3,6 +3,10 @@ package biz.wittkemper.jfire.data.dao;
 import java.util.Date;
 import java.util.List;
 
+import org.hibernate.Query;
+import org.hibernate.Transaction;
+import org.hibernate.classic.Session;
+
 import biz.wittkemper.jfire.data.entity.Mitglied;
 import biz.wittkemper.jfire.utils.ParameterUtils;
 
@@ -12,12 +16,14 @@ public class MitgliedDAOImpl extends AbstractDAOImpl<Mitglied, Long> implements
 	@Override
 	public void merge(Mitglied mitglied) {
 		mitglied.setLastChange(new Date());
+		mitglied.setEdit(true);
 		super.merge(mitglied);
 	}
 
 	@Override
 	public void update(Mitglied mitglied) {
 		mitglied.setLastChange(new Date());
+		mitglied.setEdit(true);
 		super.update(mitglied);
 	}
 
@@ -27,6 +33,7 @@ public class MitgliedDAOImpl extends AbstractDAOImpl<Mitglied, Long> implements
 			mitglied.setMasterInsert(new Date());
 		}
 		mitglied.setLastChange(new Date());
+		mitglied.setEdit(true);
 		super.save(mitglied);
 	}
 
@@ -106,7 +113,7 @@ public class MitgliedDAOImpl extends AbstractDAOImpl<Mitglied, Long> implements
 		if (list.size() > 1) {
 			return list.get(1);
 		}
-		if (list.size()== 1) {
+		if (list.size() == 1) {
 			return list.get(0);
 		} else {
 			return new Mitglied();
@@ -140,19 +147,32 @@ public class MitgliedDAOImpl extends AbstractDAOImpl<Mitglied, Long> implements
 		return list;
 
 	}
-	
-	public Mitglied getByMasterID(long id){
+
+	@Override
+	public Mitglied getByMasterID(long id) {
 		String hql;
 
 		hql = "";
-		hql += " FROM Mitglied a WHERE a.masterId = " + id ;
-		
+		hql += " FROM Mitglied a WHERE a.masterId = " + id;
+
 		List<Mitglied> list = super.findByQueryString(hql);
-		
-		if (list== null||  list.size()<=0 || list.size()>1){
+
+		if (list == null || list.size() <= 0 || list.size() > 1) {
 			return null;
-		}else{
+		} else {
 			return list.get(0);
 		}
+	}
+
+	@Override
+	public void resetEdit() {
+		String hql = "";
+
+		hql += "Update Mitglied set edit=0 where edit =1";
+		Session session = SessionFactotyUtil.getInstance().getCurrentSession();
+		Transaction trx = session.beginTransaction();
+		Query query = session.createQuery(hql);
+		query.executeUpdate();
+		trx.commit();
 	}
 }

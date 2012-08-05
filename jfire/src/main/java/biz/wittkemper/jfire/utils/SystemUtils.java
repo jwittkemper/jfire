@@ -172,7 +172,7 @@ public class SystemUtils {
 
 		Parameter dbversion = new Parameter();
 		dbversion.setBezeichnung("DBVERSION");
-		dbversion.setValue("2");
+		dbversion.setValue("3");
 
 		DAOFactory.getInstance().getParameterDAO().save(dbtyp);
 		DAOFactory.getInstance().getParameterDAO().save(dbversion);
@@ -182,7 +182,37 @@ public class SystemUtils {
 		switch (ParameterUtils.getDBVersion()) {
 		case 1:
 			setVersion2();
+		case 2:
+			setVersion3();
 		}
+	}
+
+	private void setVersion3() {
+
+		Transaction tx = SessionFactotyUtil.getInstance().getCurrentSession()
+				.beginTransaction();
+
+		try {
+			String sql = "";
+			sql = "ALTER TABLE MITGLIED add edit SMALLINT NOT NULL DEFAULT 0";
+			executeSQL(sql);
+
+			setDBVersion(3);
+
+		} catch (SQLException e) {
+			tx.rollback();
+			JOptionPane.showConfirmDialog(null,
+					"Update fehlgeschlagen!\n" + e.getMessage(),
+					"Fehler beim Update", JOptionPane.ERROR_MESSAGE
+							+ JOptionPane.OK_OPTION);
+		}
+	}
+
+	private void setDBVersion(int value) throws SQLException {
+		String sql;
+		sql = "Update Parameter set VALUE = '" + value
+				+ "' WHERE BEZEICHNUNG = 'DBVERSION'";
+		executeSQL(sql);
 	}
 
 	private void setVersion2() {
@@ -194,8 +224,7 @@ public class SystemUtils {
 			String sql = "";
 			sql = "ALTER TABLE MITGLIED add rettungsdienst SMALLINT NOT NULL DEFAULT 0";
 			executeSQL(sql);
-			sql = "Update Parameter set VALUE = '2' WHERE BEZEICHNUNG = 'DBVERSION'";
-			executeSQL(sql);
+			setDBVersion(2);
 			tx.commit();
 		} catch (SQLException e) {
 			tx.rollback();

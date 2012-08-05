@@ -858,6 +858,11 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 		ISearch.addKeyListener(listener);
 	}
 
+	protected void setSeachButtonListener(ActionListener listener) {
+		bsearch.addActionListener(listener);
+		bsearch.setActionCommand("search");
+	}
+
 	protected void setDeleteListener(ActionListener listener) {
 		btnDel.addActionListener(listener);
 	}

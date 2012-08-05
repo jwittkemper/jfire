@@ -12,12 +12,14 @@ public interface MitgliedDAO extends
 	int getAktive();
 
 	int getReserve();
-	
+
 	Mitglied getNext(long id);
-	
+
 	Mitglied getPrev(long id);
 
 	List<Mitglied> searchByName(String[] names, boolean onlyaktiv);
-	
+
 	public Mitglied getByMasterID(long id);
+
+	public void resetEdit();
 }
