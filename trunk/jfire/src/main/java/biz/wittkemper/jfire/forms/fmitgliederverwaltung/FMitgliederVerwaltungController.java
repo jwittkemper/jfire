@@ -5,24 +5,21 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.beans.PropertyVetoException;
+
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
-
-import org.apache.poi.hssf.record.formula.functions.Islogical;
-import org.apache.poi.hssf.record.formula.functions.Setvalue;
-
-import com.jgoodies.validation.ValidationResult;
-import com.jgoodies.validation.view.ValidationComponentUtils;
 
 import biz.wittkemper.jfire.data.dao.DAOFactory;
 import biz.wittkemper.jfire.data.entity.FoerderMitglied;
 import biz.wittkemper.jfire.data.entity.Mitglied;
 import biz.wittkemper.jfire.data.validation.MitgliedValidator;
-import biz.wittkemper.jfire.forms.fmitgliedersearch.FmitgliederSearrch;
 import biz.wittkemper.jfire.forms.fmitgliedersearch.MitgliederSeachControler;
 import biz.wittkemper.jfire.utils.FrameUtils;
 import biz.wittkemper.jfire.utils.NumberUtils;
 import biz.wittkemper.jfire.utils.ParameterUtils;
+
+import com.jgoodies.validation.ValidationResult;
+import com.jgoodies.validation.view.ValidationComponentUtils;
 
 public class FMitgliederVerwaltungController {
 
@@ -63,9 +60,9 @@ public class FMitgliederVerwaltungController {
 			initClass();
 			view.enableImput(false);
 			view.SetFoerderVerein(false);
-			if (ParameterUtils.isMasterDB()){
+			if (ParameterUtils.isMasterDB()) {
 				view.setNewUserActice(true);
-			}else{
+			} else {
 				view.setNewUserActice(false);
 			}
 		} catch (PropertyVetoException e) {
@@ -124,6 +121,7 @@ public class FMitgliederVerwaltungController {
 		this.view.setSeachListener(new SeachListener());
 		this.view.setSeachKeyListener(searchKey);
 		this.view.setDeleteListener(new DeleteListener());
+		this.view.setSeachButtonListener(new SeachListener());
 	}
 
 	public JInternalFrame getFrame() throws PropertyVetoException {

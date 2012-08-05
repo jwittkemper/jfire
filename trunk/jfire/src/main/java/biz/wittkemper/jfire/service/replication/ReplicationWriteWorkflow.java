@@ -32,11 +32,19 @@ public class ReplicationWriteWorkflow {
 	}
 
 	private void getMitglieder(Replication replication) {
-		List<Mitglied> mitglieds = DAOFactory.getInstance().getMitgliedDAO()
-				.findByQueryString("From Mitglied where 1=1");
+		List<Mitglied> mitglieds;
+		if (ParameterUtils.isMasterDB() != true) {
+			mitglieds = DAOFactory.getInstance().getMitgliedDAO()
+					.findByQueryString("From Mitglied where edit=1");
 
+		} else {
+
+			mitglieds = DAOFactory.getInstance().getMitgliedDAO()
+					.findByQueryString("From Mitglied where 1=1");
+
+		}
 		replication.setMitglied(mitglieds);
-
+		DAOFactory.getInstance().getMitgliedDAO().resetEdit();
 	}
 
 	private void getdReplicationProperty(Replication replication) {

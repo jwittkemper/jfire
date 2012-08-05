@@ -49,6 +49,7 @@ public class Mitglied implements Serializable {
 	Date lastChange = new Date();
 	boolean geloescht;
 	boolean rettungsdienst;
+	boolean edit;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -233,5 +234,13 @@ public class Mitglied implements Serializable {
 		this.setTelefonPrivatFest(mg.getTelefonPrivatFest());
 		this.setTelefonPrivatMobil(mg.getTelefonPrivatMobil());
 		this.setVorname(mg.getVorname());
+	}
+
+	public boolean isEdit() {
+		return edit;
+	}
+
+	public void setEdit(boolean edit) {
+		this.edit = edit;
 	}
 }
