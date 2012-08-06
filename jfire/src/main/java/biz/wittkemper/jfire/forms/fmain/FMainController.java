@@ -21,6 +21,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import net.sf.jasperreports.engine.JRException;
 import biz.wittkemper.jfire.data.dao.DAOFactory;
+import biz.wittkemper.jfire.data.dao.HibernateSession;
 import biz.wittkemper.jfire.forms.fAdressliste.FAdressliste;
 import biz.wittkemper.jfire.forms.fanwesenheit.FAnwesenheit;
 import biz.wittkemper.jfire.forms.fdienstjubilaeum.FDienstjubilaeum;
@@ -48,8 +49,10 @@ public class FMainController {
 
 	private void loadMitgliederMeldung() {
 
+		HibernateSession.beginTransaction();
 		LoadData data = new LoadData();
 		data.run();
+		HibernateSession.commitTransaction();
 	}
 
 	private void initListener() {
@@ -264,15 +267,7 @@ public class FMainController {
 					System.out.println("Datenexport, abbruch");
 				} else {
 					ReplicationWriteWorkflow workflow = new ReplicationWriteWorkflow();
-					try {
-						workflow.Excecute(fc.getSelectedFile());
-						JOptionPane.showMessageDialog(view,
-								"Daten erfolgreich exportiert", "Datenexport",
-								JOptionPane.INFORMATION_MESSAGE);
-					} catch (Exception e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+					workflow.Excecute(fc.getSelectedFile(), view);
 					System.out.println(fc.getSelectedFile());
 				}
 

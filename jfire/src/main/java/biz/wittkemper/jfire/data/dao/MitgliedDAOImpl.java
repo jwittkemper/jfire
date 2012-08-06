@@ -4,8 +4,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Query;
-import org.hibernate.Transaction;
-import org.hibernate.classic.Session;
 
 import biz.wittkemper.jfire.data.entity.Mitglied;
 import biz.wittkemper.jfire.utils.ParameterUtils;
@@ -169,10 +167,8 @@ public class MitgliedDAOImpl extends AbstractDAOImpl<Mitglied, Long> implements
 		String hql = "";
 
 		hql += "Update Mitglied set edit=0 where edit =1";
-		Session session = SessionFactotyUtil.getInstance().getCurrentSession();
-		Transaction trx = session.beginTransaction();
-		Query query = session.createQuery(hql);
+
+		Query query = HibernateSession.getCurrentSession().createQuery(hql);
 		query.executeUpdate();
-		trx.commit();
 	}
 }

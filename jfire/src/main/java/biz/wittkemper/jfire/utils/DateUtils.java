@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import biz.wittkemper.jfire.data.dao.DAOFactory;
+import biz.wittkemper.jfire.data.dao.HibernateSession;
 import biz.wittkemper.jfire.data.entity.Mitglied;
 
 public class DateUtils {
@@ -55,9 +56,10 @@ public class DateUtils {
 			hql += " and Month(m.gebDatum) IN (" + monate + ") ";
 			hql += " Order by Month(m.gebDatum), DAY(m.gebDatum)";
 
+			HibernateSession.beginTransaction();
 			List<Mitglied> liste = DAOFactory.getInstance().getMitgliedDAO()
 					.findByQueryString(hql);
-
+			HibernateSession.commitTransaction();
 			if (liste.size() > 0) {
 				for (Mitglied m : liste) {
 					cal1.setTime(m.getGebDatum());

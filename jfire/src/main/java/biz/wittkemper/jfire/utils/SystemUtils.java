@@ -17,7 +17,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import org.hibernate.Transaction;
 
 import biz.wittkemper.jfire.data.dao.DAOFactory;
-import biz.wittkemper.jfire.data.dao.SessionFactotyUtil;
+import biz.wittkemper.jfire.data.dao.HibernateSession;
 import biz.wittkemper.jfire.data.entity.Anrede;
 import biz.wittkemper.jfire.data.entity.MitgliedStatus;
 import biz.wittkemper.jfire.data.entity.Parameter;
@@ -189,7 +189,7 @@ public class SystemUtils {
 
 	private void setVersion3() {
 
-		Transaction tx = SessionFactotyUtil.getInstance().getCurrentSession()
+		Transaction tx = HibernateSession.getInstance().getCurrentSession()
 				.beginTransaction();
 
 		try {
@@ -217,7 +217,7 @@ public class SystemUtils {
 
 	private void setVersion2() {
 
-		Transaction tx = SessionFactotyUtil.getInstance().getCurrentSession()
+		Transaction tx = HibernateSession.getInstance().getCurrentSession()
 				.beginTransaction();
 
 		try {
@@ -238,7 +238,7 @@ public class SystemUtils {
 
 	private void executeSQL(String sql) throws SQLException {
 
-		Connection con = SessionFactotyUtil.getInstance().getCurrentSession()
+		Connection con = HibernateSession.getInstance().getCurrentSession()
 				.connection();
 
 		Statement st = con.createStatement();

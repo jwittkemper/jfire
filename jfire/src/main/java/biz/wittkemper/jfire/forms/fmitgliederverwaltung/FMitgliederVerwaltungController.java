@@ -10,6 +10,7 @@ import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 
 import biz.wittkemper.jfire.data.dao.DAOFactory;
+import biz.wittkemper.jfire.data.dao.HibernateSession;
 import biz.wittkemper.jfire.data.entity.FoerderMitglied;
 import biz.wittkemper.jfire.data.entity.Mitglied;
 import biz.wittkemper.jfire.data.validation.MitgliedValidator;
@@ -82,6 +83,7 @@ public class FMitgliederVerwaltungController {
 	private void loadData(Long id) {
 
 		if (id != null && id > 0) {
+			HibernateSession.beginTransaction();
 			Mitglied mitglied = DAOFactory.getInstance().getMitgliedDAO()
 					.load(id);
 			if (mitglied != null) {
@@ -107,6 +109,7 @@ public class FMitgliederVerwaltungController {
 				view.SetFoerderVerein(false);
 				view.enableImput(false);
 			}
+			HibernateSession.commitTransaction();
 		}
 	}
 
@@ -162,24 +165,30 @@ public class FMitgliederVerwaltungController {
 
 	private void speicherMitglied() {
 		view.trigger.triggerCommit();
-		if (viewmode == EDITMODE.NEW) {
-			DAOFactory.getInstance().getMitgliedDAO()
-					.save(this.model.getMitglied());
-			loadData(model.getMitglied().getId());
-		} else if (viewmode == EDITMODE.EDIT) {
-			DAOFactory.getInstance().getMitgliedDAO()
-					.update(this.model.getMitglied());
-			if (model.getFoerderMitglied() != null) {
-				if (DAOFactory.getInstance().getFoerderMitgliedDAO()
-						.EintragDa(model.getMitglied().getId())) {
-					DAOFactory.getInstance().getFoerderMitgliedDAO()
-							.update(model.getFoerderMitglied());
-				} else {
-					DAOFactory.getInstance().getFoerderMitgliedDAO()
-							.save(model.getFoerderMitglied());
-				}
+		HibernateSession.beginTransaction();
+		try {
+			if (viewmode == EDITMODE.NEW) {
+				DAOFactory.getInstance().getMitgliedDAO()
+						.save(this.model.getMitglied());
+				loadData(model.getMitglied().getId());
+			} else if (viewmode == EDITMODE.EDIT) {
+				DAOFactory.getInstance().getMitgliedDAO()
+						.update(this.model.getMitglied());
+				if (model.getFoerderMitglied() != null) {
+					if (DAOFactory.getInstance().getFoerderMitgliedDAO()
+							.EintragDa(model.getMitglied().getId())) {
+						DAOFactory.getInstance().getFoerderMitgliedDAO()
+								.update(model.getFoerderMitglied());
+					} else {
+						DAOFactory.getInstance().getFoerderMitgliedDAO()
+								.save(model.getFoerderMitglied());
+					}
 
+				}
 			}
+			HibernateSession.commitTransaction();
+		} catch (Exception e) {
+			HibernateSession.rollbackTransaction();
 		}
 	}
 
@@ -191,12 +200,15 @@ public class FMitgliederVerwaltungController {
 			id = model.getMitglied().getId();
 		}
 		if (richtung.equals("left")) {
-
+			HibernateSession.beginTransaction();
 			loadData(DAOFactory.getInstance().getMitgliedDAO().getPrev(id)
 					.getId());
+			HibernateSession.commitTransaction();
 		} else if (richtung.equals("right")) {
+			HibernateSession.beginTransaction();
 			loadData(DAOFactory.getInstance().getMitgliedDAO().getNext(id)
 					.getId());
+			HibernateSession.commitTransaction();
 		}
 		view.repaint();
 	}
@@ -212,8 +224,9 @@ public class FMitgliederVerwaltungController {
 						JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION) {
 					Mitglied mitglied = model.getMitglied();
 					mitglied.setGeloescht(true);
-
+					HibernateSession.beginTransaction();
 					DAOFactory.getInstance().getMitgliedDAO().update(mitglied);
+					HibernateSession.commitTransaction();
 					sucheNaechstesMitglied("right");
 				}
 			}

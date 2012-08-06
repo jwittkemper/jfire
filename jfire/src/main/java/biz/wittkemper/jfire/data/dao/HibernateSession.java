@@ -8,7 +8,7 @@ import org.hibernate.cfg.AnnotationConfiguration;
 
 import biz.wittkemper.jfire.utils.SystemUtils;
 
-public class SessionFactotyUtil {
+public class HibernateSession {
 	private static SystemUtils systemUtils = new SystemUtils();
 
 	private static SessionFactory sessionFactory;
@@ -16,7 +16,7 @@ public class SessionFactotyUtil {
 	/**
 	 * disable contructor to guaranty a single instance
 	 */
-	private SessionFactotyUtil() {
+	private HibernateSession() {
 	}
 
 	static {
@@ -79,7 +79,7 @@ public class SessionFactotyUtil {
 	 * 
 	 * @return the session
 	 */
-	public Session openSession() {
+	public static Session openSession() {
 		return sessionFactory.openSession();
 	}
 
@@ -94,7 +94,7 @@ public class SessionFactotyUtil {
 	 * 
 	 * @return the session
 	 */
-	public Session getCurrentSession() {
+	public static Session getCurrentSession() {
 		return sessionFactory.getCurrentSession();
 	}
 
@@ -106,5 +106,23 @@ public class SessionFactotyUtil {
 			sessionFactory.close();
 		sessionFactory = null;
 
+	}
+
+	public static Session beginTransaction() {
+		Session hibernateSession = HibernateSession.getCurrentSession();
+		if (!hibernateSession.getTransaction().isActive()) {
+			hibernateSession.beginTransaction();
+		}
+		return hibernateSession;
+	}
+
+	public static void commitTransaction() {
+		if (HibernateSession.getCurrentSession().getTransaction().isActive()) {
+			HibernateSession.getCurrentSession().getTransaction().commit();
+		}
+	}
+
+	public static void rollbackTransaction() {
+		HibernateSession.getCurrentSession().getTransaction().rollback();
 	}
 }
