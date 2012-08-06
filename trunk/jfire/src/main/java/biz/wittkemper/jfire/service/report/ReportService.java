@@ -28,7 +28,7 @@ import net.sf.jasperreports.view.JasperViewer;
 import org.hibernate.Transaction;
 import org.jfree.ui.ExtensionFileFilter;
 
-import biz.wittkemper.jfire.data.dao.SessionFactotyUtil;
+import biz.wittkemper.jfire.data.dao.HibernateSession;
 import biz.wittkemper.jfire.data.entity.Report;
 import biz.wittkemper.jfire.utils.DateUtils;
 
@@ -54,9 +54,9 @@ public class ReportService {
 		JasperReport jasperReport = JasperCompileManager
 				.compileReport(jasperDesign);
 
-		Transaction tx = SessionFactotyUtil.getInstance().getCurrentSession()
+		Transaction tx = HibernateSession.getInstance().getCurrentSession()
 				.beginTransaction();
-		Connection con = SessionFactotyUtil.getInstance().getCurrentSession()
+		Connection con = HibernateSession.getInstance().getCurrentSession()
 				.connection();
 
 		int res;

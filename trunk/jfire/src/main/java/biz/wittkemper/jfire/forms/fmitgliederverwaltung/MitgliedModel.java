@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import biz.wittkemper.jfire.data.dao.DAOFactory;
+import biz.wittkemper.jfire.data.dao.HibernateSession;
 import biz.wittkemper.jfire.data.entity.Anrede;
 import biz.wittkemper.jfire.data.entity.FoerderMitglied;
 import biz.wittkemper.jfire.data.entity.Mitglied;
@@ -235,15 +236,18 @@ public class MitgliedModel {
 	}
 
 	public List<Anrede> getAnreden() {
+		HibernateSession.beginTransaction();
 		anreden = DAOFactory.getInstance().getAnredeDAO()
 				.findByQueryString("From Anrede a");
+		HibernateSession.commitTransaction();
 		return anreden;
 	}
 
 	public List<MitgliedStatus> getMitgliedStatuse() {
-
+		HibernateSession.beginTransaction();
 		mitgliedStatuse = DAOFactory.getInstance().getMitgliedStatusDAO()
 				.findByQueryString("From MitgliedStatus a");
+		HibernateSession.commitTransaction();
 		return mitgliedStatuse;
 	}
 

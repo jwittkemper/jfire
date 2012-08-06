@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.xml.bind.JAXBException;
 
+import biz.wittkemper.jfire.data.dao.HibernateSession;
 import biz.wittkemper.jfire.data.entity.Replication;
 import biz.wittkemper.jfire.utils.DateUtils;
 import biz.wittkemper.jfire.utils.ParameterUtils;
@@ -36,6 +37,7 @@ public class ReplicationReadWorkFlow {
 			frame.setCursor(hourglassCursor);
 
 			ReplicationRead read = new ReplicationRead();
+			HibernateSession.beginTransaction();
 			try {
 				Replication replication = read.ReadData(file);
 				if (plausiReplication(replication)) {
@@ -51,7 +53,7 @@ public class ReplicationReadWorkFlow {
 								+ newName;
 						File newFile = new File(newName);
 						file.renameTo(newFile);
-
+						HibernateSession.commitTransaction();
 						frame.setCursor(defaultCursor);
 						JOptionPane.showMessageDialog(frame,
 								"Import erfolgreich durchgelaufen.",
@@ -69,7 +71,7 @@ public class ReplicationReadWorkFlow {
 								+ newName;
 						File newFile = new File(newName);
 						file.renameTo(newFile);
-
+						HibernateSession.commitTransaction();
 						frame.setCursor(defaultCursor);
 						JOptionPane.showMessageDialog(frame,
 								"Import erfolgreich durchgelaufen.",
@@ -77,6 +79,7 @@ public class ReplicationReadWorkFlow {
 										+ JOptionPane.OK_OPTION);
 					}
 				} else {
+					HibernateSession.rollbackTransaction();
 					frame.setCursor(defaultCursor);
 					JOptionPane
 							.showMessageDialog(
@@ -87,6 +90,7 @@ public class ReplicationReadWorkFlow {
 											+ JOptionPane.OK_OPTION);
 				}
 			} catch (InvalidKeyException e) {
+				HibernateSession.rollbackTransaction();
 				JOptionPane.showMessageDialog(
 						frame,
 						"Import kann nicht ausgeführt werden.\n"
@@ -94,37 +98,42 @@ public class ReplicationReadWorkFlow {
 						JOptionPane.ERROR_MESSAGE + JOptionPane.OK_OPTION);
 
 			} catch (NoSuchAlgorithmException e) {
-
+				HibernateSession.rollbackTransaction();
 				JOptionPane.showMessageDialog(
 						frame,
 						"Import kann nicht ausgeführt werden.\n"
 								+ e.getMessage(), "Import fehlgeschlagen",
 						JOptionPane.ERROR_MESSAGE + JOptionPane.OK_OPTION);
 			} catch (NoSuchPaddingException e) {
+				HibernateSession.rollbackTransaction();
 				JOptionPane.showMessageDialog(
 						frame,
 						"Import kann nicht ausgeführt werden.\n"
 								+ e.getMessage(), "Import fehlgeschlagen",
 						JOptionPane.ERROR_MESSAGE + JOptionPane.OK_OPTION);
 			} catch (InvalidKeySpecException e) {
+				HibernateSession.rollbackTransaction();
 				JOptionPane.showMessageDialog(
 						frame,
 						"Import kann nicht ausgeführt werden.\n"
 								+ e.getMessage(), "Import fehlgeschlagen",
 						JOptionPane.ERROR_MESSAGE + JOptionPane.OK_OPTION);
 			} catch (InvalidAlgorithmParameterException e) {
+				HibernateSession.rollbackTransaction();
 				JOptionPane.showMessageDialog(
 						frame,
 						"Import kann nicht ausgeführt werden.\n"
 								+ e.getMessage(), "Import fehlgeschlagen",
 						JOptionPane.ERROR_MESSAGE + JOptionPane.OK_OPTION);
 			} catch (IOException e) {
+				HibernateSession.rollbackTransaction();
 				JOptionPane.showMessageDialog(
 						frame,
 						"Import kann nicht ausgeführt werden.\n"
 								+ e.getMessage(), "Import fehlgeschlagen",
 						JOptionPane.ERROR_MESSAGE + JOptionPane.OK_OPTION);
 			} catch (JAXBException e) {
+				HibernateSession.rollbackTransaction();
 				JOptionPane.showMessageDialog(
 						frame,
 						"Import kann nicht ausgeführt werden.\n"

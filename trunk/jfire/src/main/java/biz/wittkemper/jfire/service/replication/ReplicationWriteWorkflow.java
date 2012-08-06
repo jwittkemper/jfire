@@ -3,7 +3,11 @@ package biz.wittkemper.jfire.service.replication;
 import java.io.File;
 import java.util.List;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 import biz.wittkemper.jfire.data.dao.DAOFactory;
+import biz.wittkemper.jfire.data.dao.HibernateSession;
 import biz.wittkemper.jfire.data.entity.FoerderMitglied;
 import biz.wittkemper.jfire.data.entity.Mitglied;
 import biz.wittkemper.jfire.data.entity.Replication;
@@ -11,16 +15,27 @@ import biz.wittkemper.jfire.utils.ParameterUtils;
 
 public class ReplicationWriteWorkflow {
 
-	public void Excecute(File file) throws Exception {
+	public void Excecute(File file, JFrame view) {
 		Replication replication = new Replication();
 
-		getdReplicationProperty(replication);
-		getMitglieder(replication);
-		getFoederMitglieder(replication);
-		ReplicationWrite replicationWrite = new ReplicationWrite();
+		HibernateSession.beginTransaction();
+		try {
+			getdReplicationProperty(replication);
+			getMitglieder(replication);
+			getFoederMitglieder(replication);
 
-		replicationWrite.WriteData(file, replication);
+			ReplicationWrite replicationWrite = new ReplicationWrite();
 
+			replicationWrite.WriteData(file, replication);
+			HibernateSession.commitTransaction();
+			JOptionPane.showMessageDialog(view, "Daten erfolgreich exportiert",
+					"Datenexport", JOptionPane.INFORMATION_MESSAGE);
+
+		} catch (Exception e) {
+			HibernateSession.rollbackTransaction();
+			JOptionPane.showMessageDialog(view, "Datenexport fehlgeschlagen!\n"
+					+ e.getMessage(), "Datenexport", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 
 	private void getFoederMitglieder(Replication replication) {
