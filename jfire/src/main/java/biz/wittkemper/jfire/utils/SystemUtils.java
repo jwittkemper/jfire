@@ -14,8 +14,6 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import org.hibernate.Transaction;
-
 import biz.wittkemper.jfire.data.dao.DAOFactory;
 import biz.wittkemper.jfire.data.dao.HibernateSession;
 import biz.wittkemper.jfire.data.entity.Anrede;
@@ -143,6 +141,7 @@ public class SystemUtils {
 
 	public void initDB() {
 
+		HibernateSession.beginTransaction();
 		Anrede frau = new Anrede();
 		frau.setAnrede("Frau");
 
@@ -176,6 +175,8 @@ public class SystemUtils {
 
 		DAOFactory.getInstance().getParameterDAO().save(dbtyp);
 		DAOFactory.getInstance().getParameterDAO().save(dbversion);
+
+		HibernateSession.commitTransaction();
 	}
 
 	public void checkDB() {
@@ -189,8 +190,7 @@ public class SystemUtils {
 
 	private void setVersion3() {
 
-		Transaction tx = HibernateSession.getInstance().getCurrentSession()
-				.beginTransaction();
+		HibernateSession.beginTransaction();
 
 		try {
 			String sql = "";
@@ -198,9 +198,9 @@ public class SystemUtils {
 			executeSQL(sql);
 
 			setDBVersion(3);
-
+			HibernateSession.commitTransaction();
 		} catch (SQLException e) {
-			tx.rollback();
+			HibernateSession.rollbackTransaction();
 			JOptionPane.showConfirmDialog(null,
 					"Update fehlgeschlagen!\n" + e.getMessage(),
 					"Fehler beim Update", JOptionPane.ERROR_MESSAGE
@@ -217,17 +217,16 @@ public class SystemUtils {
 
 	private void setVersion2() {
 
-		Transaction tx = HibernateSession.getInstance().getCurrentSession()
-				.beginTransaction();
+		HibernateSession.beginTransaction();
 
 		try {
 			String sql = "";
 			sql = "ALTER TABLE MITGLIED add rettungsdienst SMALLINT NOT NULL DEFAULT 0";
 			executeSQL(sql);
 			setDBVersion(2);
-			tx.commit();
+			HibernateSession.commitTransaction();
 		} catch (SQLException e) {
-			tx.rollback();
+			HibernateSession.rollbackTransaction();
 			JOptionPane.showConfirmDialog(null,
 					"Update fehlgeschlagen!\n" + e.getMessage(),
 					"Fehler beim Update", JOptionPane.ERROR_MESSAGE
