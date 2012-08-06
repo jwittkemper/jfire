@@ -11,7 +11,6 @@ import javax.crypto.NoSuchPaddingException;
 import javax.xml.bind.JAXBException;
 
 import org.junit.Ignore;
-import org.junit.Test;
 
 import biz.wittkemper.jfire.data.entity.Replication;
 import biz.wittkemper.jfire.service.replication.ReplicationRead;
@@ -25,7 +24,7 @@ public class ReplicationTest {
 	public void Workflow() {
 		ReplicationWriteWorkflow workflow = new ReplicationWriteWorkflow();
 		try {
-			workflow.Excecute(null);
+			workflow.Excecute(null, null);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -33,7 +32,7 @@ public class ReplicationTest {
 
 	}
 
-	@Test
+	@Ignore
 	public void testRead() {
 		ReplicationReadWorkFlow readWorkFlow = new ReplicationReadWorkFlow();
 		readWorkFlow.Excecute(null);
@@ -78,25 +77,18 @@ public class ReplicationTest {
 			Replication replication = read.ReadData(file);
 
 		} catch (InvalidKeyException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (NoSuchPaddingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InvalidKeySpecException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InvalidAlgorithmParameterException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (JAXBException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
