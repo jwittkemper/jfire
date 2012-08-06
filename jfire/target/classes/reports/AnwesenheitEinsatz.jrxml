@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="AnwesenheitUebung" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="3.0"/>
+	<property name="ireport.x" value="38"/>
+	<property name="ireport.y" value="144"/>
+	<parameter name="jahr" class="java.lang.String"/>
+	<parameter name="startwert" class="java.lang.Integer"/>
+	<parameter name="typ" class="java.lang.String"/>
+	<parameter name="whereand" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[Select * from Mitglied Where status_id = 1 and geloescht = 0 and $P!{whereand}  Order by lower(Name), lower(Vorname)]]>
+	</queryString>
+	<field name="VORNAME" class="java.lang.String"/>
+	<field name="NAME" class="java.lang.String"/>
+	<variable name="lfdnr" class="java.lang.Integer">
+		<variableExpression><![CDATA[$P{startwert}]]></variableExpression>
+		<initialValueExpression><![CDATA[$P{startwert}]]></initialValueExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="23" splitType="Stretch">
+			<staticText>
+				<reportElement x="39" y="0" width="467" height="20"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Feuerwehr Hamm - Einsatzbereich Werries]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="33" splitType="Stretch">
+			<staticText>
+				<reportElement x="40" y="6" width="186" height="20"/>
+				<textElement>
+					<font fontName="SansSerif" size="13"/>
+				</textElement>
+				<text><![CDATA[Anwesenheitsliste Einsätze]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="351" y="6" width="100" height="20"/>
+				<textElement>
+					<font size="13"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{jahr}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="223" y="6" width="125" height="20"/>
+				<textElement>
+					<font size="13"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{typ}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="106" splitType="Stretch">
+			<line>
+				<reportElement x="40" y="60" width="507" height="1"/>
+			</line>
+			<line>
+				<reportElement x="40" y="12" width="507" height="1"/>
+			</line>
+			<line>
+				<reportElement x="164" y="0" width="1" height="105"/>
+			</line>
+			<line>
+				<reportElement x="185" y="0" width="1" height="105"/>
+			</line>
+			<staticText>
+				<reportElement x="121" y="0" width="41" height="16"/>
+				<textElement>
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<text><![CDATA[Lfdnr. :]]></text>
+			</staticText>
+			<line>
+				<reportElement x="40" y="105" width="507" height="1"/>
+			</line>
+			<textField>
+				<reportElement x="165" y="0" width="21" height="13"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{lfdnr}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="186" y="0" width="18" height="12"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{lfdnr}+1]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="204" y="0" width="1" height="105"/>
+			</line>
+			<textField>
+				<reportElement x="205" y="0" width="18" height="12"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{lfdnr}+2]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="223" y="0" width="1" height="105"/>
+			</line>
+			<textField>
+				<reportElement x="224" y="0" width="18" height="12"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{lfdnr}+3]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="242" y="0" width="1" height="105"/>
+			</line>
+			<textField>
+				<reportElement x="243" y="0" width="18" height="12"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{lfdnr}+4]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="260" y="0" width="1" height="105"/>
+			</line>
+			<textField>
+				<reportElement x="261" y="0" width="18" height="12"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{lfdnr}+5]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="279" y="0" width="1" height="105"/>
+			</line>
+			<textField>
+				<reportElement x="318" y="0" width="18" height="12"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{lfdnr}+8]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="317" y="0" width="1" height="105"/>
+			</line>
+			<textField>
+				<reportElement x="299" y="0" width="18" height="12"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{lfdnr}+7]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="354" y="0" width="1" height="105"/>
+			</line>
+			<textField>
+				<reportElement x="336" y="0" width="18" height="12"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{lfdnr}+9]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="298" y="0" width="1" height="105"/>
+			</line>
+			<line>
+				<reportElement x="335" y="0" width="1" height="105"/>
+			</line>
+			<textField>
+				<reportElement x="280" y="0" width="18" height="12"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{lfdnr}+6]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="372" y="0" width="1" height="105"/>
+			</line>
+			<textField>
+				<reportElement x="354" y="0" width="18" height="12"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{lfdnr}+10]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="391" y="0" width="1" height="105"/>
+			</line>
+			<textField>
+				<reportElement x="373" y="0" width="18" height="12"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{lfdnr}+11]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="392" y="0" width="18" height="12"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{lfdnr}+12]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="410" y="0" width="1" height="105"/>
+			</line>
+			<textField>
+				<reportElement x="411" y="0" width="18" height="12"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{lfdnr}+13]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="429" y="0" width="1" height="105"/>
+			</line>
+			<textField>
+				<reportElement x="431" y="0" width="18" height="12"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{lfdnr}+14]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="449" y="0" width="1" height="105"/>
+			</line>
+			<textField>
+				<reportElement x="451" y="0" width="18" height="12"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{lfdnr}+15]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="469" y="0" width="1" height="105"/>
+			</line>
+			<textField>
+				<reportElement x="470" y="0" width="18" height="12"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{lfdnr}+16]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="488" y="0" width="1" height="105"/>
+			</line>
+			<line>
+				<reportElement x="508" y="0" width="1" height="105"/>
+			</line>
+			<textField>
+				<reportElement x="490" y="0" width="18" height="12"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{lfdnr}+17]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="528" y="0" width="1" height="105"/>
+			</line>
+			<textField>
+				<reportElement x="510" y="0" width="18" height="12"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{lfdnr}+18]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="547" y="0" width="1" height="105"/>
+			</line>
+			<textField>
+				<reportElement x="529" y="0" width="18" height="12"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{lfdnr}+19]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="65" y="29" width="97" height="20"/>
+				<textElement/>
+				<text><![CDATA[Datum:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="65" y="74" width="97" height="20"/>
+				<textElement/>
+				<text><![CDATA[Einsatznummer:]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="16" splitType="Stretch">
+			<textField>
+				<reportElement x="39" y="0" width="108" height="16"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{NAME} + " " +  $F{VORNAME}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="40" y="15" width="507" height="1"/>
+			</line>
+			<line>
+				<reportElement x="164" y="-1" width="1" height="17"/>
+			</line>
+			<line>
+				<reportElement x="185" y="0" width="1" height="16"/>
+			</line>
+			<line>
+				<reportElement x="279" y="0" width="1" height="16"/>
+			</line>
+			<line>
+				<reportElement x="335" y="-1" width="1" height="17"/>
+			</line>
+			<line>
+				<reportElement x="547" y="0" width="1" height="15"/>
+			</line>
+			<line>
+				<reportElement x="204" y="-1" width="1" height="17"/>
+			</line>
+			<line>
+				<reportElement x="223" y="0" width="1" height="16"/>
+			</line>
+			<line>
+				<reportElement x="242" y="-1" width="1" height="17"/>
+			</line>
+			<line>
+				<reportElement x="260" y="0" width="1" height="16"/>
+			</line>
+			<line>
+				<reportElement x="298" y="-1" width="1" height="17"/>
+			</line>
+			<line>
+				<reportElement x="317" y="0" width="1" height="16"/>
+			</line>
+			<line>
+				<reportElement x="354" y="0" width="1" height="16"/>
+			</line>
+			<line>
+				<reportElement x="372" y="-1" width="1" height="17"/>
+			</line>
+			<line>
+				<reportElement x="391" y="0" width="1" height="16"/>
+			</line>
+			<line>
+				<reportElement x="410" y="-1" width="1" height="17"/>
+			</line>
+			<line>
+				<reportElement x="429" y="0" width="1" height="16"/>
+			</line>
+			<line>
+				<reportElement x="449" y="-1" width="1" height="17"/>
+			</line>
+			<line>
+				<reportElement x="469" y="0" width="1" height="16"/>
+			</line>
+			<line>
+				<reportElement x="488" y="-1" width="1" height="17"/>
+			</line>
+			<line>
+				<reportElement x="509" y="0" width="1" height="16"/>
+			</line>
+			<line>
+				<reportElement x="528" y="-1" width="1" height="17"/>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="19" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="20" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>
