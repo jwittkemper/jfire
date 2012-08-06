@@ -40,6 +40,7 @@ public class ReplicationSlaveImport {
 				saveMitglied(mitglied);
 			}
 		}
+		DAOFactory.getInstance().getMitgliedDAO().resetEdit();
 
 	}
 

@@ -10,8 +10,12 @@ import biz.wittkemper.jfire.data.entity.Replication;
 public class ReplicationMasterImport {
 
 	public void importReplication(Replication replication) {
-		imporMitglieder(replication.getMitglied());
-		importFoerderMitglieder(replication.getFoerdermitglieder());
+		if (replication.getMitglied() != null) {
+			imporMitglieder(replication.getMitglied());
+		}
+		if (replication.getFoerdermitglieder() != null) {
+			importFoerderMitglieder(replication.getFoerdermitglieder());
+		}
 
 	}
 
@@ -39,6 +43,7 @@ public class ReplicationMasterImport {
 				// saveMitglied(mitglied);
 			}
 		}
+		DAOFactory.getInstance().getMitgliedDAO().resetEdit();
 
 	}
 

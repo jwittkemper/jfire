@@ -178,7 +178,7 @@ public class FMitgliederVerwaltungController {
 					if (DAOFactory.getInstance().getFoerderMitgliedDAO()
 							.EintragDa(model.getMitglied().getId())) {
 						DAOFactory.getInstance().getFoerderMitgliedDAO()
-								.update(model.getFoerderMitglied());
+								.merge(model.getFoerderMitglied());
 					} else {
 						DAOFactory.getInstance().getFoerderMitgliedDAO()
 								.save(model.getFoerderMitglied());
@@ -188,6 +188,7 @@ public class FMitgliederVerwaltungController {
 			}
 			HibernateSession.commitTransaction();
 		} catch (Exception e) {
+			System.out.println(e.getMessage());
 			HibernateSession.rollbackTransaction();
 		}
 	}
