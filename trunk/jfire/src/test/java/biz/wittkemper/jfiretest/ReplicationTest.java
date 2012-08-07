@@ -35,7 +35,12 @@ public class ReplicationTest {
 	@Ignore
 	public void testRead() {
 		ReplicationReadWorkFlow readWorkFlow = new ReplicationReadWorkFlow();
-		readWorkFlow.Excecute(null);
+		try {
+			readWorkFlow.Excecute(null);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Ignore

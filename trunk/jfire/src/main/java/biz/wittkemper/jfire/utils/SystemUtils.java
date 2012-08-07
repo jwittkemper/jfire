@@ -2,8 +2,8 @@ package biz.wittkemper.jfire.utils;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -13,6 +13,8 @@ import java.util.Properties;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
+
+import org.hibernate.JDBCException;
 
 import biz.wittkemper.jfire.data.dao.DAOFactory;
 import biz.wittkemper.jfire.data.dao.HibernateSession;
@@ -40,10 +42,11 @@ public class SystemUtils {
 
 		} else {
 
-			newConfigFile();
-			String pfad = getDBPfad() + File.separator + "seg0";
-			File file = new File(pfad);
 			try {
+				newConfigFile();
+				String pfad = getDBPfad() + File.separator + "seg0";
+				File file = new File(pfad);
+
 				if (file.exists()) {
 					lreturn = true;
 				}
@@ -55,22 +58,43 @@ public class SystemUtils {
 		return lreturn;
 	}
 
+	public String getPropertyValue(String name) {
+		String lvalue = loadConfigFile().getProperty(name);
+		if (lvalue == null) {
+			lvalue = "";
+		}
+		return lvalue.trim();
+	}
+
+	public void savePropertyValue(Properties value) throws IOException {
+		storeProperty(value);
+	}
+
+	public void savePropertyValue(String name, String value) throws IOException {
+
+		Properties properties = new Properties();
+		properties.put(name, value);
+
+		storeProperty(properties);
+
+	}
+
+	private void storeProperty(Properties properties) throws IOException {
+		File propertyFile = getPropertieFile();
+		FileOutputStream outputStream = new FileOutputStream(propertyFile);
+		properties.save(outputStream, "jfire konfiguration");
+		outputStream.close();
+	}
+
 	public String getDBPfad() {
 		return loadConfigFile().getProperty("DBPFAD");
 	}
 
-	private boolean newConfigFile() {
+	private boolean newConfigFile() throws IOException {
 
 		Properties properties = new Properties();
 		properties.put("DBPFAD", getDBPFAD());
-		File propertyFile = getPropertieFile();
-		try {
-			FileOutputStream outputStream = new FileOutputStream(propertyFile);
-			properties.save(outputStream, "jfire konfiguration");
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		storeProperty(properties);
 
 		return true;
 	}
@@ -179,7 +203,7 @@ public class SystemUtils {
 		HibernateSession.commitTransaction();
 	}
 
-	public void checkDB() {
+	public void checkDB() throws JDBCException, Exception {
 		switch (ParameterUtils.getDBVersion()) {
 		case 1:
 			setVersion2();

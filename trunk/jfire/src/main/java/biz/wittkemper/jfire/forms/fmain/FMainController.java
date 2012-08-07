@@ -1,6 +1,7 @@
 package biz.wittkemper.jfire.forms.fmain;
 
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.HierarchyBoundsListener;
@@ -9,6 +10,7 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.beans.PropertyVetoException;
 import java.io.File;
+import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -26,6 +28,7 @@ import biz.wittkemper.jfire.forms.fAdressliste.FAdressliste;
 import biz.wittkemper.jfire.forms.fanwesenheit.FAnwesenheit;
 import biz.wittkemper.jfire.forms.fdienstjubilaeum.FDienstjubilaeum;
 import biz.wittkemper.jfire.forms.feinsatzliste.FEinsatzliste;
+import biz.wittkemper.jfire.forms.ferror.FError;
 import biz.wittkemper.jfire.forms.fmitgliederverwaltung.FMitgliederVerwaltungController;
 import biz.wittkemper.jfire.forms.fmitgliederverwaltung.FMitgliederVerwaltungView;
 import biz.wittkemper.jfire.service.replication.ReplicationReadWorkFlow;
@@ -35,16 +38,23 @@ import biz.wittkemper.jfire.service.report.ReportService.REPORTS;
 import biz.wittkemper.jfire.service.report.ReportService.REPORTSAKTION;
 import biz.wittkemper.jfire.utils.DateUtils;
 import biz.wittkemper.jfire.utils.FrameUtils;
+import biz.wittkemper.jfire.utils.SystemUtils;
 
 public class FMainController {
 	FrameUtils frameUtils = new FrameUtils();
+	SystemUtils systemUtils = new SystemUtils();
 
 	FMainView view;
 
 	public FMainController() {
-		this.view = new FMainView();
-		initListener();
-		loadMitgliederMeldung();
+		try {
+			this.view = new FMainView();
+			initListener();
+			loadMitgliederMeldung();
+		} catch (Exception e) {
+			FError error = new FError(e);
+			error.show(true);
+		}
 	}
 
 	private void loadMitgliederMeldung() {
@@ -53,6 +63,7 @@ public class FMainController {
 		LoadData data = new LoadData();
 		data.run();
 		HibernateSession.commitTransaction();
+
 	}
 
 	private void initListener() {
@@ -65,20 +76,34 @@ public class FMainController {
 
 					@Override
 					public void ancestorResized(HierarchyEvent e) {
-						showView();
+						// showView();
 
 					}
 
 					@Override
 					public void ancestorMoved(HierarchyEvent e) {
-						showView();
+						// showView();
 
 					}
 				});
 	}
 
 	public void showView() {
-		// this.view.setSize(1024, 768);
+		String value = systemUtils.getPropertyValue("FMAIN");
+		String values[] = value.split(";");
+		System.out.println(values.length);
+		if (values.length != 4) {
+			this.view.setSize(1024, 768);
+
+		} else {
+			Dimension dimension = new Dimension();
+			dimension.width = Integer.parseInt(values[0]);
+			dimension.height = Integer.parseInt(values[1]);
+			this.view.setSize(dimension);
+			this.view.setLocation(Integer.parseInt(values[2]),
+					Integer.parseInt(values[3]));
+		}
+
 		this.view.setVisible(true);
 		this.view.setResizable(true);
 
@@ -89,6 +114,16 @@ public class FMainController {
 	private void AppClose() {
 		if (JOptionPane.showConfirmDialog(view, "Wollen sie wirklich beenden?",
 				"Frage", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+			Dimension dimension = view.getSize();
+			String value = dimension.width + ";" + dimension.height + ";"
+					+ view.getLocationOnScreen().x + ";"
+					+ view.getLocationOnScreen().y;
+			try {
+				systemUtils.savePropertyValue("FMAIN", value);
+			} catch (IOException e) {
+				FError error = new FError(e);
+				error.show(true);
+			}
 			view.setVisible(false);
 			System.exit(0);
 		}
@@ -273,7 +308,12 @@ public class FMainController {
 
 			} else if (e.getActionCommand().equals("datenimport")) {
 				ReplicationReadWorkFlow readWorkFlow = new ReplicationReadWorkFlow();
-				readWorkFlow.Excecute(view);
+				try {
+					readWorkFlow.Excecute(view);
+				} catch (Exception e1) {
+					FError error = new FError(e1);
+					error.show(true);
+				}
 				loadMitgliederMeldung();
 			}
 

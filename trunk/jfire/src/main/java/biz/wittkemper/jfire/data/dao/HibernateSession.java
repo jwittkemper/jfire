@@ -2,10 +2,12 @@ package biz.wittkemper.jfire.data.dao;
 
 import java.util.Properties;
 
+import org.hibernate.JDBCException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
 
+import biz.wittkemper.jfire.forms.ferror.FError;
 import biz.wittkemper.jfire.utils.SystemUtils;
 
 public class HibernateSession {
@@ -21,7 +23,6 @@ public class HibernateSession {
 
 	static {
 		boolean initDB = false;
-
 		String createDB = "none";
 		if (!systemUtils.getDBAvailable()) {
 			createDB = "create";
@@ -66,7 +67,20 @@ public class HibernateSession {
 		if (initDB) {
 			systemUtils.initDB();
 		} else {
-			systemUtils.checkDB();
+			try {
+				systemUtils.checkDB();
+			} catch (JDBCException e) {
+				FError fError = new FError(e);
+				fError.setModal(true);
+				fError.setVisible(true);
+				System.exit(0);
+
+			} catch (Exception e) {
+				FError fError = new FError(e);
+				fError.setModal(true);
+				fError.setVisible(true);
+				System.exit(0);
+			}
 		}
 	}
 

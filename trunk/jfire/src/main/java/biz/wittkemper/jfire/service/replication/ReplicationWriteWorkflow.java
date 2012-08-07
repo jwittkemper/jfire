@@ -62,7 +62,8 @@ public class ReplicationWriteWorkflow {
 		DAOFactory.getInstance().getMitgliedDAO().resetEdit();
 	}
 
-	private void getdReplicationProperty(Replication replication) {
+	private void getdReplicationProperty(Replication replication)
+			throws Exception {
 		if (ParameterUtils.isMasterDB()) {
 			replication.setHerkunft("MASTERDB");
 		} else {
