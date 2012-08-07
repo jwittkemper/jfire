@@ -47,6 +47,7 @@ public class MitgliedDAOImpl extends AbstractDAOImpl<Mitglied, Long> implements
 		hsql += " Where m.name = '" + name + "' ";
 		hsql += "AND m.vorname = '" + vorname + "' ";
 		hsql += " AND a.geloescht = 0";
+
 		List<Mitglied> list = super.findByQueryString(hsql);
 
 		if (list.size() > 0) {
@@ -59,6 +60,7 @@ public class MitgliedDAOImpl extends AbstractDAOImpl<Mitglied, Long> implements
 	public int getAktive() {
 		String hsql = "FROM Mitglied m where m.status.id = 1 ";
 		hsql += " and m.geloescht = 0";
+
 		List<Mitglied> list = super.findByQueryString(hsql);
 
 		if (list.size() > 0) {

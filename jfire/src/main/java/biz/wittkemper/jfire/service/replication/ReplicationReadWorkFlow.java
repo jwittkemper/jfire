@@ -24,7 +24,7 @@ public class ReplicationReadWorkFlow {
 
 	SystemUtils systemUtils = new SystemUtils();
 
-	public void Excecute(JFrame frame) {
+	public void Excecute(JFrame frame) throws Exception {
 
 		File file = new File(systemUtils.getOpenFileDialog(
 				"Wo befindet sich die Datei?", false,
@@ -145,7 +145,7 @@ public class ReplicationReadWorkFlow {
 		}
 	}
 
-	private boolean plausiReplication(Replication replication) {
+	private boolean plausiReplication(Replication replication) throws Exception {
 		boolean lplausiOK = true;
 		if (replication.getDbVersion() != ParameterUtils.getDBVersion()) {
 			lplausiOK = false;
