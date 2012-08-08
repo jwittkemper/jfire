@@ -1,6 +1,9 @@
 package biz.wittkemper.jfire.forms.ferror;
 
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -8,6 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
@@ -25,9 +29,9 @@ public class FError extends JDialog {
 	private JButton btnOk;
 	private JLabel lblFehlermeldung;
 	private JLabel lblStacktrace;
-	private JLabel lblNewLabel;
 	private JScrollPane scrollPane_1;
 	private JTextPane errorStack;
+	private JTextField lblAnzeige;
 
 	public FError() {
 		initFrame();
@@ -71,72 +75,84 @@ public class FError extends JDialog {
 		scrollPane = new JScrollPane();
 
 		btnOk = new JButton("OK");
+		btnOk.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+			}
+		});
 
 		lblFehlermeldung = new JLabel("Fehlermeldung");
-		lblFehlermeldung.setBackground(new Color(238, 232, 170));
+		lblFehlermeldung.setBackground(new Color(240, 230, 140));
+		lblFehlermeldung.setOpaque(true);
 
 		lblStacktrace = new JLabel("Stacktrace");
-
-		lblNewLabel = new JLabel("JFIRE Fehlermeldung");
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setBackground(new Color(238, 232, 170));
-
+		lblStacktrace.setBackground(new Color(240, 230, 140));
+		lblStacktrace.setOpaque(true);
 		scrollPane_1 = new JScrollPane();
+
+		lblAnzeige = new JTextField();
+		lblAnzeige.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 11));
+		lblAnzeige.setHorizontalAlignment(SwingConstants.CENTER);
+		lblAnzeige.setText("JFIRE Fehlermeldung");
+		lblAnzeige.setEnabled(false);
+		lblAnzeige.setEditable(false);
+		lblAnzeige.setBackground(new Color(255, 255, 0));
+		lblAnzeige.setColumns(10);
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(groupLayout
 				.createParallelGroup(Alignment.LEADING)
 				.addGroup(
 						groupLayout.createSequentialGroup().addContainerGap()
 								.addComponent(lblFehlermeldung)
-								.addContainerGap(334, Short.MAX_VALUE))
+								.addContainerGap(583, Short.MAX_VALUE))
+				.addGroup(
+						groupLayout
+								.createSequentialGroup()
+								.addGap(189)
+								.addComponent(btnOk, GroupLayout.DEFAULT_SIZE,
+										265, Short.MAX_VALUE).addGap(209))
+				.addComponent(lblAnzeige, GroupLayout.DEFAULT_SIZE, 663,
+						Short.MAX_VALUE)
 				.addGroup(
 						groupLayout
 								.createSequentialGroup()
 								.addContainerGap()
 								.addComponent(scrollPane,
-										GroupLayout.DEFAULT_SIZE, 428,
+										GroupLayout.DEFAULT_SIZE, 643,
+										Short.MAX_VALUE).addContainerGap())
+				.addGroup(
+						groupLayout
+								.createSequentialGroup()
+								.addContainerGap()
+								.addComponent(scrollPane_1,
+										GroupLayout.DEFAULT_SIZE, 643,
 										Short.MAX_VALUE).addContainerGap())
 				.addGroup(
 						groupLayout
 								.createSequentialGroup()
 								.addContainerGap()
 								.addComponent(lblStacktrace,
-										GroupLayout.PREFERRED_SIZE, 106,
+										GroupLayout.PREFERRED_SIZE, 66,
 										GroupLayout.PREFERRED_SIZE)
-								.addContainerGap(334, Short.MAX_VALUE))
-				.addComponent(lblNewLabel, GroupLayout.DEFAULT_SIZE, 452,
-						Short.MAX_VALUE)
-				.addGroup(
-						groupLayout
-								.createSequentialGroup()
-								.addContainerGap()
-								.addComponent(scrollPane_1,
-										GroupLayout.DEFAULT_SIZE, 428,
-										Short.MAX_VALUE).addContainerGap())
-				.addGroup(
-						groupLayout
-								.createSequentialGroup()
-								.addGap(189)
-								.addComponent(btnOk, GroupLayout.DEFAULT_SIZE,
-										GroupLayout.DEFAULT_SIZE,
-										Short.MAX_VALUE).addGap(209)));
+								.addContainerGap(587, Short.MAX_VALUE)));
 		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(
 				Alignment.LEADING).addGroup(
 				groupLayout
 						.createSequentialGroup()
-						.addGap(24)
-						.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE,
-								15, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED)
+						.addGap(7)
+						.addComponent(lblAnzeige, GroupLayout.PREFERRED_SIZE,
+								GroupLayout.DEFAULT_SIZE,
+								GroupLayout.PREFERRED_SIZE)
+						.addGap(18)
 						.addComponent(lblFehlermeldung)
 						.addGap(5)
 						.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE,
-								220, GroupLayout.PREFERRED_SIZE)
-						.addGap(52)
+								147, GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(ComponentPlacement.UNRELATED)
 						.addComponent(lblStacktrace)
-						.addGap(39)
+						.addPreferredGap(ComponentPlacement.RELATED)
 						.addComponent(scrollPane_1, GroupLayout.DEFAULT_SIZE,
-								209, Short.MAX_VALUE)
+								339, Short.MAX_VALUE)
 						.addPreferredGap(ComponentPlacement.UNRELATED)
 						.addComponent(btnOk).addGap(18)));
 
