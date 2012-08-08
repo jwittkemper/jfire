@@ -833,7 +833,7 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 
 	protected void setSeachListener(ActionListener al) {
 		bsearch.addActionListener(al);
-		bsearch.setActionCommand("seach");
+		bsearch.setActionCommand("search");
 		btnLeft.addActionListener(al);
 		btnLeft.setActionCommand("left");
 		btnRight.addActionListener(al);
@@ -856,11 +856,6 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 
 	protected void setSeachKeyListener(KeyListener listener) {
 		ISearch.addKeyListener(listener);
-	}
-
-	protected void setSeachButtonListener(ActionListener listener) {
-		bsearch.addActionListener(listener);
-		bsearch.setActionCommand("search");
 	}
 
 	protected void setDeleteListener(ActionListener listener) {
