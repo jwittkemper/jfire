@@ -124,7 +124,6 @@ public class FMitgliederVerwaltungController {
 		this.view.setSeachListener(new SeachListener());
 		this.view.setSeachKeyListener(searchKey);
 		this.view.setDeleteListener(new DeleteListener());
-		this.view.setSeachButtonListener(new SeachListener());
 	}
 
 	public JInternalFrame getFrame() throws PropertyVetoException {
@@ -240,6 +239,7 @@ public class FMitgliederVerwaltungController {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (e.getActionCommand().equals("search")) {
+				e.getSource();
 				sucheMitglied();
 			} else if (e.getActionCommand().equals("left")) {
 				sucheNaechstesMitglied("left");
