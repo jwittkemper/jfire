@@ -11,8 +11,8 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.JTextPane;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
 
@@ -24,14 +24,13 @@ public class FError extends JDialog {
 	 * 
 	 */
 	private static final long serialVersionUID = 7500258571439273086L;
-	private JScrollPane scrollPane;
-	private JTextPane errorMessage;
 	private JButton btnOk;
 	private JLabel lblFehlermeldung;
 	private JLabel lblStacktrace;
 	private JScrollPane scrollPane_1;
-	private JTextPane errorStack;
+	private JTextArea errorStack;
 	private JTextField lblAnzeige;
+	private JTextArea errorMessage;
 
 	public FError() {
 		initFrame();
@@ -72,8 +71,6 @@ public class FError extends JDialog {
 	private void initFrame() {
 		setBounds(100, 100, 671, 660);
 
-		scrollPane = new JScrollPane();
-
 		btnOk = new JButton("OK");
 		btnOk.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -98,6 +95,8 @@ public class FError extends JDialog {
 		lblAnzeige.setEditable(false);
 		lblAnzeige.setBackground(new Color(255, 255, 0));
 		lblAnzeige.setColumns(10);
+
+		JScrollPane scrollPane = new JScrollPane();
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(groupLayout
 				.createParallelGroup(Alignment.LEADING)
@@ -117,13 +116,6 @@ public class FError extends JDialog {
 						groupLayout
 								.createSequentialGroup()
 								.addContainerGap()
-								.addComponent(scrollPane,
-										GroupLayout.DEFAULT_SIZE, 643,
-										Short.MAX_VALUE).addContainerGap())
-				.addGroup(
-						groupLayout
-								.createSequentialGroup()
-								.addContainerGap()
 								.addComponent(scrollPane_1,
 										GroupLayout.DEFAULT_SIZE, 643,
 										Short.MAX_VALUE).addContainerGap())
@@ -134,7 +126,14 @@ public class FError extends JDialog {
 								.addComponent(lblStacktrace,
 										GroupLayout.PREFERRED_SIZE, 66,
 										GroupLayout.PREFERRED_SIZE)
-								.addContainerGap(587, Short.MAX_VALUE)));
+								.addContainerGap(587, Short.MAX_VALUE))
+				.addGroup(
+						groupLayout
+								.createSequentialGroup()
+								.addContainerGap()
+								.addComponent(scrollPane,
+										GroupLayout.DEFAULT_SIZE, 643,
+										Short.MAX_VALUE).addContainerGap()));
 		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(
 				Alignment.LEADING).addGroup(
 				groupLayout
@@ -145,10 +144,10 @@ public class FError extends JDialog {
 								GroupLayout.PREFERRED_SIZE)
 						.addGap(18)
 						.addComponent(lblFehlermeldung)
-						.addGap(5)
+						.addPreferredGap(ComponentPlacement.RELATED)
 						.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE,
-								147, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.UNRELATED)
+								156, GroupLayout.PREFERRED_SIZE)
+						.addGap(1)
 						.addComponent(lblStacktrace)
 						.addPreferredGap(ComponentPlacement.RELATED)
 						.addComponent(scrollPane_1, GroupLayout.DEFAULT_SIZE,
@@ -156,13 +155,13 @@ public class FError extends JDialog {
 						.addPreferredGap(ComponentPlacement.UNRELATED)
 						.addComponent(btnOk).addGap(18)));
 
-		errorStack = new JTextPane();
-		errorStack.setEditable(false);
-		scrollPane_1.setViewportView(errorStack);
-
-		errorMessage = new JTextPane();
+		errorMessage = new JTextArea();
 		errorMessage.setEditable(false);
 		scrollPane.setViewportView(errorMessage);
+
+		errorStack = new JTextArea();
+		errorStack.setEditable(false);
+		scrollPane_1.setViewportView(errorStack);
 		getContentPane().setLayout(groupLayout);
 
 	}
