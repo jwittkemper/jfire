@@ -72,7 +72,7 @@ public class SystemUtils {
 
 	public void savePropertyValue(String name, String value) throws IOException {
 
-		Properties properties = new Properties();
+		Properties properties = loadConfigFile();
 		properties.put(name, value);
 
 		storeProperty(properties);
@@ -87,7 +87,7 @@ public class SystemUtils {
 	}
 
 	public String getDBPfad() {
-		return loadConfigFile().getProperty("DBPFAD");
+		return getPropertyValue("DBPFAD");
 	}
 
 	private boolean newConfigFile() throws IOException {
