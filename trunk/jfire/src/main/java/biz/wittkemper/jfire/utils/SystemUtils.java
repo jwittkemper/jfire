@@ -195,7 +195,7 @@ public class SystemUtils {
 
 		Parameter dbversion = new Parameter();
 		dbversion.setBezeichnung("DBVERSION");
-		dbversion.setValue("3");
+		dbversion.setValue("4");
 
 		DAOFactory.getInstance().getParameterDAO().save(dbtyp);
 		DAOFactory.getInstance().getParameterDAO().save(dbversion);
@@ -209,7 +209,53 @@ public class SystemUtils {
 			setVersion2();
 		case 2:
 			setVersion3();
+		case 3:
+			setVersion4();
 		}
+	}
+
+	private void setVersion4() {
+		HibernateSession.beginTransaction();
+		try {
+			String sql = " CREATE TABLE APP.MATERIAL";
+			sql += "( TYPE varchar(31) NOT NULL, ";
+			sql += "  ID bigint PRIMARY KEY NOT NULL,";
+			sql += "  UEBERNAHME timestamp,";
+			sql += "  SERIENNUMMER varchar(255),";
+			sql += "   MASTERID bigint, ";
+			sql += "  MATERIALTYP_ID bigint	)";
+			executeSQL(sql);
+
+			sql = " CREATE TABLE APP.MATERIALTYP ";
+			sql += "(  TYPE varchar(31) NOT NULL,";
+			sql += "    ID bigint PRIMARY KEY NOT NULL,";
+			sql += "    BEZEICHNUNG varchar(255),";
+			sql += "     MASTERID bigint, ";
+			sql += "    HERSTELLER varchar(255))";
+			executeSQL(sql);
+
+			sql = " ALTER TABLE APP.MATERIAL ";
+			sql += " ADD CONSTRAINT FK15ADC9476241992E ";
+			sql += " FOREIGN KEY (MATERIALTYP_ID)";
+			sql += " REFERENCES APP.MATERIALTYP(ID) ";
+			executeSQL(sql);
+
+			sql = "CREATE INDEX SQL120820102234880 ON APP.MATERIAL(MATERIALTYP_ID)";
+			executeSQL(sql);
+
+			sql = "CREATE UNIQUE INDEX SQL120820102234770 ON APP.MATERIAL(ID)";
+			executeSQL(sql);
+
+			setDBVersion(4);
+			HibernateSession.commitTransaction();
+		} catch (Exception e) {
+			HibernateSession.rollbackTransaction();
+			JOptionPane.showConfirmDialog(null,
+					"Update fehlgeschlagen!\n" + e.getMessage(),
+					"Fehler beim Update", JOptionPane.ERROR_MESSAGE
+							+ JOptionPane.OK_OPTION);
+		}
+
 	}
 
 	private void setVersion3() {
