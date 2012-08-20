@@ -10,6 +10,8 @@ public class DAOFactory {
 	ParameterDAO parameterDAO = new ParameterDAOImpl();
 	AnredeDAO anredeDAO = new AnredeDAOImpl();
 	MelderDAO melderDAO = new MelderDAOImpl();
+	MelderTypDAO melderTypDAO = new MelderTypDAOImpl();
+	MelderSchleifenDAO melderSchleifenDAO = new MelderSchleifenDAOImpl();
 
 	private DAOFactory() {
 	}
@@ -68,6 +70,22 @@ public class DAOFactory {
 
 	public void setMelderDAO(MelderDAO melderDAO) {
 		this.melderDAO = melderDAO;
+	}
+
+	public MelderSchleifenDAO getMelderSchleifenDAO() {
+		return melderSchleifenDAO;
+	}
+
+	public void setMelderSchleifenDAO(MelderSchleifenDAO melderSchleifenDAO) {
+		this.melderSchleifenDAO = melderSchleifenDAO;
+	}
+
+	public MelderTypDAO getMelderTypDAO() {
+		return melderTypDAO;
+	}
+
+	public void setMelderTypDAO(MelderTypDAO melderTypDAO) {
+		this.melderTypDAO = melderTypDAO;
 	}
 
 }

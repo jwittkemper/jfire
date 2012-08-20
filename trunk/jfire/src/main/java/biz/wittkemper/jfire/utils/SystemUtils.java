@@ -219,7 +219,7 @@ public class SystemUtils {
 		try {
 			String sql = " CREATE TABLE APP.MATERIAL";
 			sql += "( TYPE varchar(31) NOT NULL, ";
-			sql += "  ID bigint PRIMARY KEY NOT NULL,";
+			sql += "  MATERIAL_ID bigint not null primary key GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),";
 			sql += "  UEBERNAHME timestamp,";
 			sql += "  SERIENNUMMER varchar(255),";
 			sql += "   MASTERID bigint, ";
@@ -228,7 +228,7 @@ public class SystemUtils {
 
 			sql = " CREATE TABLE APP.MATERIALTYP ";
 			sql += "(  TYPE varchar(31) NOT NULL,";
-			sql += "    ID bigint PRIMARY KEY NOT NULL,";
+			sql += "    ID bigint not null primary key GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),";
 			sql += "    BEZEICHNUNG varchar(255),";
 			sql += "     MASTERID bigint, ";
 			sql += "    HERSTELLER varchar(255))";
@@ -243,7 +243,41 @@ public class SystemUtils {
 			sql = "CREATE INDEX SQL120820102234880 ON APP.MATERIAL(MATERIALTYP_ID)";
 			executeSQL(sql);
 
-			sql = "CREATE UNIQUE INDEX SQL120820102234770 ON APP.MATERIAL(ID)";
+			sql = "CREATE UNIQUE INDEX SQL120820102234770 ON APP.MATERIAL(MATERIAL_ID)";
+			executeSQL(sql);
+
+			sql = " CREATE TABLE APP.MELDERSCHLEIFEN ";
+			sql += "(  ";
+			sql += "    SCHLEIFE_ID bigint not null primary key GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),";
+			sql += "    BEZEICHNUNG varchar(20),";
+			sql += "    MASTERID bigint, ";
+			sql += "    RIC varchar(10))";
+			executeSQL(sql);
+
+			sql = " CREATE TABLE APP.MELDER_SCHLEIFEN ";
+			sql += " ( MATERIAL_ID bigint NOT NULL, ";
+			sql += " SCHLEIFE_ID bigint NOT NULL 	) ";
+			executeSQL(sql);
+
+			sql = "   ALTER TABLE APP.MELDER_SCHLEIFEN  ";
+			sql += " ADD CONSTRAINT FK39376D9583C20911 ";
+			sql += " FOREIGN KEY (SCHLEIFE_ID) ";
+			sql += " REFERENCES APP.MELDERSCHLEIFEN(SCHLEIFE_ID) ";
+			executeSQL(sql);
+
+			sql = "   ALTER TABLE APP.MELDER_SCHLEIFEN ";
+			sql += " ADD CONSTRAINT FK39376D95E59E7A5C ";
+			sql += " FOREIGN KEY (MATERIAL_ID) ";
+			sql += " REFERENCES APP.MATERIAL(MATERIAL_ID)";
+			executeSQL(sql);
+
+			sql = " CREATE INDEX SQL120820133221480 ON APP.MELDER_SCHLEIFEN(SCHLEIFE_ID)";
+			executeSQL(sql);
+
+			sql = "CREATE INDEX SQL120820133221490 ON APP.MELDER_SCHLEIFEN(MATERIAL_ID)";
+			executeSQL(sql);
+
+			sql = "CREATE UNIQUE INDEX SQL120820133221370 ON APP.MELDER_SCHLEIFEN(SCHLEIFE_ID)";
 			executeSQL(sql);
 
 			setDBVersion(4);
