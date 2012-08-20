@@ -71,6 +71,8 @@ public class HibernateSession {
 						biz.wittkemper.jfire.data.entity.MelderTyp.class)
 				.addAnnotatedClass(
 						biz.wittkemper.jfire.data.entity.Melder.class)
+				.addAnnotatedClass(
+						biz.wittkemper.jfire.data.entity.MelderSchleifen.class)
 				.buildSessionFactory();
 		if (initDB) {
 			systemUtils.initDB();

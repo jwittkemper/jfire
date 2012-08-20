@@ -3,6 +3,7 @@ package biz.wittkemper.jfire.data.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
@@ -29,6 +30,7 @@ public abstract class Material implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "MATERIAL_ID")
 	public Long getId() {
 		return id;
 	}
