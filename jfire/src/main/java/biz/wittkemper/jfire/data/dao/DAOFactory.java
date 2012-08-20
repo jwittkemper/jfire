@@ -1,6 +1,5 @@
 package biz.wittkemper.jfire.data.dao;
 
-
 public class DAOFactory {
 
 	private static DAOFactory daoFactory;
@@ -10,6 +9,7 @@ public class DAOFactory {
 	FoerderMitgliedDAO foerderMitgliedDAO = new FoerderMitgliedDAOImpl();
 	ParameterDAO parameterDAO = new ParameterDAOImpl();
 	AnredeDAO anredeDAO = new AnredeDAOImpl();
+	MelderDAO melderDAO = new MelderDAOImpl();
 
 	private DAOFactory() {
 	}
@@ -60,6 +60,14 @@ public class DAOFactory {
 
 	public void setAnredeDAO(AnredeDAO anredeDAO) {
 		this.anredeDAO = anredeDAO;
+	}
+
+	public MelderDAO getMelderDAO() {
+		return melderDAO;
+	}
+
+	public void setMelderDAO(MelderDAO melderDAO) {
+		this.melderDAO = melderDAO;
 	}
 
 }

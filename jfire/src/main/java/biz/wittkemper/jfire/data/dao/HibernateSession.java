@@ -63,6 +63,14 @@ public class HibernateSession {
 						biz.wittkemper.jfire.data.entity.Parameter.class)
 				.addAnnotatedClass(
 						biz.wittkemper.jfire.data.entity.Anrede.class)
+				.addAnnotatedClass(
+						biz.wittkemper.jfire.data.entity.Material.class)
+				.addAnnotatedClass(
+						biz.wittkemper.jfire.data.entity.MaterialTyp.class)
+				.addAnnotatedClass(
+						biz.wittkemper.jfire.data.entity.MelderTyp.class)
+				.addAnnotatedClass(
+						biz.wittkemper.jfire.data.entity.Melder.class)
 				.buildSessionFactory();
 		if (initDB) {
 			systemUtils.initDB();
