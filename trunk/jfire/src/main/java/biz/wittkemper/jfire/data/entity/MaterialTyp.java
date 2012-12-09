@@ -11,9 +11,12 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 
+import org.hibernate.annotations.Proxy;
+
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING)
+@Proxy(lazy = false)
 public abstract class MaterialTyp implements Serializable {
 
 	private static final long serialVersionUID = 2883173983445129458L;
