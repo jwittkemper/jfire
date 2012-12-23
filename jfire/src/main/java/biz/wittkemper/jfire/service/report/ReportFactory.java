@@ -24,6 +24,9 @@ public class ReportFactory {
 			"Anwesenheitsliste Einsatz", true,
 			"reports/AnwesenheitEinsatz.jrxml", "1");
 
+	static Report Mitgliederliste = new Report("Adressliste", "Adressliste",
+			true, "reports/Mitglieder_Freigabe.jrxml", "");
+
 	public static Report getReport(REPORTS name) {
 		Report lreport = null;
 		switch (name) {
@@ -47,6 +50,9 @@ public class ReportFactory {
 			break;
 		case ANWESENHEITEINSATZ:
 			lreport = anwenheitsEinsatz;
+			break;
+		case MITGLIEDERLISTE:
+			lreport = Mitgliederliste;
 		}
 
 		return lreport;

@@ -45,11 +45,12 @@ public class FMainView extends JFrame {
 	JMenuItem mntnTelefonlistereserve;
 	JMenu mntnJubilaeum;
 	JMenuItem mntnDienstjubilaeum;
-
+	JMenu mnAdressListen;
 	JDesktopPane pane = new MDIDesktopPane();
 	JXStatusBar statusBar = new JXStatusBar();
 	JLabel lbMitglieder = new JLabel();
-	private JMenu mnAnwesenheiten;
+	JMenu mnAnwesenheiten;
+	JMenuItem mnAdressliste;
 
 	/**
 	 * Create the frame.
@@ -122,15 +123,24 @@ public class FMainView extends JFrame {
 		mntnTelefonlistereserve.setActionCommand("telefonlisteareserve");
 		mnTelefonListen.add(mntnTelefonlistereserve);
 
-		mntmMitgliederFoerderverein = new JMenuItem("Addresslisten");
-		mntmMitgliederFoerderverein.setActionCommand("adresslisten");
-		mnListen.add(mntmMitgliederFoerderverein);
-
 		mntnJubilaeum = new JMenu("Jubil\u00E4en");
 		mnListen.add(mntnJubilaeum);
 		mntnDienstjubilaeum = new JMenuItem("Dienstjubil\u00E4en");
 		mntnDienstjubilaeum.setActionCommand("dienstjubilaeum");
 		mntnJubilaeum.add(mntnDienstjubilaeum);
+
+		mnAdressListen = new JMenu("Addresslisten");
+
+		mnListen.add(mnAdressListen);
+
+		mnAdressliste = new JMenuItem("Adressliste (öffentlich)");
+		mnAdressliste.setActionCommand("adresslisten-all");
+		mnAdressListen.add(mnAdressliste);
+
+		mntmMitgliederFoerderverein = new JMenuItem(
+				"Adresslisten (Förderverein)");
+		mntmMitgliederFoerderverein.setActionCommand("adresslisten-export");
+		mnAdressListen.add(mntmMitgliederFoerderverein);
 
 		frameUtils.MaximiseFrame(this);
 		getContentPane().setLayout(new BorderLayout());
@@ -162,6 +172,7 @@ public class FMainView extends JFrame {
 		mntnEinsatzListeR.addActionListener(al);
 		mnDatenImport.addActionListener(al);
 		mnDatenExport.addActionListener(al);
+		mnAdressliste.addActionListener(al);
 	}
 
 	protected void setBeendenListener(ActionListener al) {

@@ -188,7 +188,7 @@ public class FMainController {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if (e.getActionCommand().equals("adresslisten")) {
+			if (e.getActionCommand().equals("adresslisten-export")) {
 				FAdressliste adressliste = new FAdressliste();
 				adressliste.setModal(true);
 				adressliste.setVisible(true);
@@ -315,6 +315,19 @@ public class FMainController {
 					error.show(true);
 				}
 				loadMitgliederMeldung();
+			} else if (e.getActionCommand().equals("adresslisten-all")) {
+				try {
+					Map map = new HashMap();
+					map.put("Titel", "Adressliste Löscheinheit Werries");
+					map.put("Stand", "--");
+					map.put("mitgliedstatus", "1");
+
+					ReportService
+							.showReport(REPORTS.MITGLIEDERLISTE, map, null);
+				} catch (JRException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 
 		}
