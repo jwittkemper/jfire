@@ -7,37 +7,35 @@ import javax.swing.table.AbstractTableModel;
 
 import biz.wittkemper.jfire.data.entity.Mitglied;
 
-import com.jgoodies.binding.list.LinkedListModel;
 import com.jgoodies.binding.list.SelectionInList;
 import com.jgoodies.binding.value.ValueHolder;
 import com.jgoodies.binding.value.ValueModel;
 
 public class MitgliedSearchModel {
 	private String[] columnNames;
-	
-	LinkedListModel<Mitglied> mitgliedMOdel;
+
+	SelectionInList<Mitglied> mitgliedMOdel;
 	ValueModel mitgliedSelectionHolder;
 	SelectionInList<Mitglied> mitgliedSelectionInList;
 
-	private AbstractTableModel tableModel;
+	private final AbstractTableModel tableModel;
 
 	public MitgliedSearchModel() {
-		mitgliedMOdel = new LinkedListModel<Mitglied>();
+		mitgliedMOdel = new SelectionInList<Mitglied>();
 		mitgliedSelectionHolder = new ValueHolder();
 		mitgliedSelectionInList = new SelectionInList<Mitglied>(
 				(ListModel) mitgliedMOdel, mitgliedSelectionHolder);
-		
+
 		tableModel = new ExampleTableModel();
 	}
 
-	public void setData(List<Mitglied> liste){
-		mitgliedMOdel.clear();
-		for(Mitglied md: liste){
-			mitgliedMOdel.add(md);
-		}
+	public void setData(List<Mitglied> liste) {
+		mitgliedMOdel.clearSelection();
+		mitgliedMOdel.setList(liste);
 		tableModel.fireTableDataChanged();
-		
+
 	}
+
 	public AbstractTableModel getTableModel() {
 		return tableModel;
 	}
@@ -45,10 +43,11 @@ public class MitgliedSearchModel {
 	public class ExampleTableModel extends AbstractTableModel {
 
 		private static final long serialVersionUID = 1L;
-		
-		public ExampleTableModel(){
+
+		public ExampleTableModel() {
 			setColumnNames();
 		}
+
 		@Override
 		public int getRowCount() {
 			return mitgliedSelectionInList.getSize();
@@ -59,12 +58,13 @@ public class MitgliedSearchModel {
 			return columnNames.length;
 		}
 
+		@Override
 		public String getColumnName(int column) {
 			return columnNames[column];
 		}
-		
-		public void setColumnNames(){
-			columnNames = new String[] { "Vorname","Name"};
+
+		public void setColumnNames() {
+			columnNames = new String[] { "Vorname", "Name" };
 		}
 
 		@Override
@@ -80,7 +80,8 @@ public class MitgliedSearchModel {
 			return "";
 		}
 	}
-	public Mitglied getSelectedMitglied(int row){
+
+	public Mitglied getSelectedMitglied(int row) {
 		return mitgliedSelectionInList.getElementAt(row);
 	}
 

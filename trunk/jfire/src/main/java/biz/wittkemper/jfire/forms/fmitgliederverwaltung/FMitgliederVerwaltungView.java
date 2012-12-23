@@ -65,6 +65,7 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 	ValueModel foerderEintritt;
 	ValueModel anrede;
 	ValueModel rettungsdienst;
+	ValueModel datenfreigabe;
 
 	public Trigger trigger;
 	private final JToolBar TBMain;
@@ -111,6 +112,7 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 	private final JComboBox cbAnrede;
 	private final JLabel lblAnrede;
 	private final JCheckBox cbRettungsdienst;
+	private final JCheckBox cbDatenfreigabe;
 
 	public void setNewUserActice(boolean value) {
 		btnNew.setEnabled(value);
@@ -154,6 +156,7 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 		foerderEintritt = pmodel.getBufferedModel("foerderMitgliedSeit");
 		anrede = pmodel.getBufferedModel("anrede");
 		rettungsdienst = pmodel.getBufferedModel("rettungsdienst");
+		datenfreigabe = pmodel.getBufferedModel("datenfreigabe");
 
 		List<MitgliedStatus> gueltigStatus = model.getMitgliedStatuse();
 		List<Anrede> anreden = model.getAnreden();
@@ -336,6 +339,10 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 
 		cbRettungsdienst = BasicComponentFactory.createCheckBox(rettungsdienst,
 				"Mitglied Rettungsdienst");
+		// cbRettungsdienst = new JCheckBox("Mitglied Rettungsdienst");
+
+		cbDatenfreigabe = BasicComponentFactory.createCheckBox(datenfreigabe,
+				"Datenfreigabe erteilt");
 
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
 		gl_panel_1
@@ -459,12 +466,21 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 																						.createParallelGroup(
 																								Alignment.LEADING)
 																						.addComponent(
-																								tb_phone,
-																								GroupLayout.PREFERRED_SIZE,
-																								338,
-																								GroupLayout.PREFERRED_SIZE)
-																						.addComponent(
-																								cbRettungsdienst))
+																								cbRettungsdienst)
+																						.addGroup(
+																								gl_panel_1
+																										.createParallelGroup(
+																												Alignment.TRAILING)
+																										.addComponent(
+																												cbDatenfreigabe,
+																												GroupLayout.PREFERRED_SIZE,
+																												196,
+																												GroupLayout.PREFERRED_SIZE)
+																										.addComponent(
+																												tb_phone,
+																												GroupLayout.PREFERRED_SIZE,
+																												338,
+																												GroupLayout.PREFERRED_SIZE)))
 																		.addContainerGap(
 																				GroupLayout.DEFAULT_SIZE,
 																				Short.MAX_VALUE)))));
@@ -586,10 +602,18 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 																				ComponentPlacement.RELATED)))
 										.addPreferredGap(
 												ComponentPlacement.RELATED,
-												128, Short.MAX_VALUE)
-										.addComponent(pnDienstlich,
-												GroupLayout.PREFERRED_SIZE, 77,
-												GroupLayout.PREFERRED_SIZE)
+												114, Short.MAX_VALUE)
+										.addGroup(
+												gl_panel_1
+														.createParallelGroup(
+																Alignment.TRAILING)
+														.addComponent(
+																pnDienstlich,
+																GroupLayout.PREFERRED_SIZE,
+																77,
+																GroupLayout.PREFERRED_SIZE)
+														.addComponent(
+																cbDatenfreigabe))
 										.addContainerGap()));
 
 		lblMitgliedSeit = new JLabel("Mitglied seit: ");
@@ -908,6 +932,7 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 		}
 		cbAnrede.setEnabled(value);
 		cbRettungsdienst.setEnabled(value);
+		cbDatenfreigabe.setEnabled(value);
 	}
 
 	public void setToolbar(EDITMODE value) {

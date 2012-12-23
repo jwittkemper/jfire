@@ -48,6 +48,8 @@ public class MitgliedModel {
 
 	private boolean rettungsdienst;
 
+	private boolean datenfreigabe;
+
 	public MitgliedModel() {
 		changeSupport = new ExtendedPropertyChangeSupport(this);
 	}
@@ -80,6 +82,7 @@ public class MitgliedModel {
 		this.setTelefonPrivatMobil(mitglied.getTelefonPrivatMobil());
 		this.setAnrede(mitglied.getAnrede());
 		this.setRettungsdienst(mitglied.isRettungsdienst());
+		this.setDatenfreigabe(mitglied.isDatenfreigabe());
 	}
 
 	public Mitglied getMitglied() {
@@ -102,6 +105,7 @@ public class MitgliedModel {
 		mitglied.setStatus(status);
 		mitglied.setAnrede(anrede);
 		mitglied.setRettungsdienst(rettungsdienst);
+		mitglied.setDatenfreigabe(datenfreigabe);
 		return mitglied;
 	}
 
@@ -284,6 +288,16 @@ public class MitgliedModel {
 		this.rettungsdienst = rettungsdienst;
 		changeSupport.firePropertyChange("rettungsdienst", old, rettungsdienst);
 		this.rettungsdienst = rettungsdienst;
+	}
+
+	public boolean isDatenfreigabe() {
+		return datenfreigabe;
+	}
+
+	public void setDatenfreigabe(boolean datenfreigabe) {
+		boolean old = this.datenfreigabe;
+		this.datenfreigabe = datenfreigabe;
+		changeSupport.firePropertyChange("datenfreigabe", old, datenfreigabe);
 	}
 
 }

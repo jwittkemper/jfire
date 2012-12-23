@@ -63,22 +63,25 @@ public class DateUtils {
 			if (liste.size() > 0) {
 				for (Mitglied m : liste) {
 					cal1.setTime(m.getGebDatum());
-					text.append(m.getName()
-							+ ", "
-							+ m.getVorname()
-							+ ", "
-							+ m.getStatus().getBezeichnungLang()
-							+ ", "
-							+ getCurDateString(m.getGebDatum())
-							+ ", wird: "
-							+ (cal2.get(Calendar.YEAR)
-									- cal1.get(Calendar.YEAR) + " alt.") + "\n");
+					text.append(m.getName() + ", " + m.getVorname() + ", "
+							+ m.getStatus().getBezeichnungLang() + ", "
+							+ getCurDateString(m.getGebDatum()) + ", wird: "
+							+ getAlter(cal1, cal2) + "\n");
 				}
 
 				JOptionPane.showMessageDialog(frame, text.toString(),
 						"Geburtstage in diesem und dem nächsten Monat:",
 						JOptionPane.INFORMATION_MESSAGE);
 			}
+		}
+	}
+
+	private String getAlter(Calendar cal1, Calendar cal2) {
+		if (cal1.get(Calendar.MONTH) >= 11) {
+			return (cal2.get(Calendar.YEAR) - 1) - cal1.get(Calendar.YEAR)
+					+ " alt.";
+		} else {
+			return cal2.get(Calendar.YEAR) - cal1.get(Calendar.YEAR) + " alt.";
 		}
 	}
 }

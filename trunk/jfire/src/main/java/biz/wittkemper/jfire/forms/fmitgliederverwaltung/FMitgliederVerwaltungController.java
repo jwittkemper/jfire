@@ -218,15 +218,21 @@ public class FMitgliederVerwaltungController {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (model.getMitglied().getId() > 0) {
-				String msg = "Wollen sie das ausgewählte Mitglied wirklich löschen?";
 
-				if (JOptionPane.showConfirmDialog(view, msg, "Frage:",
-						JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION) {
+				FMitgliedDelete delete = new FMitgliedDelete();
+				delete.setModal(true);
+				delete.setVisible(true);
+				if (delete.isCloseOK()) {
+
 					Mitglied mitglied = model.getMitglied();
 					mitglied.setGeloescht(true);
+					mitglied.setGeloeschtAM(delete.getAustittsDatum());
+					mitglied.setGeloeschtWeil(delete.getLoeschGrunf());
 					HibernateSession.beginTransaction();
 					DAOFactory.getInstance().getMitgliedDAO().update(mitglied);
 					HibernateSession.commitTransaction();
+					switchViewMode(EDITMODE.NONE);
+					view.repaint();
 					sucheNaechstesMitglied("right");
 				}
 			}
