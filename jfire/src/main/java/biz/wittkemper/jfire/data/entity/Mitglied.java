@@ -5,6 +5,8 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,6 +26,10 @@ import org.hibernate.annotations.Proxy;
 @Entity
 @Proxy(lazy = false)
 public class Mitglied implements Serializable {
+
+	public enum LOESCHGRUNG {
+		AUSTRITT, VERSTORBEN
+	}
 
 	/**
 	 * 
@@ -48,8 +54,11 @@ public class Mitglied implements Serializable {
 	Date masterInsert;
 	Date lastChange = new Date();
 	boolean geloescht;
+	LOESCHGRUNG geloeschtWeil;
+	Date geloeschtAM;
 	boolean rettungsdienst;
 	boolean edit;
+	boolean datenfreigabe;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -234,6 +243,9 @@ public class Mitglied implements Serializable {
 		this.setTelefonPrivatFest(mg.getTelefonPrivatFest());
 		this.setTelefonPrivatMobil(mg.getTelefonPrivatMobil());
 		this.setVorname(mg.getVorname());
+		this.setGeloeschtAM(mg.getGeloeschtAM());
+		this.setGeloeschtWeil(mg.getGeloeschtWeil());
+		this.setDatenfreigabe(mg.isDatenfreigabe());
 	}
 
 	public boolean isEdit() {
@@ -242,5 +254,33 @@ public class Mitglied implements Serializable {
 
 	public void setEdit(boolean edit) {
 		this.edit = edit;
+	}
+
+	@Column(name = "loeschgrund")
+	@Enumerated(EnumType.ORDINAL)
+	public LOESCHGRUNG getGeloeschtWeil() {
+		return geloeschtWeil;
+	}
+
+	public void setGeloeschtWeil(LOESCHGRUNG geloeschtWeil) {
+		this.geloeschtWeil = geloeschtWeil;
+	}
+
+	@Column(name = "geloeschtAM")
+	public Date getGeloeschtAM() {
+		return geloeschtAM;
+	}
+
+	public void setGeloeschtAM(Date geloeschtAM) {
+		this.geloeschtAM = geloeschtAM;
+	}
+
+	@Column(name = "datenfreigabe")
+	public boolean isDatenfreigabe() {
+		return datenfreigabe;
+	}
+
+	public void setDatenfreigabe(boolean datenfreigabe) {
+		this.datenfreigabe = datenfreigabe;
 	}
 }

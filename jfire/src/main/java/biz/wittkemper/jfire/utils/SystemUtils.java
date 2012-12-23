@@ -211,7 +211,57 @@ public class SystemUtils {
 			setVersion3();
 		case 3:
 			setVersion4();
+		case 4:
+			setVersion5();
+		case 5:
+			setVersion6();
 		}
+	}
+
+	private void setVersion6() {
+
+		HibernateSession.beginTransaction();
+		try {
+
+			String sql = "";
+			sql = "ALTER TABLE MITGLIED add datenfreigabe SMALLINT NOT NULL DEFAULT 0";
+			executeSQL(sql);
+
+			setDBVersion(6);
+			HibernateSession.commitTransaction();
+
+		} catch (Exception e) {
+			HibernateSession.rollbackTransaction();
+			JOptionPane.showConfirmDialog(null,
+					"Update fehlgeschlagen!\n" + e.getMessage(),
+					"Fehler beim Update", JOptionPane.ERROR_MESSAGE
+							+ JOptionPane.OK_OPTION);
+		}
+
+	}
+
+	private void setVersion5() {
+		HibernateSession.beginTransaction();
+		try {
+
+			String sql = "";
+			sql = "ALTER TABLE MITGLIED add loeschgrund SMALLINT";
+			executeSQL(sql);
+
+			sql = "ALTER TABLE MITGLIED add geloeschtAM timestamp";
+			executeSQL(sql);
+
+			setDBVersion(5);
+			HibernateSession.commitTransaction();
+
+		} catch (Exception e) {
+			HibernateSession.rollbackTransaction();
+			JOptionPane.showConfirmDialog(null,
+					"Update fehlgeschlagen!\n" + e.getMessage(),
+					"Fehler beim Update", JOptionPane.ERROR_MESSAGE
+							+ JOptionPane.OK_OPTION);
+		}
+
 	}
 
 	private void setVersion4() {
