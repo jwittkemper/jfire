@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="mitgliederAktive" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="Titel" class="java.lang.String">
+		<parameterDescription><![CDATA[Titel der Mitgliederliste]]></parameterDescription>
+	</parameter>
+	<parameter name="STAND" class="java.lang.String"/>
+	<parameter name="mitgliedstatus" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[Select m.NAME, m.VORNAME, m.STRASSENR, m.PLZ, m.ORT, m.EMAIL, m.GEBDATUM, m.TELEFONPRIVATFEST, m.TELEFONPRIVATMOBIL, m.TELEFONDIENST from MITGLIED m
+        where m.GELOESCHT = 0
+        AND m.STATUS_ID IN ( $P!{mitgliedstatus})
+        AND m.DATENFREIGABE = 1
+        ORDER BY lower(m.NAME), lower(m.VORNAME)]]>
+	</queryString>
+	<field name="NAME" class="java.lang.String"/>
+	<field name="VORNAME" class="java.lang.String"/>
+	<field name="STRASSENR" class="java.lang.String"/>
+	<field name="PLZ" class="java.lang.Integer"/>
+	<field name="ORT" class="java.lang.String"/>
+	<field name="EMAIL" class="java.lang.String"/>
+	<field name="GEBDATUM" class="java.util.Date"/>
+	<field name="TELEFONPRIVATFEST" class="java.lang.String"/>
+	<field name="TELEFONPRIVATMOBIL" class="java.lang.String"/>
+	<field name="TELEFONDIENST" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="34">
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="802" height="20"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{Titel}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="23">
+			<staticText>
+				<reportElement x="1" y="0" width="87" height="20"/>
+				<textElement>
+					<font size="8" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[VORNAME, Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="111" y="0" width="75" height="20"/>
+				<textElement>
+					<font size="8" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[PLZ-Ort]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="190" y="0" width="87" height="20"/>
+				<textElement>
+					<font size="8" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Strasse]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="446" y="0" width="73" height="20"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[GEBDATUM]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="522" y="0" width="127" height="20"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Privat Telefon]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="654" y="0" width="118" height="20"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Gesch Telefon]]></text>
+			</staticText>
+			<line>
+				<reportElement x="1" y="21" width="796" height="1"/>
+			</line>
+			<line>
+				<reportElement x="0" y="-1" width="796" height="1"/>
+			</line>
+			<line>
+				<reportElement x="107" y="0" width="1" height="23"/>
+			</line>
+			<line>
+				<reportElement x="0" y="0" width="1" height="23"/>
+			</line>
+			<line>
+				<reportElement x="188" y="0" width="1" height="23"/>
+			</line>
+			<line>
+				<reportElement x="289" y="0" width="1" height="23"/>
+			</line>
+			<staticText>
+				<reportElement x="307" y="1" width="73" height="20"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[E-Mail]]></text>
+			</staticText>
+			<line>
+				<reportElement x="445" y="0" width="1" height="23"/>
+			</line>
+			<line>
+				<reportElement x="519" y="-1" width="1" height="23"/>
+			</line>
+			<line>
+				<reportElement x="651" y="0" width="1" height="23"/>
+			</line>
+			<line>
+				<reportElement x="796" y="-1" width="1" height="23"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="23" splitType="Stretch">
+			<textField>
+				<reportElement x="1" y="2" width="106" height="20"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{VORNAME} + " " + $F{NAME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="111" y="2" width="75" height="20"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PLZ}.toString() +"-" + $F{ORT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="190" y="2" width="100" height="20"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{STRASSENR}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="292" y="2" width="154" height="20"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{EMAIL}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd.MM.yyyy">
+				<reportElement x="446" y="2" width="73" height="20"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{GEBDATUM}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="522" y="2" width="127" height="20"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TELEFONPRIVATFEST}+"/"+$F{TELEFONPRIVATMOBIL}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="654" y="2" width="100" height="20"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TELEFONDIENST}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="1" y="21" width="796" height="1"/>
+			</line>
+			<line>
+				<reportElement x="107" y="-1" width="1" height="22"/>
+			</line>
+			<line>
+				<reportElement x="0" y="0" width="1" height="22"/>
+			</line>
+			<line>
+				<reportElement x="188" y="-1" width="1" height="22"/>
+			</line>
+			<line>
+				<reportElement x="289" y="-1" width="1" height="22"/>
+			</line>
+			<line>
+				<reportElement x="445" y="0" width="1" height="22"/>
+			</line>
+			<line>
+				<reportElement x="519" y="-1" width="1" height="22"/>
+			</line>
+			<line>
+				<reportElement x="651" y="-1" width="1" height="22"/>
+			</line>
+			<line>
+				<reportElement x="796" y="-1" width="1" height="22"/>
+			</line>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="54" splitType="Stretch">
+			<staticText>
+				<reportElement x="566" y="27" width="60" height="20"/>
+				<textElement/>
+				<text><![CDATA[Stand vom:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="626" y="27" width="171" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{STAND}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>
