@@ -155,6 +155,7 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 		eintritt = pmodel.getBufferedModel("eintritt");
 		foerderEintritt = pmodel.getBufferedModel("foerderMitgliedSeit");
 		anrede = pmodel.getBufferedModel("anrede");
+
 		rettungsdienst = pmodel.getBufferedModel("rettungsdienst");
 		datenfreigabe = pmodel.getBufferedModel("datenfreigabe");
 
@@ -344,6 +345,8 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 		cbDatenfreigabe = BasicComponentFactory.createCheckBox(datenfreigabe,
 				"Datenfreigabe erteilt");
 
+		// cbDatenfreigabe = new JCheckBox("Datenfreigabe erteilt");
+
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
 		gl_panel_1
 				.setHorizontalGroup(gl_panel_1
@@ -467,20 +470,16 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 																								Alignment.LEADING)
 																						.addComponent(
 																								cbRettungsdienst)
-																						.addGroup(
-																								gl_panel_1
-																										.createParallelGroup(
-																												Alignment.TRAILING)
-																										.addComponent(
-																												cbDatenfreigabe,
-																												GroupLayout.PREFERRED_SIZE,
-																												196,
-																												GroupLayout.PREFERRED_SIZE)
-																										.addComponent(
-																												tb_phone,
-																												GroupLayout.PREFERRED_SIZE,
-																												338,
-																												GroupLayout.PREFERRED_SIZE)))
+																						.addComponent(
+																								tb_phone,
+																								GroupLayout.PREFERRED_SIZE,
+																								338,
+																								GroupLayout.PREFERRED_SIZE)
+																						.addComponent(
+																								cbDatenfreigabe,
+																								GroupLayout.PREFERRED_SIZE,
+																								196,
+																								GroupLayout.PREFERRED_SIZE))
 																		.addContainerGap(
 																				GroupLayout.DEFAULT_SIZE,
 																				Short.MAX_VALUE)))));
@@ -601,19 +600,14 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 																		.addPreferredGap(
 																				ComponentPlacement.RELATED)))
 										.addPreferredGap(
-												ComponentPlacement.RELATED,
-												114, Short.MAX_VALUE)
-										.addGroup(
-												gl_panel_1
-														.createParallelGroup(
-																Alignment.TRAILING)
-														.addComponent(
-																pnDienstlich,
-																GroupLayout.PREFERRED_SIZE,
-																77,
-																GroupLayout.PREFERRED_SIZE)
-														.addComponent(
-																cbDatenfreigabe))
+												ComponentPlacement.RELATED)
+										.addComponent(cbDatenfreigabe)
+										.addPreferredGap(
+												ComponentPlacement.RELATED, 91,
+												Short.MAX_VALUE)
+										.addComponent(pnDienstlich,
+												GroupLayout.PREFERRED_SIZE, 77,
+												GroupLayout.PREFERRED_SIZE)
 										.addContainerGap()));
 
 		lblMitgliedSeit = new JLabel("Mitglied seit: ");
