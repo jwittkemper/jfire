@@ -215,6 +215,71 @@ public class SystemUtils {
 			setVersion5();
 		case 5:
 			setVersion6();
+		case 6:
+			setVersion7();
+		}
+	}
+
+	private void setVersion7() {
+		HibernateSession.beginTransaction();
+		try {
+			String sql = " CREATE TABLE APP.FUEHRERSCHEIN";
+			sql += " ( ";
+			sql += " FID bigint not null primary key GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1) ,";
+			sql += " BEFRISTET smallint NOT NULL, ";
+			sql += " BEZEICHNUNG varchar(3) ";
+			sql += " ) ";
+			executeSQL(sql);
+
+			sql = "CREATE UNIQUE INDEX SQL121231122719600 ON APP.FUEHRERSCHEIN(FID)";
+			executeSQL(sql);
+
+			sql = " CREATE TABLE APP.MITGLIED_FUEHRERSCHEIN ";
+			sql += " ( ";
+			sql += " BEFRISTETBIS timestamp, ";
+			sql += " FID bigint NOT NULL, ";
+			sql += " ID bigint NOT NULL, ";
+			sql += " CONSTRAINT SQL121231122721050 PRIMARY KEY (FID,ID)  ";
+			sql += " )";
+			executeSQL(sql);
+
+			sql = " ALTER TABLE APP.MITGLIED_FUEHRERSCHEIN ";
+			sql += " ADD CONSTRAINT FK556C2C4B1DD9CBF2 ";
+			sql += " FOREIGN KEY (ID) ";
+			sql += " REFERENCES APP.MITGLIED(ID) ";
+			executeSQL(sql);
+
+			sql = " ALTER TABLE APP.MITGLIED_FUEHRERSCHEIN ";
+			sql += " ADD CONSTRAINT FK556C2C4B4158634 ";
+			sql += " FOREIGN KEY (FID) ";
+			sql += " REFERENCES APP.FUEHRERSCHEIN(FID) ";
+			executeSQL(sql);
+
+			executeSQL("CREATE INDEX SQL121231122722300 ON APP.MITGLIED_FUEHRERSCHEIN(FID)");
+			executeSQL("CREATE INDEX SQL121231122722170 ON APP.MITGLIED_FUEHRERSCHEIN(ID)");
+
+			sql = " CREATE UNIQUE INDEX SQL121231122721050 ON APP.MITGLIED_FUEHRERSCHEIN";
+			sql += "( FID, ID) ";
+			executeSQL(sql);
+
+			executeSQL("INSERT INTO FUEHRERSCHEIN (BEZEICHNUNG, BEFRISTET) values ('2', 0)");
+			executeSQL("INSERT INTO FUEHRERSCHEIN (BEZEICHNUNG, BEFRISTET) values ('3', 0)");
+			executeSQL("INSERT INTO FUEHRERSCHEIN (BEZEICHNUNG, BEFRISTET) values ('B', 0)");
+			executeSQL("INSERT INTO FUEHRERSCHEIN (BEZEICHNUNG, BEFRISTET) values ('BE', 0)");
+			executeSQL("INSERT INTO FUEHRERSCHEIN (BEZEICHNUNG, BEFRISTET) values ('C', 1)");
+			executeSQL("INSERT INTO FUEHRERSCHEIN (BEZEICHNUNG, BEFRISTET) values ('C1', 1)");
+			executeSQL("INSERT INTO FUEHRERSCHEIN (BEZEICHNUNG, BEFRISTET) values ('CE', 1)");
+			executeSQL("INSERT INTO FUEHRERSCHEIN (BEZEICHNUNG, BEFRISTET) values ('C1E', 1)");
+
+			setDBVersion(7);
+
+			HibernateSession.commitTransaction();
+		} catch (Exception ex) {
+			HibernateSession.rollbackTransaction();
+			JOptionPane.showConfirmDialog(null,
+					"Update fehlgeschlagen!\n" + ex.getMessage(),
+					"Fehler beim Update", JOptionPane.ERROR_MESSAGE
+							+ JOptionPane.OK_OPTION);
 		}
 	}
 

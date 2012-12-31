@@ -48,7 +48,8 @@ public class HibernateSession {
 				.setProperty("hibernate.query.substitutions",
 						"true 1, false 0, yes 'Y', no 'N'")
 				.setProperty("hibernate.hbm2ddl.auto", createDB)
-				.setProperty("hibernate.show_sql", "false")
+				// .setProperty("hibernate.hbm2ddl.auto", "create")
+				.setProperty("hibernate.show_sql", "true")
 				.setProperty("hibernate.format_sql", "true")
 				.setProperty("hibernate.current_session_context_class",
 						"thread")
@@ -73,6 +74,12 @@ public class HibernateSession {
 						biz.wittkemper.jfire.data.entity.Melder.class)
 				.addAnnotatedClass(
 						biz.wittkemper.jfire.data.entity.MelderSchleifen.class)
+				.addAnnotatedClass(
+						biz.wittkemper.jfire.data.entity.Fuehrerschein.class)
+				.addAnnotatedClass(
+						biz.wittkemper.jfire.data.entity.Mitglied_Fuehrerschein.class)
+				.addAnnotatedClass(
+						biz.wittkemper.jfire.data.entity.MitgliedFuehrerscheinID.class)
 				.buildSessionFactory();
 		if (initDB) {
 			systemUtils.initDB();
