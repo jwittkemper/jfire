@@ -2,7 +2,10 @@ package biz.wittkemper.jfire.data.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -12,6 +15,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -59,6 +63,8 @@ public class Mitglied implements Serializable {
 	boolean rettungsdienst;
 	boolean edit;
 	boolean datenfreigabe;
+	Set<Mitglied_Fuehrerschein> fuehrerscheins = new HashSet<Mitglied_Fuehrerschein>(
+			0);
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -282,5 +288,14 @@ public class Mitglied implements Serializable {
 
 	public void setDatenfreigabe(boolean datenfreigabe) {
 		this.datenfreigabe = datenfreigabe;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "mfID.mitglied", cascade = CascadeType.ALL)
+	public Set<Mitglied_Fuehrerschein> getFuehrerscheins() {
+		return fuehrerscheins;
+	}
+
+	public void setFuehrerscheins(Set<Mitglied_Fuehrerschein> fuehrerscheins) {
+		this.fuehrerscheins = fuehrerscheins;
 	}
 }
