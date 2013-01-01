@@ -24,6 +24,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.BevelBorder;
 
 import org.jdesktop.swingx.JXDatePicker;
+import org.jdesktop.swingx.JXTable;
 
 import biz.wittkemper.jfire.data.entity.Anrede;
 import biz.wittkemper.jfire.data.entity.MitgliedStatus;
@@ -32,7 +33,6 @@ import biz.wittkemper.jfire.utils.IconService;
 import biz.wittkemper.jfire.utils.IconService.ICONSERVICE;
 
 import com.jgoodies.binding.PresentationModel;
-import com.jgoodies.binding.adapter.BasicComponentFactory;
 import com.jgoodies.binding.adapter.Bindings;
 import com.jgoodies.binding.adapter.ComboBoxAdapter;
 import com.jgoodies.binding.value.ConverterFactory;
@@ -106,6 +106,7 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 	private final JButton btnFoerderMitglied;
 	private final JLabel lbMitglied;
 	private final JPanel tpFoerderMitglied;
+	private final JPanel tpFuehrerscheine;
 	private final JLabel lblMitgliedSeit_1;
 	private final JXDatePicker dPFoerderMitglied;
 	private final JTabbedPane tbStammdaten;
@@ -113,6 +114,8 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 	private final JLabel lblAnrede;
 	private final JCheckBox cbRettungsdienst;
 	private final JCheckBox cbDatenfreigabe;
+	private final JXTable tbFuehrerscheine;
+	private final JLabel lblFhrerscheine;
 
 	public void setNewUserActice(boolean value) {
 		btnNew.setEnabled(value);
@@ -338,14 +341,11 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 		lblAnrede = new JLabel("Anrede");
 		cbAnrede = new JComboBox(new ComboBoxAdapter<Anrede>(anreden, anrede));
 
-		cbRettungsdienst = BasicComponentFactory.createCheckBox(rettungsdienst,
-				"Mitglied Rettungsdienst");
-		// cbRettungsdienst = new JCheckBox("Mitglied Rettungsdienst");
+		cbRettungsdienst = new JCheckBox("Mitglied Rettungsdienst");
+		Bindings.bind(cbRettungsdienst, rettungsdienst);
 
-		cbDatenfreigabe = BasicComponentFactory.createCheckBox(datenfreigabe,
-				"Datenfreigabe erteilt");
-
-		// cbDatenfreigabe = new JCheckBox("Datenfreigabe erteilt");
+		cbDatenfreigabe = new JCheckBox("Datenfreigabe erteilt");
+		Bindings.bind(cbDatenfreigabe, datenfreigabe);
 
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
 		gl_panel_1
@@ -804,6 +804,44 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 		tb_phone.setLayout(gl_tb_phone);
 		panel_1.setLayout(gl_panel_1);
 
+		tpFuehrerscheine = new JPanel();
+		tbStammdaten.addTab("Führerscheine", null, tpFuehrerscheine, null);
+
+		tbFuehrerscheine = new JXTable();
+
+		lblFhrerscheine = new JLabel("Führerscheine");
+		GroupLayout gl_tpFuehrerscheine = new GroupLayout(tpFuehrerscheine);
+		gl_tpFuehrerscheine
+				.setHorizontalGroup(gl_tpFuehrerscheine
+						.createParallelGroup(Alignment.LEADING)
+						.addGroup(
+								gl_tpFuehrerscheine
+										.createSequentialGroup()
+										.addContainerGap()
+										.addGroup(
+												gl_tpFuehrerscheine
+														.createParallelGroup(
+																Alignment.LEADING)
+														.addComponent(
+																tbFuehrerscheine,
+																GroupLayout.PREFERRED_SIZE,
+																286,
+																GroupLayout.PREFERRED_SIZE)
+														.addComponent(
+																lblFhrerscheine))
+										.addContainerGap(563, Short.MAX_VALUE)));
+		gl_tpFuehrerscheine.setVerticalGroup(gl_tpFuehrerscheine
+				.createParallelGroup(Alignment.LEADING).addGroup(
+						gl_tpFuehrerscheine
+								.createSequentialGroup()
+								.addGap(42)
+								.addComponent(lblFhrerscheine)
+								.addPreferredGap(ComponentPlacement.UNRELATED)
+								.addComponent(tbFuehrerscheine,
+										GroupLayout.PREFERRED_SIZE, 238,
+										GroupLayout.PREFERRED_SIZE)
+								.addContainerGap(82, Short.MAX_VALUE)));
+		tpFuehrerscheine.setLayout(gl_tpFuehrerscheine);
 		tpFoerderMitglied = new JPanel();
 		tbStammdaten.addTab("Förderverein", null, tpFoerderMitglied, null);
 

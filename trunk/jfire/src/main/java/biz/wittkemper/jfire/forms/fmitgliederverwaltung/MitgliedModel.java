@@ -3,7 +3,9 @@ package biz.wittkemper.jfire.forms.fmitgliederverwaltung;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import biz.wittkemper.jfire.data.dao.DAOFactory;
 import biz.wittkemper.jfire.data.dao.HibernateSession;
@@ -11,6 +13,7 @@ import biz.wittkemper.jfire.data.entity.Anrede;
 import biz.wittkemper.jfire.data.entity.FoerderMitglied;
 import biz.wittkemper.jfire.data.entity.Mitglied;
 import biz.wittkemper.jfire.data.entity.MitgliedStatus;
+import biz.wittkemper.jfire.data.entity.Mitglied_Fuehrerschein;
 
 import com.jgoodies.binding.beans.ExtendedPropertyChangeSupport;
 
@@ -27,6 +30,8 @@ public class MitgliedModel {
 
 	private List<MitgliedStatus> mitgliedStatuse = new ArrayList<MitgliedStatus>();
 	private List<Anrede> anreden = new ArrayList<Anrede>();
+	private Set<Mitglied_Fuehrerschein> fuehrerscheine = new HashSet<Mitglied_Fuehrerschein>(
+			0);
 
 	private FoerderMitglied foerderMitglied;
 
@@ -83,6 +88,7 @@ public class MitgliedModel {
 		this.setAnrede(mitglied.getAnrede());
 		this.setRettungsdienst(mitglied.isRettungsdienst());
 		this.setDatenfreigabe(mitglied.isDatenfreigabe());
+		this.setFuehrerscheine(mitglied.getFuehrerscheins());
 	}
 
 	public Mitglied getMitglied() {
@@ -106,6 +112,7 @@ public class MitgliedModel {
 		mitglied.setAnrede(anrede);
 		mitglied.setRettungsdienst(rettungsdienst);
 		mitglied.setDatenfreigabe(datenfreigabe);
+		mitglied.setFuehrerscheins(fuehrerscheine);
 		return mitglied;
 	}
 
@@ -298,6 +305,24 @@ public class MitgliedModel {
 		boolean old = this.datenfreigabe;
 		this.datenfreigabe = datenfreigabe;
 		changeSupport.firePropertyChange("datenfreigabe", old, datenfreigabe);
+	}
+
+	public String getTelefondienst() {
+		return telefondienst;
+	}
+
+	public void setTelefondienst(String telefondienst) {
+		String old = this.telefondienst;
+		this.telefondienst = telefondienst;
+		changeSupport.firePropertyChange("telefonDienst", old, telefondienst);
+	}
+
+	public Set<Mitglied_Fuehrerschein> getFuehrerscheine() {
+		return fuehrerscheine;
+	}
+
+	public void setFuehrerscheine(Set<Mitglied_Fuehrerschein> fuehrerscheine) {
+		this.fuehrerscheine = fuehrerscheine;
 	}
 
 }
