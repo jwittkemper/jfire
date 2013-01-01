@@ -12,6 +12,7 @@ public class DAOFactory {
 	MelderDAO melderDAO = new MelderDAOImpl();
 	MelderTypDAO melderTypDAO = new MelderTypDAOImpl();
 	MelderSchleifenDAO melderSchleifenDAO = new MelderSchleifenDAOImpl();
+	FuehrerscheinDAO fuehrerscheinDAO = new FuehrerscheinDAOImpl();
 
 	private DAOFactory() {
 	}
@@ -86,6 +87,14 @@ public class DAOFactory {
 
 	public void setMelderTypDAO(MelderTypDAO melderTypDAO) {
 		this.melderTypDAO = melderTypDAO;
+	}
+
+	public FuehrerscheinDAO getFuehrerscheinDAO() {
+		return fuehrerscheinDAO;
+	}
+
+	public void setFuehrerscheinDAO(FuehrerscheinDAO fuehrerscheinDAO) {
+		this.fuehrerscheinDAO = fuehrerscheinDAO;
 	}
 
 }
