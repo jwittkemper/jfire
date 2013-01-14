@@ -3,9 +3,7 @@ package biz.wittkemper.jfire.forms.fmitgliederverwaltung;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import biz.wittkemper.jfire.data.dao.DAOFactory;
 import biz.wittkemper.jfire.data.dao.HibernateSession;
@@ -30,8 +28,7 @@ public class MitgliedModel {
 
 	private List<MitgliedStatus> mitgliedStatuse = new ArrayList<MitgliedStatus>();
 	private List<Anrede> anreden = new ArrayList<Anrede>();
-	private Set<Mitglied_Fuehrerschein> fuehrerscheine = new HashSet<Mitglied_Fuehrerschein>(
-			0);
+	private List<Mitglied_Fuehrerschein> fuehrerscheine = new ArrayList<Mitglied_Fuehrerschein>();
 
 	private FoerderMitglied foerderMitglied;
 
@@ -89,6 +86,10 @@ public class MitgliedModel {
 		this.setRettungsdienst(mitglied.isRettungsdienst());
 		this.setDatenfreigabe(mitglied.isDatenfreigabe());
 		this.setFuehrerscheine(mitglied.getFuehrerscheins());
+		if (this.fuehrerscheine.size() > 0) {
+			System.out.println(fuehrerscheine.get(0).getFuehrerschein()
+					.getBezeichnung());
+		}
 	}
 
 	public Mitglied getMitglied() {
@@ -317,11 +318,11 @@ public class MitgliedModel {
 		changeSupport.firePropertyChange("telefonDienst", old, telefondienst);
 	}
 
-	public Set<Mitglied_Fuehrerschein> getFuehrerscheine() {
+	public List<Mitglied_Fuehrerschein> getFuehrerscheine() {
 		return fuehrerscheine;
 	}
 
-	public void setFuehrerscheine(Set<Mitglied_Fuehrerschein> fuehrerscheine) {
+	public void setFuehrerscheine(List<Mitglied_Fuehrerschein> fuehrerscheine) {
 		this.fuehrerscheine = fuehrerscheine;
 	}
 

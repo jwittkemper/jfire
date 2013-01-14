@@ -16,21 +16,21 @@ import biz.wittkemper.jfire.data.entity.Mitglied;
 
 public class DateUtils {
 	static boolean wasrun = false;
-	static SimpleDateFormat format = new SimpleDateFormat("dd-MMM-yyyy");
-	static SimpleDateFormat formatlong = new SimpleDateFormat(
-			"dd.MMM.yyyy HH:mm");
+	final static String format = "dd-MMM-yyyy";
+
+	final static String formatlong = "dd.MMM.yyyy HH:mm";
 
 	public static Date getDate(String date) throws ParseException {
-		return format.parse(date);
+		return new SimpleDateFormat(format).parse(date);
 	}
 
 	public static String getCurDateString() {
 		Date date = new Date();
-		return formatlong.format(date);
+		return new SimpleDateFormat(formatlong).format(date);
 	}
 
 	public static String getCurDateString(Date date) {
-		return format.format(date);
+		return new SimpleDateFormat(format).format(date);
 	}
 
 	public static int getJahr() {

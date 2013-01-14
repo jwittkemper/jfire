@@ -141,7 +141,7 @@ public class FMitgliederVerwaltungController {
 
 	private void sucheMitglied() {
 		String lsearch = view.getSearchText().trim();
-		if (lsearch.trim() == "") {
+		if (lsearch.trim().length() == 0) {
 			lsearch = "0";
 		}
 		if (numberUtils.isLongValue(lsearch)) {
