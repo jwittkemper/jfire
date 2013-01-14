@@ -1,9 +1,9 @@
 package biz.wittkemper.jfire.data.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -63,8 +63,7 @@ public class Mitglied implements Serializable {
 	boolean rettungsdienst;
 	boolean edit;
 	boolean datenfreigabe;
-	Set<Mitglied_Fuehrerschein> fuehrerscheins = new HashSet<Mitglied_Fuehrerschein>(
-			0);
+	List<Mitglied_Fuehrerschein> fuehrerscheins = new ArrayList<Mitglied_Fuehrerschein>();
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -291,11 +290,11 @@ public class Mitglied implements Serializable {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "mfID.mitglied", cascade = CascadeType.ALL)
-	public Set<Mitglied_Fuehrerschein> getFuehrerscheins() {
+	public List<Mitglied_Fuehrerschein> getFuehrerscheins() {
 		return fuehrerscheins;
 	}
 
-	public void setFuehrerscheins(Set<Mitglied_Fuehrerschein> fuehrerscheins) {
+	public void setFuehrerscheins(List<Mitglied_Fuehrerschein> fuehrerscheins) {
 		this.fuehrerscheins = fuehrerscheins;
 	}
 }

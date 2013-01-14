@@ -46,10 +46,10 @@ public class ReplicationTest {
 	@Ignore
 	public void test() {
 		Replication replication = new Replication();
-
+		File file = new File("/test.xml");
 		ReplicationWrite replicationWrite = new ReplicationWrite();
 		try {
-			replicationWrite.WriteData(null, replication);
+			replicationWrite.WriteData(file, replication);
 		} catch (InvalidKeyException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

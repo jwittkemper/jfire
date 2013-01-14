@@ -61,7 +61,7 @@ public class FMainController {
 
 		HibernateSession.beginTransaction();
 		LoadData data = new LoadData();
-		data.run();
+		data.start();
 		HibernateSession.commitTransaction();
 
 	}
@@ -364,7 +364,7 @@ public class FMainController {
 
 	class LoadData extends Thread {
 		@Override
-		public void run() {
+		public void start() {
 
 			int aktive = 0;
 			int reserve = 0;
