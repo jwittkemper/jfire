@@ -218,26 +218,43 @@ public class FMitgliederVerwaltungController {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (model.getMitglied().getId() > 0) {
+				if (!model.getMitglied().isGeloescht()) {
+					FMitgliedDelete delete = new FMitgliedDelete();
+					delete.setModal(true);
+					delete.setVisible(true);
+					if (delete.isCloseOK()) {
 
-				FMitgliedDelete delete = new FMitgliedDelete();
-				delete.setModal(true);
-				delete.setVisible(true);
-				if (delete.isCloseOK()) {
-
+						Mitglied mitglied = model.getMitglied();
+						mitglied.setGeloescht(!mitglied.isGeloescht());
+						mitglied.setGeloeschtAM(delete.getAustittsDatum());
+						mitglied.setGeloeschtWeil(delete.getLoeschGrunf());
+						HibernateSession.beginTransaction();
+						DAOFactory.getInstance().getMitgliedDAO()
+								.update(mitglied);
+						HibernateSession.commitTransaction();
+						delete.dispose();
+						view.trigger.triggerFlush();
+						switchViewMode(EDITMODE.NONE);
+						view.trigger.triggerFlush();
+						view.enableImput(false);
+						view.repaint();
+						sucheNaechstesMitglied("right");
+					}
+				} else {
 					Mitglied mitglied = model.getMitglied();
 					mitglied.setGeloescht(!mitglied.isGeloescht());
-					mitglied.setGeloeschtAM(delete.getAustittsDatum());
-					mitglied.setGeloeschtWeil(delete.getLoeschGrunf());
+					mitglied.setGeloeschtAM(null);
+					mitglied.setGeloeschtWeil(null);
 					HibernateSession.beginTransaction();
 					DAOFactory.getInstance().getMitgliedDAO().update(mitglied);
 					HibernateSession.commitTransaction();
-					delete.dispose();
+
 					view.trigger.triggerFlush();
 					switchViewMode(EDITMODE.NONE);
 					view.trigger.triggerFlush();
 					view.enableImput(false);
 					view.repaint();
-					sucheNaechstesMitglied("right");
+
 				}
 			}
 		}
