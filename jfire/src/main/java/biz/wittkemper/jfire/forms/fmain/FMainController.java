@@ -11,6 +11,7 @@ import java.awt.event.WindowListener;
 import java.beans.PropertyVetoException;
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -202,6 +203,9 @@ public class FMainController {
 					} catch (JRException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
 					}
 				}
 			} else if (e.getActionCommand().equals("telefonlisteactive")) {
@@ -211,6 +215,8 @@ public class FMainController {
 				} catch (JRException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
 				}
 			} else if (e.getActionCommand().equals("telefonlisteareserve")) {
 				try {
@@ -219,6 +225,8 @@ public class FMainController {
 				} catch (JRException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
 				}
 			} else if (e.getActionCommand().equals("anwesenheit")) {
 				FAnwesenheit anwesenheit = new FAnwesenheit();
@@ -233,6 +241,8 @@ public class FMainController {
 					} catch (JRException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
 					}
 				}
 
@@ -248,6 +258,8 @@ public class FMainController {
 				} catch (JRException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
 				}
 			} else if (e.getActionCommand().equals("anwesenheitEinsatzL")) {
 				FEinsatzliste einsatzliste = new FEinsatzliste();
@@ -267,6 +279,8 @@ public class FMainController {
 					} catch (JRException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
 					}
 				}
 			} else if (e.getActionCommand().equals("anwesenheitEinsatzR")) {
@@ -287,6 +301,8 @@ public class FMainController {
 					} catch (JRException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
 					}
 				}
 			} else if (e.getActionCommand().equals("datenexport")) {
@@ -327,6 +343,8 @@ public class FMainController {
 				} catch (JRException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
 				}
 			}
 

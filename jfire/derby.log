@@ -1,10 +1,13 @@
 ----------------------------------------------------------------
-Mon Jan 14 22:14:10 CET 2013:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.8.1.2 - (1095077): instance a816c00e-013c-3ae9-8cf8-000005960788 
-on database directory /home/joerg/Develop/Workspace/Datenbanken/database-master  with class loader sun.misc.Launcher$AppClassLoader@77cde100 
-Loaded from file:/home/joerg/mvnrepo/org/apache/derby/derby/10.8.1.2/derby-10.8.1.2.jar
-java.vendor=Sun Microsystems Inc.
-java.runtime.version=1.6.0_24-b24
+Sat Nov 01 09:00:42 CET 2014:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.1 - (1616546): instance a816c00e-0149-6a5e-ddd9-000006301970 
+on database directory /home/joerg/Develop/Workspace/Datenbanken/database-master with class loader sun.misc.Launcher$AppClassLoader@5f2e712f 
+Loaded from file:/home/joerg/.m2/repository/org/apache/derby/derby/10.11.1.1/derby-10.11.1.1.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.7.0_65-b32
 user.dir=/home/joerg/Develop/Workspace/jfire
+os.name=Linux
+os.arch=amd64
+os.version=3.13.0-24-generic
 derby.system.home=null
 Database Class Loader started - derby.database.classpath=''

@@ -3,6 +3,7 @@ package biz.wittkemper.jfire.service.report;
 import java.io.File;
 import java.io.InputStream;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,6 +11,7 @@ import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.WindowConstants;
 import javax.swing.filechooser.FileFilter;
 
 import net.sf.jasperreports.engine.JRException;
@@ -26,6 +28,7 @@ import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.view.JasperViewer;
 
 import org.hibernate.Transaction;
+import org.hibernate.jdbc.Work;
 import org.jfree.ui.ExtensionFileFilter;
 
 import biz.wittkemper.jfire.data.dao.HibernateSession;
@@ -42,22 +45,20 @@ public class ReportService {
 	}
 
 	public static void showReport(REPORTS name, Map refMap, REPORTSAKTION aktion)
-			throws JRException {
+			throws JRException, SQLException {
 
 		Report report = ReportFactory.getReport(name);
-		Map map = fillMap(report, refMap);
+		final Map map = fillMap(report, refMap);
 
 		InputStream stream = ClassLoader.getSystemResourceAsStream(report
 				.getFilename());
 
 		JasperDesign jasperDesign = JRXmlLoader.load(stream);
-		JasperReport jasperReport = JasperCompileManager
+		final JasperReport jasperReport = JasperCompileManager
 				.compileReport(jasperDesign);
 
 		Transaction tx = HibernateSession.getInstance().getCurrentSession()
 				.beginTransaction();
-		Connection con = HibernateSession.getInstance().getCurrentSession()
-				.connection();
 
 		int res;
 		if (aktion == null) {
@@ -83,10 +84,34 @@ public class ReportService {
 
 		switch (res) {
 		case JOptionPane.YES_OPTION:
-			zeigeReport(jasperReport, map, con);
+			HibernateSession.openSession().doWork(new Work() {
+
+				@Override
+				public void execute(Connection con) throws SQLException {
+					try {
+						zeigeReport(jasperReport, map, con);
+					} catch (JRException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			});
+
 			break;
 		case JOptionPane.NO_OPTION:
-			ExportReport(jasperReport, map, con);
+			HibernateSession.openSession().doWork(new Work() {
+
+				@Override
+				public void execute(Connection con) throws SQLException {
+					try {
+						ExportReport(jasperReport, map, con);
+					} catch (JRException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			});
+
 			break;
 		default:
 		}
@@ -156,11 +181,12 @@ public class ReportService {
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport,
 				map, con);
 		JasperViewer view = new JasperViewer(jasperPrint, true);
+
 		JDialog dialog = new JDialog(new JFrame(), "Datenanzeige", true);
 		dialog.setSize(1024, 768);
 		dialog.setLocationRelativeTo(null);
-
 		dialog.getContentPane().add(view.getContentPane());
+		dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		dialog.setVisible(true);
 
 	}

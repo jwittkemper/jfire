@@ -15,6 +15,8 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.hibernate.JDBCException;
+import org.hibernate.Session;
+import org.hibernate.jdbc.Work;
 
 import biz.wittkemper.jfire.data.dao.DAOFactory;
 import biz.wittkemper.jfire.data.dao.HibernateSession;
@@ -454,13 +456,18 @@ public class SystemUtils {
 
 	}
 
-	private void executeSQL(String sql) throws SQLException {
+	private void executeSQL(final String sql) throws SQLException {
 
-		Connection con = HibernateSession.getInstance().getCurrentSession()
-				.connection();
+		Session session = HibernateSession.getCurrentSession();
 
-		Statement st = con.createStatement();
-		st.execute(sql);
+		session.doWork(new Work() {
+
+			@Override
+			public void execute(Connection con) throws SQLException {
+				Statement st = con.createStatement();
+				st.execute(sql);
+			}
+		});
 
 	}
 }
