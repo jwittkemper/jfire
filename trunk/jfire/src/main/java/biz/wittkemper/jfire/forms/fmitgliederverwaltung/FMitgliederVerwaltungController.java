@@ -225,13 +225,17 @@ public class FMitgliederVerwaltungController {
 				if (delete.isCloseOK()) {
 
 					Mitglied mitglied = model.getMitglied();
-					mitglied.setGeloescht(true);
+					mitglied.setGeloescht(!mitglied.isGeloescht());
 					mitglied.setGeloeschtAM(delete.getAustittsDatum());
 					mitglied.setGeloeschtWeil(delete.getLoeschGrunf());
 					HibernateSession.beginTransaction();
 					DAOFactory.getInstance().getMitgliedDAO().update(mitglied);
 					HibernateSession.commitTransaction();
+					delete.dispose();
+					view.trigger.triggerFlush();
 					switchViewMode(EDITMODE.NONE);
+					view.trigger.triggerFlush();
+					view.enableImput(false);
 					view.repaint();
 					sucheNaechstesMitglied("right");
 				}
