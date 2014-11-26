@@ -1,10 +1,9 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
                       http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-	
-	
+	<modelVersion>4.0.0</modelVersion>
+
+
 	<groupId>biz.wittkemper.stationmanager </groupId>
 	<artifactId>jfire</artifactId>
 	<packaging>jar</packaging>
@@ -28,7 +27,7 @@
 							<addClasspath>true</addClasspath>
 						</manifest>
 					</archive>
-					 <encoding>UTF-8</encoding>
+					<encoding>UTF-8</encoding>
 				</configuration>
 				<executions>
 					<execution>
@@ -47,7 +46,7 @@
 				<configuration>
 					<source>1.6</source>
 					<target>1.6</target>
-					 <encoding>UTF-8</encoding>
+					<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -56,17 +55,17 @@
 				<configuration>
 					<downloadSources>true</downloadSources>
 					<downloadJavadocs>false</downloadJavadocs>
-					 <encoding>UTF-8</encoding>
+					<encoding>UTF-8</encoding>
 				</configuration>
-			</plugin> 
+			</plugin>
 			<plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-resources-plugin</artifactId>
-        <version>2.5</version>
-        <configuration>
-          <encoding>UTF-8</encoding>
-        </configuration>
-      </plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.5</version>
+				<configuration>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
@@ -79,7 +78,13 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.8.2</version>
+			<version>4.11</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.easymock</groupId>
+			<artifactId>easymock</artifactId>
+			<version>3.2</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -99,8 +104,8 @@
 		</dependency>
 		<dependency>
 			<groupId>c3p0</groupId>
-    		<artifactId>c3p0</artifactId>
-    		<version>0.9.1.2</version>
+			<artifactId>c3p0</artifactId>
+			<version>0.9.1.2</version>
 		</dependency>
 		<dependency>
 			<groupId>javassist</groupId>
@@ -116,7 +121,6 @@
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
 			<version>1.6.2</version>
-			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.jgoodies</groupId>
@@ -138,7 +142,7 @@
 			<artifactId>poi-scratchpad</artifactId>
 			<version>3.10.1</version>
 		</dependency>
-				<dependency>
+		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi</artifactId>
 			<version>3.10.1</version>
@@ -151,7 +155,12 @@
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports</artifactId>
-			<version>4.8.0</version>
+			<version>5.6.1</version>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports-fonts</artifactId>
+			<version>5.6.1</version>
 		</dependency>
 	</dependencies>
 </project>

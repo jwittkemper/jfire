@@ -76,9 +76,9 @@ public class DateUtils {
 		}
 	}
 
-	private String getAlter(Calendar cal1, Calendar cal2) {
+	public String getAlter(Calendar cal1, Calendar cal2) {
 		if (cal1.get(Calendar.MONTH) >= 11) {
-			return (cal2.get(Calendar.YEAR) - 1) - cal1.get(Calendar.YEAR)
+			return (cal2.get(Calendar.YEAR)) - cal1.get(Calendar.YEAR)
 					+ " alt.";
 		} else {
 			return cal2.get(Calendar.YEAR) - cal1.get(Calendar.YEAR) + " alt.";
