@@ -1,15 +1,20 @@
 package biz.wittkemper.jfiretest;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
+import org.junit.Ignore;
 import org.junit.Test;
 
 import biz.wittkemper.jfire.data.dao.DAOFactory;
 import biz.wittkemper.jfire.data.dao.HibernateSession;
 import biz.wittkemper.jfire.data.entity.Mitglied;
 import biz.wittkemper.jfire.data.entity.Mitglied_Fuehrerschein;
+import biz.wittkemper.jfire.utils.DateUtils;
 
 public class MitgliederTest {
 
-	@Test
+	@Ignore
 	public void test() {
 		HibernateSession.beginTransaction();
 		// Fuehrerschein fs = DAOFactory.getInstance().getFuehrerscheinDAO()
@@ -28,5 +33,17 @@ public class MitgliederTest {
 		// DAOFactory.getInstance().getMitgliedDAO().update(mitglied);
 		HibernateSession.commitTransaction();
 
+	}
+
+	@Test
+	public void cheBirthday() {
+		DateUtils dateUtils = new DateUtils();
+		Calendar cal1 = new GregorianCalendar();
+		cal1.set(2013, Calendar.DECEMBER, 10);
+
+		Calendar cal2 = new GregorianCalendar();
+		cal2.set(1964, 12, 21);
+
+		System.out.println(dateUtils.getAlter(cal2, cal1));
 	}
 }

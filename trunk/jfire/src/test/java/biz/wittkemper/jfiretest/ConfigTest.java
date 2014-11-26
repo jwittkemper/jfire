@@ -1,17 +1,27 @@
 package biz.wittkemper.jfiretest;
 
-import static org.junit.Assert.*;
-
+import org.easymock.EasyMock;
+import org.easymock.EasyMockRunner;
+import org.easymock.Mock;
+import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import biz.wittkemper.jfire.utils.SystemUtils;
 
+@RunWith(EasyMockRunner.class)
 public class ConfigTest {
+
+	@Mock
+	SystemUtils sUtils;
 
 	@Test
 	public void test() {
-		SystemUtils sUtils = new SystemUtils();
-		assertTrue(sUtils.getDBAvailable());
+
+		EasyMock.expect(sUtils.getDBAvailable()).andReturn(true);
+		EasyMock.replay(sUtils);
+
+		Assert.assertTrue(sUtils.getDBAvailable());
 	}
 
 }
