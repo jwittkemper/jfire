@@ -103,11 +103,13 @@ public class FMitgliederVerwaltungController {
 					model.setFoerderMitglied(null);
 					view.SetFoerderVerein(false);
 				}
+				model.getTableModel().fireTableDataChanged();
 			} else {
 				model.setMitglied(new Mitglied());
 				view.setMitgliedLabel("");
 				view.SetFoerderVerein(false);
 				view.enableImput(false);
+				model.getTableModel().fireTableDataChanged();
 			}
 			HibernateSession.commitTransaction();
 		}
