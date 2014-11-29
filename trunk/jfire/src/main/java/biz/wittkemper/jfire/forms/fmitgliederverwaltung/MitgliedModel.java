@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.swing.table.AbstractTableModel;
+
 import biz.wittkemper.jfire.data.dao.DAOFactory;
 import biz.wittkemper.jfire.data.dao.HibernateSession;
 import biz.wittkemper.jfire.data.entity.Anrede;
@@ -52,8 +54,12 @@ public class MitgliedModel {
 
 	private boolean datenfreigabe;
 
+	private final AbstractTableModel tableModel;
+	private String[] columnNames;
+
 	public MitgliedModel() {
 		changeSupport = new ExtendedPropertyChangeSupport(this);
+		tableModel = new ExampleTableModel();
 	}
 
 	public void addPropertyChangeListener(PropertyChangeListener x) {
@@ -326,4 +332,54 @@ public class MitgliedModel {
 		this.fuehrerscheine = fuehrerscheine;
 	}
 
+	public class ExampleTableModel extends AbstractTableModel {
+
+		private static final long serialVersionUID = 1L;
+
+		public ExampleTableModel() {
+			setColumnNames();
+		}
+
+		@Override
+		public int getRowCount() {
+			return fuehrerscheine.size();
+		}
+
+		@Override
+		public int getColumnCount() {
+			return columnNames.length;
+		}
+
+		@Override
+		public String getColumnName(int column) {
+			return columnNames[column];
+		}
+
+		public void setColumnNames() {
+			columnNames = new String[] { "id", "Vorname", "Name" };
+		}
+
+		@Override
+		public Object getValueAt(int rowIndex, int columnIndex) {
+
+			Mitglied_Fuehrerschein mf = fuehrerscheine.get(rowIndex);
+			switch (columnIndex) {
+			case 0:
+				return mf.getFuehrerschein().getBezeichnung();
+
+			case 1:
+				if (mf.getFuehrerschein().isBefristet()) {
+					return mf.getBefristetBis();
+				} else {
+					return "";
+				}
+
+			}
+			return "";
+		}
+	}
+
+	public AbstractTableModel getTableModel() {
+		return tableModel;
+	}
 }

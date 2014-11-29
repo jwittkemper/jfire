@@ -21,10 +21,12 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.ListSelectionModel;
 import javax.swing.border.BevelBorder;
 
 import org.jdesktop.swingx.JXDatePicker;
 import org.jdesktop.swingx.JXTable;
+import org.jdesktop.swingx.decorator.HighlighterFactory;
 
 import biz.wittkemper.jfire.data.entity.Anrede;
 import biz.wittkemper.jfire.data.entity.MitgliedStatus;
@@ -807,7 +809,11 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 		tpFuehrerscheine = new JPanel();
 		tbStammdaten.addTab("Führerscheine", null, tpFuehrerscheine, null);
 
-		tbFuehrerscheine = new JXTable();
+		tbFuehrerscheine = new JXTable(model.getTableModel());
+		tbFuehrerscheine.setHighlighters(HighlighterFactory
+				.createAlternateStriping());
+		tbFuehrerscheine
+				.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 
 		lblFhrerscheine = new JLabel("Führerscheine");
 		GroupLayout gl_tpFuehrerscheine = new GroupLayout(tpFuehrerscheine);
@@ -924,6 +930,7 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 
 	public void setModel(MitgliedModel model) {
 		this.model = model;
+		model.getTableModel().fireTableDataChanged();
 	}
 
 	public String getSearchText() {
