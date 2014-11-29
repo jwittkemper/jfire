@@ -64,7 +64,7 @@ public class MitgliedSearchModel {
 		}
 
 		public void setColumnNames() {
-			columnNames = new String[] { "Vorname", "Name" };
+			columnNames = new String[] { "id", "Vorname", "Name" };
 		}
 
 		@Override
@@ -73,8 +73,10 @@ public class MitgliedSearchModel {
 			Mitglied md = mitgliedSelectionInList.getElementAt(rowIndex);
 			switch (columnIndex) {
 			case 0:
-				return md.getVorname();
+				return md.getId();
 			case 1:
+				return md.getVorname();
+			case 2:
 				return md.getName();
 			}
 			return "";

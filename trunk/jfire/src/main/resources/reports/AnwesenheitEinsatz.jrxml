@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version last-->
+<!-- Created with Jaspersoft Studio version 5.6.2.final using JasperReports Library version 5.6.1  -->
+<!-- 2014-11-29T07:51:51 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="AnwesenheitUebung" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ef5e594a-90aa-4aee-9724-16d6883a39a9">
 	<property name="ireport.zoom" value="3.0"/>
 	<property name="ireport.x" value="333"/>
@@ -288,14 +289,7 @@
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="11" splitType="Stretch">
-			<textField>
-				<reportElement x="39" y="0" width="108" height="10" uuid="fac333b4-acff-413e-be54-e3d43014d101"/>
-				<textElement verticalAlignment="Middle">
-					<font size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{NAME} + " " +  $F{VORNAME}]]></textFieldExpression>
-			</textField>
+		<band height="12" splitType="Stretch">
 			<line>
 				<reportElement x="40" y="10" width="507" height="1" uuid="d0792daf-7d98-461c-a845-0b7070082f1c"/>
 			</line>
@@ -362,10 +356,17 @@
 			<line>
 				<reportElement x="528" y="-1" width="1" height="11" uuid="9069d1ed-35a6-43c7-be6a-518064fead3e"/>
 			</line>
+			<textField>
+				<reportElement x="40" y="0" width="122" height="11" uuid="a05100de-8317-465c-89ba-814dccb93f1f"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NAME} + " " + $F{VORNAME}]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="2" splitType="Stretch"/>
+		<band splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
 		<band height="4" splitType="Stretch"/>
