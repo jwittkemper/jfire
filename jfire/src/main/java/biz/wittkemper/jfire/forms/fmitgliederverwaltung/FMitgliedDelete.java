@@ -60,7 +60,7 @@ public class FMitgliedDelete extends JDialog {
 		btnAbbechen.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				closeOK = true;
+				closeOK = false;
 				setVisible(false);
 			}
 		});
