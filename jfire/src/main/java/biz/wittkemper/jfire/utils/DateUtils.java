@@ -108,6 +108,7 @@ public class DateUtils {
 		Query query = session.createSQLQuery(sql);
 
 		List<Object[]> rows = query.list();
+		HibernateSession.commitTransaction();
 		for (Object[] row : rows) {
 			text.append(row[1].toString() + ", " + row[0].toString() + " "
 					+ "(" + getCurDateString((Date) row[2]) + ") wird: "
