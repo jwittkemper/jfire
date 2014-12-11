@@ -117,7 +117,11 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 	private final JCheckBox cbRettungsdienst;
 	private final JCheckBox cbDatenfreigabe;
 	private final JXTable tbFuehrerscheine;
-	private final JLabel lblFhrerscheine;
+	private final JLabel lblFuehrerscheine;
+	private final JToolBar toolBarFueherschein;
+	private final JButton btnNewFuehrerschein;
+	private final JButton btnEditFuehrerschein;
+	private final JButton btnDelFuehrerschein;
 
 	public void setNewUserActice(boolean value) {
 		btnNew.setEnabled(value);
@@ -815,7 +819,10 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 		tbFuehrerscheine
 				.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 
-		lblFhrerscheine = new JLabel("Führerscheine");
+		lblFuehrerscheine = new JLabel("Führerscheine");
+
+		toolBarFueherschein = new JToolBar();
+		toolBarFueherschein.setFloatable(false);
 		GroupLayout gl_tpFuehrerscheine = new GroupLayout(tpFuehrerscheine);
 		gl_tpFuehrerscheine
 				.setHorizontalGroup(gl_tpFuehrerscheine
@@ -827,26 +834,70 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 										.addGroup(
 												gl_tpFuehrerscheine
 														.createParallelGroup(
-																Alignment.LEADING)
+																Alignment.LEADING,
+																false)
 														.addComponent(
 																tbFuehrerscheine,
 																GroupLayout.PREFERRED_SIZE,
 																286,
 																GroupLayout.PREFERRED_SIZE)
-														.addComponent(
-																lblFhrerscheine))
+														.addGroup(
+																gl_tpFuehrerscheine
+																		.createSequentialGroup()
+																		.addComponent(
+																				lblFuehrerscheine)
+																		.addPreferredGap(
+																				ComponentPlacement.RELATED,
+																				GroupLayout.DEFAULT_SIZE,
+																				Short.MAX_VALUE)
+																		.addComponent(
+																				toolBarFueherschein,
+																				GroupLayout.PREFERRED_SIZE,
+																				GroupLayout.DEFAULT_SIZE,
+																				GroupLayout.PREFERRED_SIZE)))
 										.addContainerGap(563, Short.MAX_VALUE)));
-		gl_tpFuehrerscheine.setVerticalGroup(gl_tpFuehrerscheine
-				.createParallelGroup(Alignment.LEADING).addGroup(
-						gl_tpFuehrerscheine
-								.createSequentialGroup()
-								.addGap(42)
-								.addComponent(lblFhrerscheine)
-								.addPreferredGap(ComponentPlacement.UNRELATED)
-								.addComponent(tbFuehrerscheine,
-										GroupLayout.PREFERRED_SIZE, 238,
-										GroupLayout.PREFERRED_SIZE)
-								.addContainerGap(82, Short.MAX_VALUE)));
+		gl_tpFuehrerscheine
+				.setVerticalGroup(gl_tpFuehrerscheine
+						.createParallelGroup(Alignment.LEADING)
+						.addGroup(
+								gl_tpFuehrerscheine
+										.createSequentialGroup()
+										.addGap(42)
+										.addGroup(
+												gl_tpFuehrerscheine
+														.createParallelGroup(
+																Alignment.LEADING)
+														.addComponent(
+																lblFuehrerscheine)
+														.addComponent(
+																toolBarFueherschein,
+																GroupLayout.PREFERRED_SIZE,
+																GroupLayout.DEFAULT_SIZE,
+																GroupLayout.PREFERRED_SIZE))
+										.addPreferredGap(
+												ComponentPlacement.UNRELATED)
+										.addComponent(tbFuehrerscheine,
+												GroupLayout.PREFERRED_SIZE,
+												238, GroupLayout.PREFERRED_SIZE)
+										.addContainerGap(82, Short.MAX_VALUE)));
+
+		btnNewFuehrerschein = new JButton();
+		btnNewFuehrerschein.setIcon(iconService
+				.getButtonIcon(ICONSERVICE.newuser));
+		btnNewFuehrerschein.setToolTipText("Führerschein hinzufügen");
+		btnEditFuehrerschein = new JButton();
+		btnEditFuehrerschein.setIcon(iconService
+				.getButtonIcon(ICONSERVICE.edituser));
+		btnEditFuehrerschein.setToolTipText("Führerschein bearbeiten");
+		btnDelFuehrerschein = new JButton();
+		btnDelFuehrerschein.setIcon(iconService
+				.getButtonIcon(ICONSERVICE.delete));
+		btnDelFuehrerschein.setToolTipText("Führerschein entfernen");
+
+		toolBarFueherschein.add(btnNewFuehrerschein);
+		toolBarFueherschein.add(btnEditFuehrerschein);
+		toolBarFueherschein.add(btnDelFuehrerschein);
+
 		tpFuehrerscheine.setLayout(gl_tpFuehrerscheine);
 		tpFoerderMitglied = new JPanel();
 		tbStammdaten.addTab("Förderverein", null, tpFoerderMitglied, null);
@@ -972,6 +1023,8 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 		cbAnrede.setEnabled(value);
 		cbRettungsdienst.setEnabled(value);
 		cbDatenfreigabe.setEnabled(value);
+		tpFuehrerscheine.setEnabled(value);
+		toolBarFueherschein.setEnabled(value);
 	}
 
 	public void setToolbar(EDITMODE value) {
