@@ -10,9 +10,10 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import biz.wittkemper.jfire.data.dao.DAOFactory;
+import org.hibernate.Query;
+import org.hibernate.Session;
+
 import biz.wittkemper.jfire.data.dao.HibernateSession;
-import biz.wittkemper.jfire.data.entity.Mitglied;
 
 public class DateUtils {
 	static boolean wasrun = false;
@@ -38,42 +39,81 @@ public class DateUtils {
 		return calendar.get(Calendar.YEAR);
 	}
 
-	public void findGeburtstag(JFrame frame) {
+	public void findGeburtstag(JFrame frame) throws ParseException {
+		String sql = "";
+		StringBuilder text = new StringBuilder();
 
 		if (wasrun == false) {
 			wasrun = true;
-			Calendar cal1 = new GregorianCalendar();
-			Calendar cal2 = new GregorianCalendar();
+			GregorianCalendar now = new GregorianCalendar();
 
-			cal2.setTime(new Date());
-			StringBuilder text = new StringBuilder();
-			String monate = Integer.toString(cal2.get(Calendar.MONTH) + 1)
-					+ ",";
-			cal2.add(Calendar.MONTH, 1);
-			monate += Integer.toString(cal2.get(Calendar.MONTH) + 1);
+			int monat = 1 + now.get(Calendar.MONTH);
 
-			String hql = "From Mitglied m where m.status.id In (1,2)";
-			hql += " and Month(m.gebDatum) IN (" + monate + ") ";
-			hql += " Order by Month(m.gebDatum), DAY(m.gebDatum)";
+			if (monat == 12) {
 
-			HibernateSession.beginTransaction();
-			List<Mitglied> liste = DAOFactory.getInstance().getMitgliedDAO()
-					.findByQueryString(hql);
-			HibernateSession.commitTransaction();
-			if (liste.size() > 0) {
-				for (Mitglied m : liste) {
-					cal1.setTime(m.getGebDatum());
-					text.append(m.getName() + ", " + m.getVorname() + ", "
-							+ m.getStatus().getBezeichnungLang() + ", "
-							+ getCurDateString(m.getGebDatum()) + ", wird: "
-							+ getAlter(cal1, cal2) + "\n");
-				}
+				text = getDecemberData();
 
-				JOptionPane.showMessageDialog(frame, text.toString(),
-						"Geburtstage in diesem und dem nächsten Monat:",
-						JOptionPane.INFORMATION_MESSAGE);
+			} else {
+				text = getBirthDayData(monat);
+
 			}
+
+			JOptionPane.showMessageDialog(frame, text.toString(),
+					"Geburtstage in diesem und dem nächsten Monat:",
+					JOptionPane.INFORMATION_MESSAGE);
+
 		}
+	}
+
+	private StringBuilder getBirthDayData(int monat) {
+
+		StringBuilder text = new StringBuilder();
+		String sql = "";
+
+		sql = "Select VORNAME , NAME , GEBDATUM , YEAR(CURRENT_DATE) - YEAR(GEBDATUM) From Mitglied m ";
+		sql += "where m.STATUS_ID IN (1,2) AND MONTH(GEBDATUM) IN (" + monat
+				+ ", " + monat + 1
+				+ ") ORDER BY MONTH (GEBDATUM), DAY (GEBDATUM)";
+		text.append(GetSQLData(sql));
+
+		return text;
+	}
+
+	private StringBuilder getDecemberData() {
+
+		StringBuilder text = new StringBuilder();
+		String sql = "";
+
+		sql = "Select VORNAME , NAME , GEBDATUM , YEAR(CURRENT_DATE) - YEAR(GEBDATUM) From Mitglied m ";
+		sql += "where m.STATUS_ID IN (1,2) AND MONTH(GEBDATUM) IN (" + 12
+				+ ") ORDER BY MONTH (GEBDATUM) ,DAY (GEBDATUM)";
+
+		text.append(GetSQLData(sql));
+
+		sql = "Select VORNAME , NAME , GEBDATUM , (YEAR(CURRENT_DATE)+1) - YEAR(GEBDATUM) From Mitglied m ";
+		sql += "where m.STATUS_ID IN (1,2) AND MONTH(GEBDATUM) IN (" + 1
+				+ ") ORDER BY MONTH (GEBDATUM) ,DAY (GEBDATUM)";
+
+		text.append(GetSQLData(sql));
+
+		return text;
+	}
+
+	private String GetSQLData(String sql) {
+
+		StringBuilder text = new StringBuilder();
+
+		HibernateSession.beginTransaction();
+		Session session = HibernateSession.getCurrentSession();
+		Query query = session.createSQLQuery(sql);
+
+		List<Object[]> rows = query.list();
+		for (Object[] row : rows) {
+			text.append(row[1].toString() + ", " + row[0].toString() + " "
+					+ "(" + getCurDateString((Date) row[2]) + ") wird: "
+					+ row[3].toString() + "\n");
+		}
+		return text.toString();
 	}
 
 	public String getAlter(Calendar cal1, Calendar cal2) {

@@ -12,6 +12,7 @@ import java.beans.PropertyVetoException;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -109,7 +110,13 @@ public class FMainController {
 		this.view.setResizable(true);
 
 		DateUtils utils = new DateUtils();
-		utils.findGeburtstag(view);
+
+		try {
+			utils.findGeburtstag(view);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	private void AppClose() {
