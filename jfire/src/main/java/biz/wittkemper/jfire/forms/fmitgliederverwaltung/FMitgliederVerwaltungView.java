@@ -1003,16 +1003,14 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 	}
 
 	public void SetFoerderVerein(boolean value) {
-
-		dPFoerderMitglied.setEnabled(value);
-		dPFoerderMitglied.setEditable(value);
+		tbStammdaten.setEnabledAt(2, value);
+		dPFoerderMitglied.setVisible(value);
 		btnFoerderMitglied.setVisible(!value);
 
 	}
 
 	public void setNewFoerderMitglied() {
 		tbStammdaten.setEnabledAt(2, true);
-
 		tbStammdaten.setSelectedIndex(2);
 		dPFoerderMitglied.setDate(model.getEintritt());
 
