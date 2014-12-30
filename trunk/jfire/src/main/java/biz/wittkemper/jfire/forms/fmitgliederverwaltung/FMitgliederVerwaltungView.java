@@ -3,6 +3,7 @@ package biz.wittkemper.jfire.forms.fmitgliederverwaltung;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 import java.beans.PropertyVetoException;
@@ -224,6 +225,11 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 		TBMain.addSeparator();
 
 		btnFoerderMitglied = new JButton();
+		btnFoerderMitglied.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnFoerderMitglied.setToolTipText("Eintritt Förderverein");
 		btnFoerderMitglied.setIcon(iconService
 				.getButtonIcon(ICONSERVICE.eintrittFoerderverein));
@@ -941,6 +947,7 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 
 		Bindings.bind(dPFoerderMitglied, "date", foerderEintritt);
 		panel.setLayout(gl_panel);
+		tbStammdaten.setSelectedIndex(0);
 
 	}
 
@@ -981,6 +988,7 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 
 	public void setModel(MitgliedModel model) {
 		this.model = model;
+		tbStammdaten.setSelectedIndex(0);
 		model.getTableModel().fireTableDataChanged();
 	}
 
@@ -995,9 +1003,19 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 	}
 
 	public void SetFoerderVerein(boolean value) {
-		tbStammdaten.setEnabledAt(1, value);
-		dPFoerderMitglied.setVisible(value);
+
+		dPFoerderMitglied.setEnabled(value);
+		dPFoerderMitglied.setEditable(value);
 		btnFoerderMitglied.setVisible(!value);
+
+	}
+
+	public void setNewFoerderMitglied() {
+		tbStammdaten.setEnabledAt(2, true);
+
+		tbStammdaten.setSelectedIndex(2);
+		dPFoerderMitglied.setDate(model.getEintritt());
+
 	}
 
 	public void enableImput(boolean value) {
@@ -1025,6 +1043,9 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 		cbDatenfreigabe.setEnabled(value);
 		tpFuehrerscheine.setEnabled(value);
 		toolBarFueherschein.setEnabled(value);
+		if (value == false) {
+			tbStammdaten.setSelectedIndex(0);
+		}
 	}
 
 	public void setToolbar(EDITMODE value) {

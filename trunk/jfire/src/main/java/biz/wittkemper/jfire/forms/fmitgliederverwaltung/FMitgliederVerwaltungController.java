@@ -87,6 +87,7 @@ public class FMitgliederVerwaltungController {
 			Mitglied mitglied = DAOFactory.getInstance().getMitgliedDAO()
 					.load(id);
 			if (mitglied != null) {
+
 				model.setFoerderMitglied(null);
 				model.setMitglied(mitglied);
 				view.setMitgliedLabel("(" + model.getMitglied().getId() + ") "
@@ -112,6 +113,7 @@ public class FMitgliederVerwaltungController {
 				model.getTableModel().fireTableDataChanged();
 			}
 			HibernateSession.commitTransaction();
+
 		}
 	}
 
@@ -281,6 +283,7 @@ public class FMitgliederVerwaltungController {
 				model.setFoerderMitglied(new FoerderMitglied());
 				model.getFoerderMitglied().setMitglied(model.getMitglied());
 				view.SetFoerderVerein(true);
+				view.setNewFoerderMitglied();
 			} else if (e.getActionCommand().equals("new")) {
 				model.setFoerderMitglied(null);
 				model.setMitglied(new Mitglied());
@@ -339,6 +342,7 @@ public class FMitgliederVerwaltungController {
 					view.enableImput(false);
 					view.trigger.triggerFlush();
 					switchViewMode(EDITMODE.NONE);
+
 				}
 
 				break;
