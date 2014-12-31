@@ -16,7 +16,11 @@ import biz.wittkemper.jfire.data.entity.MitgliedStatus;
 import biz.wittkemper.jfire.data.entity.Mitglied_Fuehrerschein;
 
 import com.jgoodies.binding.beans.ExtendedPropertyChangeSupport;
-
+/**
+ * 
+ * @author joerg
+ *
+ */
 public class MitgliedModel {
 	private Mitglied mitglied = new Mitglied();
 
