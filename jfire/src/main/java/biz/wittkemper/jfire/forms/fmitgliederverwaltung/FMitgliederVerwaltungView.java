@@ -1012,6 +1012,7 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 	public void setNewFoerderMitglied() {
 		tbStammdaten.setEnabledAt(2, true);
 		tbStammdaten.setSelectedIndex(2);
+		dPFoerderMitglied.setEnabled(true);
 		dPFoerderMitglied.setDate(model.getEintritt());
 
 	}
