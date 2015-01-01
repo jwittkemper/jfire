@@ -23,6 +23,9 @@ import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import net.sf.jasperreports.engine.JRException;
 import biz.wittkemper.jfire.data.dao.DAOFactory;
 import biz.wittkemper.jfire.data.dao.HibernateSession;
@@ -43,6 +46,8 @@ import biz.wittkemper.jfire.utils.FrameUtils;
 import biz.wittkemper.jfire.utils.SystemUtils;
 
 public class FMainController {
+	Logger log = LoggerFactory.getLogger(FMainController.class);
+	
 	FrameUtils frameUtils = new FrameUtils();
 	SystemUtils systemUtils = new SystemUtils();
 
@@ -54,8 +59,7 @@ public class FMainController {
 			initListener();
 			loadMitgliederMeldung();
 		} catch (Exception e) {
-			FError error = new FError(e);
-			error.show(true);
+			log.error("Fehler beim initialisieren der Anwendung", e);
 		}
 	}
 
