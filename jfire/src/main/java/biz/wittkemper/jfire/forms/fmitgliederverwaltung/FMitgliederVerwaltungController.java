@@ -9,6 +9,9 @@ import java.beans.PropertyVetoException;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import biz.wittkemper.jfire.data.dao.DAOFactory;
 import biz.wittkemper.jfire.data.dao.HibernateSession;
 import biz.wittkemper.jfire.data.entity.FoerderMitglied;
@@ -24,6 +27,7 @@ import com.jgoodies.validation.view.ValidationComponentUtils;
 
 public class FMitgliederVerwaltungController {
 
+	private final Logger logger = LoggerFactory.getLogger(FMitgliederVerwaltungController.class);
 	enum EDITMODE {
 		EDIT, NEW, NONE;
 	}
