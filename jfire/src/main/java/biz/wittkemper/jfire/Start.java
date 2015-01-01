@@ -12,13 +12,13 @@ import biz.wittkemper.jfire.forms.fmain.FMainController;
 
 public class Start {
 	
-	private static final Logger LOG = LoggerFactory.getLogger(Start.class);
+	private static final Logger log = LoggerFactory.getLogger(Start.class);
 	
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		LOG.info("Los gehts");
+		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 		
@@ -34,7 +34,7 @@ public class Start {
 					FMainController controller = new FMainController();
 					controller.showView();
 				} catch (Exception e) {
-					e.printStackTrace();
+					log.error("Fehler beim starten der Anwendung", e);
 				}
 			}
 		});
