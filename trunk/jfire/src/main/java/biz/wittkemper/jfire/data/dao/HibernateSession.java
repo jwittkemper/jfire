@@ -49,7 +49,7 @@ public class HibernateSession {
 						"true 1, false 0, yes 'Y', no 'N'")
 				.setProperty("hibernate.hbm2ddl.auto", createDB)
 				// .setProperty("hibernate.hbm2ddl.auto", "create")
-				.setProperty("hibernate.show_sql", "true")
+				.setProperty("hibernate.show_sql", "false")
 				.setProperty("hibernate.format_sql", "true")
 				.setProperty("hibernate.current_session_context_class",
 						"thread")
