@@ -27,7 +27,9 @@ import com.jgoodies.validation.view.ValidationComponentUtils;
 
 public class FMitgliederVerwaltungController {
 
-	private final Logger logger = LoggerFactory.getLogger(FMitgliederVerwaltungController.class);
+	private final Logger logger = LoggerFactory
+			.getLogger(FMitgliederVerwaltungController.class);
+
 	enum EDITMODE {
 		EDIT, NEW, NONE;
 	}
@@ -48,7 +50,15 @@ public class FMitgliederVerwaltungController {
 		@Override
 		public void keyPressed(KeyEvent e) {
 			if (e.getKeyChar() == KeyEvent.VK_ENTER) {
-				sucheMitglied();
+				try {
+					sucheMitglied();
+				} catch (NumberFormatException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		}
 
@@ -70,13 +80,13 @@ public class FMitgliederVerwaltungController {
 			} else {
 				view.setNewUserActice(false);
 			}
-		} catch (PropertyVetoException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
-	private void initClass() throws PropertyVetoException {
+	private void initClass() throws Exception {
 
 		this.view = new FMitgliederVerwaltungView();
 		this.model = view.getModel();
@@ -84,7 +94,7 @@ public class FMitgliederVerwaltungController {
 		switchViewMode(EDITMODE.NONE);
 	}
 
-	private void loadData(Long id) {
+	private void loadData(Long id) throws Exception {
 
 		if (id != null && id > 0) {
 			HibernateSession.beginTransaction();
@@ -147,7 +157,7 @@ public class FMitgliederVerwaltungController {
 		return this.view;
 	}
 
-	private void sucheMitglied() {
+	private void sucheMitglied() throws NumberFormatException, Exception {
 		String lsearch = view.getSearchText().trim();
 		if (lsearch.trim().length() == 0) {
 			lsearch = "0";
@@ -160,7 +170,7 @@ public class FMitgliederVerwaltungController {
 		view.repaint();
 	}
 
-	private void loadByName(String lsearch) {
+	private void loadByName(String lsearch) throws Exception {
 
 		MitgliederSeachControler search = new MitgliederSeachControler();
 		search.viewSearchForm(lsearch);
@@ -170,7 +180,7 @@ public class FMitgliederVerwaltungController {
 
 	}
 
-	private void speicherMitglied() {
+	private void speicherMitglied() throws Exception {
 		view.trigger.triggerCommit();
 		HibernateSession.beginTransaction();
 		try {
@@ -200,7 +210,7 @@ public class FMitgliederVerwaltungController {
 		}
 	}
 
-	private void sucheNaechstesMitglied(String richtung) {
+	private void sucheNaechstesMitglied(String richtung) throws Exception {
 		long id;
 		if (model.getMitglied().getId() == null) {
 			id = 0;
@@ -225,45 +235,50 @@ public class FMitgliederVerwaltungController {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if (model.getMitglied().getId() > 0) {
-				if (!model.getMitglied().isGeloescht()) {
-					FMitgliedDelete delete = new FMitgliedDelete();
-					delete.setModal(true);
-					delete.setVisible(true);
-					if (delete.isCloseOK()) {
+			try {
+				if (model.getMitglied().getId() > 0) {
+					if (!model.getMitglied().isGeloescht()) {
+						FMitgliedDelete delete = new FMitgliedDelete();
+						delete.setModal(true);
+						delete.setVisible(true);
+						if (delete.isCloseOK()) {
 
+							Mitglied mitglied = model.getMitglied();
+							mitglied.setGeloescht(!mitglied.isGeloescht());
+							mitglied.setGeloeschtAM(delete.getAustittsDatum());
+							mitglied.setGeloeschtWeil(delete.getLoeschGrunf());
+							HibernateSession.beginTransaction();
+							DAOFactory.getInstance().getMitgliedDAO()
+									.update(mitglied);
+							HibernateSession.commitTransaction();
+							delete.dispose();
+							view.trigger.triggerFlush();
+							switchViewMode(EDITMODE.NONE);
+							view.trigger.triggerFlush();
+							view.enableImput(false);
+							view.repaint();
+							sucheNaechstesMitglied("right");
+						}
+					} else {
 						Mitglied mitglied = model.getMitglied();
 						mitglied.setGeloescht(!mitglied.isGeloescht());
-						mitglied.setGeloeschtAM(delete.getAustittsDatum());
-						mitglied.setGeloeschtWeil(delete.getLoeschGrunf());
+						mitglied.setGeloeschtAM(null);
+						mitglied.setGeloeschtWeil(null);
 						HibernateSession.beginTransaction();
 						DAOFactory.getInstance().getMitgliedDAO()
 								.update(mitglied);
 						HibernateSession.commitTransaction();
-						delete.dispose();
+
 						view.trigger.triggerFlush();
 						switchViewMode(EDITMODE.NONE);
 						view.trigger.triggerFlush();
 						view.enableImput(false);
 						view.repaint();
-						sucheNaechstesMitglied("right");
+
 					}
-				} else {
-					Mitglied mitglied = model.getMitglied();
-					mitglied.setGeloescht(!mitglied.isGeloescht());
-					mitglied.setGeloeschtAM(null);
-					mitglied.setGeloeschtWeil(null);
-					HibernateSession.beginTransaction();
-					DAOFactory.getInstance().getMitgliedDAO().update(mitglied);
-					HibernateSession.commitTransaction();
-
-					view.trigger.triggerFlush();
-					switchViewMode(EDITMODE.NONE);
-					view.trigger.triggerFlush();
-					view.enableImput(false);
-					view.repaint();
-
 				}
+			} catch (Exception ex) {
+				ex.printStackTrace();
 			}
 		}
 
@@ -273,28 +288,32 @@ public class FMitgliederVerwaltungController {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if (e.getActionCommand().equals("search")) {
-				e.getSource();
-				sucheMitglied();
-			} else if (e.getActionCommand().equals("left")) {
-				sucheNaechstesMitglied("left");
-			} else if (e.getActionCommand().equals("right")) {
-				sucheNaechstesMitglied("right");
-			} else if (e.getActionCommand().equals("edit")) {
-				editMitglied();
-			} else if (e.getActionCommand().equals("newFoerdermitglied")) {
+			try {
+				if (e.getActionCommand().equals("search")) {
+					e.getSource();
+					sucheMitglied();
+				} else if (e.getActionCommand().equals("left")) {
+					sucheNaechstesMitglied("left");
+				} else if (e.getActionCommand().equals("right")) {
+					sucheNaechstesMitglied("right");
+				} else if (e.getActionCommand().equals("edit")) {
+					editMitglied();
+				} else if (e.getActionCommand().equals("newFoerdermitglied")) {
 
-				model.setFoerderMitglied(new FoerderMitglied());
-				model.getFoerderMitglied().setMitglied(model.getMitglied());
-				view.SetFoerderVerein(true);
-				view.setNewFoerderMitglied();
-			} else if (e.getActionCommand().equals("new")) {
-				model.setFoerderMitglied(null);
-				model.setMitglied(new Mitglied());
-				switchViewMode(EDITMODE.NEW);
-				view.enableImput(true);
+					model.setFoerderMitglied(new FoerderMitglied());
+					model.getFoerderMitglied().setMitglied(model.getMitglied());
+					view.SetFoerderVerein(true);
+					view.setNewFoerderMitglied();
+				} else if (e.getActionCommand().equals("new")) {
+					model.setFoerderMitglied(null);
+					model.setMitglied(new Mitglied());
+					switchViewMode(EDITMODE.NEW);
+					view.enableImput(true);
+				}
+				view.repaint();
+			} catch (Exception ex) {
+				ex.printStackTrace();
 			}
-			view.repaint();
 		}
 
 		private void editMitglied() {
@@ -312,24 +331,27 @@ public class FMitgliederVerwaltungController {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			view.trigger.triggerCommit();
-			MitgliedValidator validator = new MitgliedValidator();
-			ValidationResult res = validator.validate(model.getMitglied());
+			try {
+				view.trigger.triggerCommit();
+				MitgliedValidator validator = new MitgliedValidator();
+				ValidationResult res = validator.validate(model.getMitglied());
 
-			if (res.hasErrors() == false) {
-				speicherMitglied();
-				switchViewMode(EDITMODE.NONE);
-				view.enableImput(false);
-			} else {
-				ValidationComponentUtils
-						.updateComponentTreeMandatoryAndBlankBackground(view);
-				ValidationComponentUtils
-						.updateComponentTreeMandatoryBackground(view);
-				ValidationComponentUtils
-						.updateComponentTreeMandatoryBorder(view);
+				if (res.hasErrors() == false) {
+					speicherMitglied();
+					switchViewMode(EDITMODE.NONE);
+					view.enableImput(false);
+				} else {
+					ValidationComponentUtils
+							.updateComponentTreeMandatoryAndBlankBackground(view);
+					ValidationComponentUtils
+							.updateComponentTreeMandatoryBackground(view);
+					ValidationComponentUtils
+							.updateComponentTreeMandatoryBorder(view);
 
+				}
+			} catch (Exception ex) {
+				ex.printStackTrace();
 			}
-
 		}
 
 	}

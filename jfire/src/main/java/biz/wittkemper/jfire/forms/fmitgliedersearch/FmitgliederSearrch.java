@@ -24,11 +24,13 @@ import org.jdesktop.swingx.decorator.HighlighterFactory;
 
 import biz.wittkemper.jfire.data.entity.Mitglied;
 
+/**
+ * 
+ * @author joerg
+ *
+ */
 public class FmitgliederSearrch extends JDialog {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1240923465730333571L;
 	private final JPanel contentPanel = new JPanel();
 	private JLabel lblSuchbegriff;
@@ -42,6 +44,7 @@ public class FmitgliederSearrch extends JDialog {
 
 	/**
 	 * Create the dialog.
+	 * @param MitgliedSearchModel
 	 */
 	public FmitgliederSearrch(MitgliedSearchModel pm) {
 		this.model = pm;

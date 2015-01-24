@@ -257,7 +257,7 @@ public class MitgliedModel {
 		changeSupport.firePropertyChange("anrede", old, anrede);
 	}
 
-	public List<Anrede> getAnreden() {
+	public List<Anrede> getAnreden() throws Exception {
 		HibernateSession.beginTransaction();
 		anreden = DAOFactory.getInstance().getAnredeDAO()
 				.findByQueryString("From Anrede a");
@@ -265,7 +265,7 @@ public class MitgliedModel {
 		return anreden;
 	}
 
-	public List<MitgliedStatus> getMitgliedStatuse() {
+	public List<MitgliedStatus> getMitgliedStatuse() throws Exception {
 		HibernateSession.beginTransaction();
 		mitgliedStatuse = DAOFactory.getInstance().getMitgliedStatusDAO()
 				.findByQueryString("From MitgliedStatus a");

@@ -16,6 +16,7 @@ public class MitgliederTest {
 
 	@Ignore
 	public void test() {
+		try{
 		HibernateSession.beginTransaction();
 		// Fuehrerschein fs = DAOFactory.getInstance().getFuehrerscheinDAO()
 		// .load(4l);
@@ -32,7 +33,9 @@ public class MitgliederTest {
 		// mitglied.getFuehrerscheins().add(mf);
 		// DAOFactory.getInstance().getMitgliedDAO().update(mitglied);
 		HibernateSession.commitTransaction();
-
+		}catch(Exception ex){
+			System.out.println(ex.getMessage());
+		}
 	}
 
 	@Test
