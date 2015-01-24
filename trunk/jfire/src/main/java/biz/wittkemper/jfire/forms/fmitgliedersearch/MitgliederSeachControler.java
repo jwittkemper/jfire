@@ -12,7 +12,11 @@ import java.util.List;
 import biz.wittkemper.jfire.data.dao.DAOFactory;
 import biz.wittkemper.jfire.data.dao.HibernateSession;
 import biz.wittkemper.jfire.data.entity.Mitglied;
-
+/**
+ * 
+ * @author joerg
+ *
+ */
 public class MitgliederSeachControler {
 
 	FmitgliederSearrch view;
@@ -24,7 +28,7 @@ public class MitgliederSeachControler {
 		this.view = new FmitgliederSearrch(pm);
 	}
 
-	public boolean viewSearchForm(String searchText) {
+	public boolean viewSearchForm(String searchText) throws Exception {
 
 		initClass();
 		this.view.setSearchText(searchText);
@@ -47,7 +51,7 @@ public class MitgliederSeachControler {
 		return view.getSelectedMitglied();
 	}
 
-	private void searchData(String searchText, boolean nuraktive) {
+	private void searchData(String searchText, boolean nuraktive) throws Exception{
 		HibernateSession.beginTransaction();
 		pm.setData(DAOFactory.getInstance().getMitgliedDAO()
 				.searchByName(searchText.split(" "), nuraktive));
@@ -64,7 +68,11 @@ public class MitgliederSeachControler {
 		@Override
 		public void keyPressed(KeyEvent e) {
 			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-				searchData(view.getSearchText(), !view.getGeloschteAnzeigen());
+				try {
+					searchData(view.getSearchText(), !view.getGeloschteAnzeigen());
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
 			}
 
 		}

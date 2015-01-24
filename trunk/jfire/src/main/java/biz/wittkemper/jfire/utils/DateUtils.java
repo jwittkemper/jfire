@@ -39,7 +39,7 @@ public class DateUtils {
 		return calendar.get(Calendar.YEAR);
 	}
 
-	public void findGeburtstag(JFrame frame) throws ParseException {
+	public void findGeburtstag(JFrame frame) throws Exception {
 		String sql = "";
 		StringBuilder text = new StringBuilder();
 
@@ -65,7 +65,7 @@ public class DateUtils {
 		}
 	}
 
-	private StringBuilder getBirthDayData(int monat) {
+	private StringBuilder getBirthDayData(int monat) throws Exception {
 
 		StringBuilder text = new StringBuilder();
 		String sql = "";
@@ -79,7 +79,7 @@ public class DateUtils {
 		return text;
 	}
 
-	private StringBuilder getDecemberData() {
+	private StringBuilder getDecemberData() throws Exception{
 
 		StringBuilder text = new StringBuilder();
 		String sql = "";
@@ -99,7 +99,7 @@ public class DateUtils {
 		return text;
 	}
 
-	private String GetSQLData(String sql) {
+	private String GetSQLData(String sql) throws Exception {
 
 		StringBuilder text = new StringBuilder();
 

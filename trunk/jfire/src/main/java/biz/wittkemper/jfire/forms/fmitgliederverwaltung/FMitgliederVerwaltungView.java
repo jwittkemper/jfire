@@ -137,10 +137,9 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 
 	/**
 	 * Create the frame.
-	 * 
-	 * @throws PropertyVetoException
+	 * @throws Exception 
 	 */
-	public FMitgliederVerwaltungView() throws PropertyVetoException {
+	public FMitgliederVerwaltungView() throws Exception {
 		setName("Mitgliederverwaltung");
 		setMaximizable(true);
 		setIcon(true);

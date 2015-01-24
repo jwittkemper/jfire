@@ -165,7 +165,7 @@ public class SystemUtils {
 		return file;
 	}
 
-	public void initDB() {
+	public void initDB() throws Exception {
 
 		HibernateSession.beginTransaction();
 		Anrede frau = new Anrede();
@@ -222,7 +222,7 @@ public class SystemUtils {
 		}
 	}
 
-	private void setVersion7() {
+	private void setVersion7() throws Exception {
 		HibernateSession.beginTransaction();
 		try {
 			String sql = " CREATE TABLE APP.FUEHRERSCHEIN";
@@ -285,7 +285,7 @@ public class SystemUtils {
 		}
 	}
 
-	private void setVersion6() {
+	private void setVersion6() throws Exception {
 
 		HibernateSession.beginTransaction();
 		try {
@@ -307,7 +307,7 @@ public class SystemUtils {
 
 	}
 
-	private void setVersion5() {
+	private void setVersion5() throws Exception {
 		HibernateSession.beginTransaction();
 		try {
 
@@ -331,7 +331,7 @@ public class SystemUtils {
 
 	}
 
-	private void setVersion4() {
+	private void setVersion4() throws Exception {
 		HibernateSession.beginTransaction();
 		try {
 			String sql = " CREATE TABLE APP.MATERIAL";
@@ -409,7 +409,7 @@ public class SystemUtils {
 
 	}
 
-	private void setVersion3() {
+	private void setVersion3() throws Exception {
 
 		HibernateSession.beginTransaction();
 
@@ -436,7 +436,7 @@ public class SystemUtils {
 		executeSQL(sql);
 	}
 
-	private void setVersion2() {
+	private void setVersion2() throws Exception {
 
 		HibernateSession.beginTransaction();
 

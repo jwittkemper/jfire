@@ -7,7 +7,7 @@ import biz.wittkemper.jfire.data.dao.HibernateSession;
 
 public class ParameterUtils {
 
-	public static boolean isMasterDB() {
+	public static boolean isMasterDB() throws Exception {
 		boolean lreturn;
 		boolean ltransactionstart = false;
 

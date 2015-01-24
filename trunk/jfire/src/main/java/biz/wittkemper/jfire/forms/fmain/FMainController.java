@@ -63,7 +63,7 @@ public class FMainController {
 		}
 	}
 
-	private void loadMitgliederMeldung() {
+	private void loadMitgliederMeldung()  throws Exception{
 
 		HibernateSession.beginTransaction();
 		LoadData data = new LoadData();
@@ -117,7 +117,7 @@ public class FMainController {
 
 		try {
 			utils.findGeburtstag(view);
-		} catch (ParseException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -329,7 +329,12 @@ public class FMainController {
 					System.out.println("Datenexport, abbruch");
 				} else {
 					ReplicationWriteWorkflow workflow = new ReplicationWriteWorkflow();
-					workflow.Excecute(fc.getSelectedFile(), view);
+					try {
+						workflow.Excecute(fc.getSelectedFile(), view);
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					System.out.println(fc.getSelectedFile());
 				}
 
@@ -337,11 +342,12 @@ public class FMainController {
 				ReplicationReadWorkFlow readWorkFlow = new ReplicationReadWorkFlow();
 				try {
 					readWorkFlow.Excecute(view);
+					loadMitgliederMeldung();
 				} catch (Exception e1) {
 					FError error = new FError(e1);
 					error.show(true);
 				}
-				loadMitgliederMeldung();
+				
 			} else if (e.getActionCommand().equals("adresslisten-all")) {
 				try {
 					Map map = new HashMap();
@@ -393,12 +399,12 @@ public class FMainController {
 
 	class LoadData extends Thread {
 		@Override
-		public void start() {
+		public void start(){
 
 			int aktive = 0;
 			int reserve = 0;
 			int passive = 0;
-
+			try{
 			aktive = DAOFactory.getInstance().getMitgliedDAO().getAktive();
 			reserve = DAOFactory.getInstance().getMitgliedDAO().getReserve();
 			passive = DAOFactory.getInstance().getFoerderMitgliedDAO().getAll();
@@ -407,6 +413,9 @@ public class FMainController {
 			text += "Förderer: " + passive + " ";
 
 			view.setMitgliederMeldung(text);
+			} catch (Exception ex){
+				log.error("Start mit fehler.", ex);
+			}
 
 		}
 	}

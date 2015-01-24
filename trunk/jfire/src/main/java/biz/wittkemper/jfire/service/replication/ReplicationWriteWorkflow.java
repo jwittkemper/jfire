@@ -15,7 +15,7 @@ import biz.wittkemper.jfire.utils.ParameterUtils;
 
 public class ReplicationWriteWorkflow {
 
-	public void Excecute(File file, JFrame view) {
+	public void Excecute(File file, JFrame view) throws Exception {
 		Replication replication = new Replication();
 
 		HibernateSession.beginTransaction();
@@ -46,7 +46,7 @@ public class ReplicationWriteWorkflow {
 		replication.setFoerdermitglieder(foerderMitglieds);
 	}
 
-	private void getMitglieder(Replication replication) {
+	private void getMitglieder(Replication replication) throws Exception {
 		List<Mitglied> mitglieds;
 		if (ParameterUtils.isMasterDB() != true) {
 			mitglieds = DAOFactory.getInstance().getMitgliedDAO()

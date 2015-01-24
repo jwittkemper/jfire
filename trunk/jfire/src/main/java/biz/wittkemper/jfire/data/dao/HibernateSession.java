@@ -82,7 +82,12 @@ public class HibernateSession {
 						biz.wittkemper.jfire.data.entity.MitgliedFuehrerscheinID.class)
 				.buildSessionFactory();
 		if (initDB) {
-			systemUtils.initDB();
+			try {
+				systemUtils.initDB();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		} else {
 			try {
 				systemUtils.checkDB();
@@ -139,7 +144,7 @@ public class HibernateSession {
 
 	}
 
-	public static Session beginTransaction() {
+	public static Session beginTransaction() throws Exception{
 		Session hibernateSession = HibernateSession.getCurrentSession();
 		if (!hibernateSession.getTransaction().isActive()) {
 			hibernateSession.beginTransaction();

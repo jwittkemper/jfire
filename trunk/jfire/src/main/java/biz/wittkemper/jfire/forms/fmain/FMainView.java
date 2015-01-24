@@ -19,6 +19,11 @@ import biz.wittkemper.jfire.utils.FrameUtils;
 import biz.wittkemper.jfire.utils.IconService;
 import biz.wittkemper.jfire.utils.IconService.ICONSERVICE;
 
+/**
+ * 
+ * @author joerg
+ *
+ */
 public class FMainView extends JFrame {
 
 	/**

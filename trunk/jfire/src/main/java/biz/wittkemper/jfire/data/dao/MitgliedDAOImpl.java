@@ -27,12 +27,16 @@ public class MitgliedDAOImpl extends AbstractDAOImpl<Mitglied, Long> implements
 
 	@Override
 	public void save(Mitglied mitglied) {
+		try{
 		if (ParameterUtils.isMasterDB() == true) {
 			mitglied.setMasterInsert(new Date());
 		}
 		mitglied.setLastChange(new Date());
 		mitglied.setEdit(true);
 		super.save(mitglied);
+		}catch (Exception ex){
+			ex.printStackTrace();
+		}
 	}
 
 	@Override
