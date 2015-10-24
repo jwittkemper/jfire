@@ -5,11 +5,15 @@ import java.util.Properties;
 import org.hibernate.JDBCException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.cfg.AnnotationConfiguration;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.resource.transaction.spi.TransactionStatus;
+import org.hibernate.service.ServiceRegistry;
 
 import biz.wittkemper.jfire.forms.ferror.FError;
 import biz.wittkemper.jfire.utils.SystemUtils;
 
+@SuppressWarnings("deprecation")
 public class HibernateSession {
 	private static SystemUtils systemUtils = new SystemUtils();
 
@@ -31,9 +35,8 @@ public class HibernateSession {
 
 		Properties properties = new Properties();
 		properties.setProperty("hibernate.connection.url", "jdbc:derby:"
-				+ systemUtils.getDBPfad() + ";create=true");
-
-		sessionFactory = new AnnotationConfiguration()
+				+ systemUtils.getDBPfad() + ";create=true");	
+		Configuration configuration = new Configuration()
 				.addProperties(properties)
 				.setProperty("hibernate.connection.username", "")
 				.setProperty("hibernate.connection.password", "")
@@ -79,8 +82,10 @@ public class HibernateSession {
 				.addAnnotatedClass(
 						biz.wittkemper.jfire.data.entity.Mitglied_Fuehrerschein.class)
 				.addAnnotatedClass(
-						biz.wittkemper.jfire.data.entity.MitgliedFuehrerscheinID.class)
-				.buildSessionFactory();
+						biz.wittkemper.jfire.data.entity.MitgliedFuehrerscheinID.class);
+		
+		ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();        
+        sessionFactory = configuration.buildSessionFactory(serviceRegistry);
 		if (initDB) {
 			try {
 				systemUtils.initDB();
@@ -146,14 +151,14 @@ public class HibernateSession {
 
 	public static Session beginTransaction() throws Exception{
 		Session hibernateSession = HibernateSession.getCurrentSession();
-		if (!hibernateSession.getTransaction().isActive()) {
+		if (hibernateSession.getTransaction().getStatus() != TransactionStatus.ACTIVE  ) {
 			hibernateSession.beginTransaction();
 		}
 		return hibernateSession;
 	}
 
 	public static void commitTransaction() {
-		if (HibernateSession.getCurrentSession().getTransaction().isActive()) {
+		if (HibernateSession.getCurrentSession().getTransaction().getStatus() == TransactionStatus.ACTIVE ) {
 			HibernateSession.getCurrentSession().getTransaction().commit();
 		}
 	}

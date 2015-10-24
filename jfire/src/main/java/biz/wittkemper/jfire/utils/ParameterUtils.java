@@ -1,6 +1,7 @@
 package biz.wittkemper.jfire.utils;
 
 import org.hibernate.JDBCException;
+import org.hibernate.resource.transaction.spi.TransactionStatus;
 
 import biz.wittkemper.jfire.data.dao.DAOFactory;
 import biz.wittkemper.jfire.data.dao.HibernateSession;
@@ -11,7 +12,7 @@ public class ParameterUtils {
 		boolean lreturn;
 		boolean ltransactionstart = false;
 
-		if (!HibernateSession.getCurrentSession().getTransaction().isActive()) {
+		if (HibernateSession.getCurrentSession().getTransaction().getStatus() != TransactionStatus.ACTIVE ) {
 			HibernateSession.beginTransaction();
 			ltransactionstart = true;
 		}
@@ -33,7 +34,7 @@ public class ParameterUtils {
 	public static int getDBVersion() throws JDBCException, Exception {
 		boolean ltransactionstart = false;
 
-		if (!HibernateSession.getCurrentSession().getTransaction().isActive()) {
+		if (HibernateSession.getCurrentSession().getTransaction().getStatus() != TransactionStatus.ACTIVE) {
 			HibernateSession.beginTransaction();
 			ltransactionstart = true;
 		}
