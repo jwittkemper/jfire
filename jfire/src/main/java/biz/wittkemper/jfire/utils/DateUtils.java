@@ -67,12 +67,15 @@ public class DateUtils {
 
 	private StringBuilder getBirthDayData(int monat) throws Exception {
 
+		int monat1 = monat;
+		int monat2 = monat1 +1;
+		
 		StringBuilder text = new StringBuilder();
 		String sql = "";
 
 		sql = "Select VORNAME , NAME , GEBDATUM , YEAR(CURRENT_DATE) - YEAR(GEBDATUM) From Mitglied m ";
-		sql += "where m.STATUS_ID IN (1,2) AND MONTH(GEBDATUM) IN (" + monat
-				+ ", " + monat + 1
+		sql += "where m.STATUS_ID IN (1,2) AND MONTH(GEBDATUM) IN (" + monat1
+				+ ", " + monat2
 				+ ") ORDER BY MONTH (GEBDATUM), DAY (GEBDATUM)";
 		text.append(GetSQLData(sql));
 
