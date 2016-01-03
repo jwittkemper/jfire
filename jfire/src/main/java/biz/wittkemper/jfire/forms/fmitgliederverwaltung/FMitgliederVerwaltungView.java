@@ -18,6 +18,7 @@ import javax.swing.JComboBox;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
@@ -818,12 +819,15 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 		tpFuehrerscheine = new JPanel();
 		tbStammdaten.addTab("Führerscheine", null, tpFuehrerscheine, null);
 
+		
 		tbFuehrerscheine = new JXTable(model.getTableModel());
+		JScrollPane scPane = new JScrollPane(tbFuehrerscheine);
 		tbFuehrerscheine.setHighlighters(HighlighterFactory
 				.createAlternateStriping());
 		tbFuehrerscheine
 				.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 
+		
 		lblFuehrerscheine = new JLabel("Führerscheine");
 
 		toolBarFueherschein = new JToolBar();
@@ -842,7 +846,7 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 																Alignment.LEADING,
 																false)
 														.addComponent(
-																tbFuehrerscheine,
+																scPane,
 																GroupLayout.PREFERRED_SIZE,
 																286,
 																GroupLayout.PREFERRED_SIZE)
@@ -881,7 +885,7 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 																GroupLayout.PREFERRED_SIZE))
 										.addPreferredGap(
 												ComponentPlacement.UNRELATED)
-										.addComponent(tbFuehrerscheine,
+										.addComponent(scPane,
 												GroupLayout.PREFERRED_SIZE,
 												238, GroupLayout.PREFERRED_SIZE)
 										.addContainerGap(82, Short.MAX_VALUE)));
@@ -1044,6 +1048,11 @@ public class FMitgliederVerwaltungView extends JInternalFrame {
 		if (value == false) {
 			tbStammdaten.setSelectedIndex(0);
 		}
+		btnNewFuehrerschein.setEnabled(value);
+		btnDelFuehrerschein.setEnabled(value);
+		btnEditFuehrerschein.setEnabled(value);
+		toolBarFueherschein.setEnabled(value);
+		tbFuehrerscheine.setEnabled(value);
 	}
 
 	public void setToolbar(EDITMODE value) {

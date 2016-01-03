@@ -1,6 +1,7 @@
 package biz.wittkemper.jfire.forms.fmitgliederverwaltung;
 
 import java.beans.PropertyChangeListener;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -59,11 +60,10 @@ public class MitgliedModel {
 	private boolean datenfreigabe;
 
 	private final AbstractTableModel tableModel;
-	private String[] columnNames;
 
 	public MitgliedModel() {
 		changeSupport = new ExtendedPropertyChangeSupport(this);
-		tableModel = new ExampleTableModel();
+		tableModel = new FuehrerscheinTableModel();
 	}
 
 	public void addPropertyChangeListener(PropertyChangeListener x) {
@@ -336,13 +336,14 @@ public class MitgliedModel {
 		this.fuehrerscheine = fuehrerscheine;
 	}
 
-	public class ExampleTableModel extends AbstractTableModel {
+	public class FuehrerscheinTableModel extends AbstractTableModel {
 
 		private static final long serialVersionUID = 1L;
-
-		public ExampleTableModel() {
-			setColumnNames();
+		String[] columnNames = new String[] { "Bezeichnung", "gültig bis"};
+		
+		public FuehrerscheinTableModel() {
 		}
+
 
 		@Override
 		public int getRowCount() {
@@ -358,11 +359,8 @@ public class MitgliedModel {
 		public String getColumnName(int column) {
 			return columnNames[column];
 		}
-
-		public void setColumnNames() {
-			columnNames = new String[] { "id", "Vorname", "Name" };
-		}
-
+		
+		
 		@Override
 		public Object getValueAt(int rowIndex, int columnIndex) {
 
@@ -373,7 +371,7 @@ public class MitgliedModel {
 
 			case 1:
 				if (mf.getFuehrerschein().isBefristet()) {
-					return mf.getBefristetBis();
+					return new SimpleDateFormat("dd-MM-YYYY").format( mf.getBefristetBis());
 				} else {
 					return "";
 				}
