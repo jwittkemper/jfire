@@ -17,7 +17,10 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import org.hibernate.JDBCException;
 import org.hibernate.Session;
 import org.hibernate.jdbc.Work;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import biz.wittkemper.jfire.Start;
 import biz.wittkemper.jfire.data.dao.DAOFactory;
 import biz.wittkemper.jfire.data.dao.HibernateSession;
 import biz.wittkemper.jfire.data.entity.Anrede;
@@ -25,6 +28,9 @@ import biz.wittkemper.jfire.data.entity.MitgliedStatus;
 import biz.wittkemper.jfire.data.entity.Parameter;
 
 public class SystemUtils {
+	
+	private static final Logger log = LoggerFactory.getLogger(SystemUtils.class);
+	
 	final static String filename = "jfire.properties";
 
 	public boolean getDBAvailable() {
@@ -36,9 +42,11 @@ public class SystemUtils {
 			File file = new File(pfad);
 			try {
 				if (file.exists()) {
+					log.debug("Database found at: " + file.getPath());
 					lreturn = true;
 				}
 			} catch (Exception e) {
+				log.debug("No Databse was found.");
 				lreturn = false;
 			}
 

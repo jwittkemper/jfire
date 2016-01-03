@@ -56,7 +56,11 @@ public class FMainView extends JFrame {
 	JLabel lbMitglieder = new JLabel();
 	JMenu mnAnwesenheiten;
 	JMenuItem mnAdressliste;
-
+	
+	JMenu mnStammdaten;
+	JMenuItem mnLehrgang;
+	JMenuItem mnFueherschein;
+	
 	/**
 	 * Create the frame.
 	 */
@@ -147,6 +151,16 @@ public class FMainView extends JFrame {
 		mntmMitgliederFoerderverein.setActionCommand("adresslisten-export");
 		mnAdressListen.add(mntmMitgliederFoerderverein);
 
+		mnStammdaten = new JMenu("Einstellungen");
+		mnLehrgang = new JMenuItem("Lehrgänge");
+		
+		mnFueherschein = new JMenuItem("Führerscheine");
+		
+		mnStammdaten.add(mnLehrgang);
+		mnStammdaten.add(mnFueherschein);
+		
+		menuBar.add(mnStammdaten);
+		
 		frameUtils.MaximiseFrame(this);
 		getContentPane().setLayout(new BorderLayout());
 		getContentPane().add(pane, "Center");

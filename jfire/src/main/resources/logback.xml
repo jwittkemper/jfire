@@ -10,10 +10,10 @@
 
 	<appender name="FILE" class="ch.qos.logback.core.FileAppender">
 		<file>jfire.log</file>
-		<layout class="ch.qos.logback.classic.PatternLayout">
+		<encoder>
 			<Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
 			</Pattern>
-		</layout>
+  		</encoder>
 	</appender>
 
 	<logger name="org.hibernate" level="ERROR" />

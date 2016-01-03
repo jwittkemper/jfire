@@ -42,7 +42,7 @@ public class MitgliederTest {
 	public void cheBirthday() {
 		DateUtils dateUtils = new DateUtils();
 		Calendar cal1 = new GregorianCalendar();
-		cal1.set(2013, Calendar.DECEMBER, 10);
+		cal1.set(2015, Calendar.DECEMBER, 23);
 
 		Calendar cal2 = new GregorianCalendar();
 		cal2.set(1964, 12, 21);

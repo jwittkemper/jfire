@@ -32,11 +32,11 @@ public class MitgliedValidator extends AbstractValueModel implements Validator<M
 	public ValidationResult validate(Mitglied mitglied) {
 		ValidationResult result = new ValidationResult();
 		
-		if(ValidationUtils.isBlank(mitglied.getName())){
+		if(ValidationUtils.hasMinimumLength(mitglied.getName(),1)){
 			result.addWarning("Name ist leer!");
 		}
 		
-		if(ValidationUtils.isBlank(mitglied.getVorname())){
+		if(ValidationUtils.hasMinimumLength(mitglied.getVorname(),1)){
 			result.addError("Vorname ist leer!");
 		}
 		

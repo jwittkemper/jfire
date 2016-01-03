@@ -30,7 +30,7 @@ public class Start {
 							break;
 						}
 					}
-					
+					log.info("Start Application.");
 					FMainController controller = new FMainController();
 					controller.showView();
 				} catch (Exception e) {

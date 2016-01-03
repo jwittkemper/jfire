@@ -22,6 +22,8 @@ import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import org.hibernate.HibernateException;
+import org.hibernate.service.spi.ServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,12 +59,12 @@ public class FMainController {
 			this.view = new FMainView();
 			initListener();
 			loadMitgliederMeldung();
-		} catch (Exception e) {
+		} catch (HibernateException e) {
 			log.error("Fehler beim initialisieren der Anwendung", e);
 		}
 	}
 
-	private void loadMitgliederMeldung()  throws Exception{
+	private void loadMitgliederMeldung()  throws HibernateException{
 
 		HibernateSession.beginTransaction();
 		LoadData data = new LoadData();
