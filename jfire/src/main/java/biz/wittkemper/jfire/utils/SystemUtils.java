@@ -44,9 +44,12 @@ public class SystemUtils {
 				if (file.exists()) {
 					log.debug("Database found at: " + file.getPath());
 					lreturn = true;
+				}else {
+					log.debug("No Database was found.");
+					lreturn = false;
 				}
 			} catch (Exception e) {
-				log.debug("No Databse was found.");
+				log.debug("No Database was found.");
 				lreturn = false;
 			}
 
@@ -205,7 +208,7 @@ public class SystemUtils {
 
 		Parameter dbversion = new Parameter();
 		dbversion.setBezeichnung("DBVERSION");
-		dbversion.setValue("4");
+		dbversion.setValue("7");
 
 		DAOFactory.getInstance().getParameterDAO().save(dbtyp);
 		DAOFactory.getInstance().getParameterDAO().save(dbversion);

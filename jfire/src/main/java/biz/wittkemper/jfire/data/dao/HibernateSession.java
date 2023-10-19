@@ -48,13 +48,13 @@ public class HibernateSession {
 		configuration.setProperty("hibernate.connection.username", "");
 		configuration.setProperty("hibernate.connection.password", "");
 		configuration.setProperty("hibernate.connection.driver_class", "org.apache.derby.jdbc.EmbeddedDriver");
-		configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.DerbyDialect");
+		configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.DerbyTenSevenDialect");
 		configuration.setProperty("transaction.factory_class", "org.hibernate.transaction.JDBCTransactionFactory");
 		configuration.setProperty("hibernate.cache.provider_class", "org.hibernate.cache.HashtableCacheProvider");
-		configuration.setProperty("hibernate.query.substitutions", "true 1, false 0, yes 'Y', no 'N'");
+//		configuration.setProperty("hibernate.query.substitutions", "true 1, false 0, yes 'Y', no 'N'");
 		configuration.setProperty("hibernate.hbm2ddl.auto", createDB);
 		// .setProperty("hibernate.hbm2ddl.auto", "create")
-		configuration.setProperty("hibernate.show_sql", "false");
+		configuration.setProperty("hibernate.show_sql", "true");
 		configuration.setProperty("hibernate.format_sql", "true");
 		configuration.setProperty("hibernate.current_session_context_class", "thread");
 

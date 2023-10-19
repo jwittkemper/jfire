@@ -52,7 +52,10 @@ public class IconService {
 			pic="foerderMitglied.png";
 			break;
 		}
-		URL img = ClassLoader.getSystemResource("picture/" + pic);
+//		ClassLoader loader = Thread.currentThread().getContextClassLoader();
+//		URL img = loader.getResource("/picture/" + pic);
+		
+		URL img = this.getClass().getResource("/picture/" + pic);
 		ImageIcon im = new ImageIcon(img);
 
 		return im;

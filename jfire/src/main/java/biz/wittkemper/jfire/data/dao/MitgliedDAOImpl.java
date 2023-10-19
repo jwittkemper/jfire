@@ -63,7 +63,7 @@ public class MitgliedDAOImpl extends AbstractDAOImpl<Mitglied, Long> implements
 	@Override
 	public int getAktive() {
 		String hsql = "FROM Mitglied m where m.status.id = 1 ";
-		hsql += " and m.geloescht = 0";
+		hsql += " and m.geloescht = false";
 
 		List<Mitglied> list = super.findByQueryString(hsql);
 
