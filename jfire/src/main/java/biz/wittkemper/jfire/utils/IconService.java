@@ -56,9 +56,13 @@ public class IconService {
 //		URL img = loader.getResource("/picture/" + pic);
 		
 		URL img = this.getClass().getResource("/picture/" + pic);
-		ImageIcon im = new ImageIcon(img);
-
-		return im;
+		if (img != null) {
+			ImageIcon im = new ImageIcon(img);
+			return im;
+		}else {
+			return null;
+		}
+		
 
 	}
 }

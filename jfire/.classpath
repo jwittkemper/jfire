@@ -37,6 +37,6 @@
 			<attribute name="optional" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="picture"/>
+	<classpathentry exported="true" kind="lib" path="picture"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

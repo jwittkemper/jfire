@@ -3,7 +3,8 @@ package biz.wittkemper.jfire.data.dao;
 import java.util.List;
 
 import biz.wittkemper.jfire.data.entity.FoerderMitglied;
-import biz.wittkemper.jfire.data.entity.Mitglied;
+import javax.persistence.TypedQuery;
+import org.hibernate.Session;
 
 public class FoerderMitgliedDAOImpl extends
 		AbstractDAOImpl<FoerderMitglied, Long> implements FoerderMitgliedDAO {
@@ -17,24 +18,32 @@ public class FoerderMitgliedDAOImpl extends
 	public int getAll() {
 		List<FoerderMitglied> list = getAllList(); 
 
-		if (list.size() > 0) {
+		if (!list.isEmpty()) {
 			return list.size();
 		}
 		return 0;
 	}
+        @Override
 	public List<FoerderMitglied> getAllList(){
-		String hsql = "FROM FoerderMitglied f where f.mitglied.geloescht =0 ";
-		List<FoerderMitglied> list = super.findByQueryString(hsql);
-		return list;
+            
+            Session session = this.getSession();
+            String hsql = "FROM FoerderMitglied f where f.mitglied.geloescht = :trueValue ";
+            
+            TypedQuery<FoerderMitglied> query = session.createQuery(hsql);
+            query.setParameter("trueValue", false);
+            
+            List<FoerderMitglied> list = query.getResultList();
+            
+            return list;
 	}
 
 	@Override
 	public boolean EintragDa(Long id) {
-		FoerderMitglied fm = super.load(id);
-		if (fm!=null){
-			return true;
-		}
-		return false;
+            FoerderMitglied fm = super.load(id);
+            if (fm!=null){
+		return true;
+            }
+            return false;
 	}
 
 }

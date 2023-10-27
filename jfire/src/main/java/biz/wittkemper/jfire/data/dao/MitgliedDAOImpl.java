@@ -4,9 +4,11 @@ import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Query;
+import org.hibernate.Session;
 
 import biz.wittkemper.jfire.data.entity.Mitglied;
 import biz.wittkemper.jfire.utils.ParameterUtils;
+import javax.persistence.TypedQuery;
 
 public class MitgliedDAOImpl extends AbstractDAOImpl<Mitglied, Long> implements
 		MitgliedDAO {
@@ -62,11 +64,18 @@ public class MitgliedDAOImpl extends AbstractDAOImpl<Mitglied, Long> implements
 
 	@Override
 	public int getAktive() {
-		String hsql = "FROM Mitglied m where m.status.id = 1 ";
-		hsql += " and m.geloescht = false";
+		Session session = this.getSession();
+                String hsql = "FROM Mitglied m where m.status.id = 1 ";
+		hsql += " and m.geloescht = :trueValue";
 
-		List<Mitglied> list = super.findByQueryString(hsql);
-
+		
+		
+		TypedQuery<Mitglied>  query = session.createQuery(hsql);
+		query.setParameter("trueValue", false);
+				
+//		List<Mitglied> list = super.findByQueryString(hsql);
+		List<Mitglied> list = query.getResultList();
+		
 		if (list.size() > 0) {
 			return list.size();
 		}
@@ -75,10 +84,15 @@ public class MitgliedDAOImpl extends AbstractDAOImpl<Mitglied, Long> implements
 
 	@Override
 	public int getReserve() {
-		String hsql = "FROM Mitglied m where m.status.id = 2 ";
-		hsql += " and m.geloescht = 0";
-
-		List<Mitglied> list = super.findByQueryString(hsql);
+		Session session = this.getSession();
+                
+                String hsql = "FROM Mitglied m where m.status.id = 2 ";
+		hsql += " and m.geloescht = :trueValue";
+                
+                TypedQuery<Mitglied> query = session.createQuery(hsql);
+		query.setParameter("trueValue", false);
+                
+		List<Mitglied> list = query.getResultList();
 
 		if (list.size() > 0) {
 			return list.size();
