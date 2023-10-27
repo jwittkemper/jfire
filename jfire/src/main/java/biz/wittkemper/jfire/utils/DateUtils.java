@@ -14,6 +14,8 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 
 import biz.wittkemper.jfire.data.dao.HibernateSession;
+import javax.persistence.TypedQuery;
+import org.hibernate.query.SelectionQuery;
 
 public class DateUtils {
 	static boolean wasrun = false;
@@ -107,12 +109,15 @@ public class DateUtils {
 		StringBuilder text = new StringBuilder();
 
 		HibernateSession.beginTransaction();
+                
 		Session session = HibernateSession.getCurrentSession();
-		Query query = session.createSQLQuery(sql);
+                List<Object[]> query  = session.createNativeQuery(sql).getResultList();
+                //SelectionQuery<Object> query = session.createSelectionQuery(sql,Object.class);
+		//TypedQuery query = session.createSQLQuery(sql);
 
-		List<Object[]> rows = query.list();
+		List<Object> rows = query.toArray();
 		HibernateSession.commitTransaction();
-		for (Object[] row : rows) {
+		for (Object row : rows) {
 			text.append(row[1].toString() + ", " + row[0].toString() + " "
 					+ "(" + getCurDateString((Date) row[2]) + ") wird: "
 					+ row[3].toString() + "\n");

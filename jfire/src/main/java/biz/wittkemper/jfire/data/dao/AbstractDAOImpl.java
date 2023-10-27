@@ -3,8 +3,9 @@ package biz.wittkemper.jfire.data.dao;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.TypedQuery;
-
 import org.hibernate.Session;
+
+
 
 public abstract class AbstractDAOImpl<DomainObject extends Serializable, KeyTyp extends Serializable> {
 	private Session session;
@@ -13,7 +14,7 @@ public abstract class AbstractDAOImpl<DomainObject extends Serializable, KeyTyp 
 	protected abstract Class<DomainObject> getDomainClass();
 
 	protected Session getSession() {
-		return HibernateSession.getCurrentSession();
+            return HibernateSession.getCurrentSession();
 	}
 
 	public DomainObject load(KeyTyp id) {

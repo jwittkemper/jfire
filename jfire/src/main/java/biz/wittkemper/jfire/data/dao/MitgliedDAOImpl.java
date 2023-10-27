@@ -2,13 +2,17 @@ package biz.wittkemper.jfire.data.dao;
 
 import java.util.Date;
 import java.util.List;
-
-import org.hibernate.Query;
 import org.hibernate.Session;
 
 import biz.wittkemper.jfire.data.entity.Mitglied;
 import biz.wittkemper.jfire.utils.ParameterUtils;
-import javax.persistence.TypedQuery;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
+import org.hibernate.query.Query;
+
 
 public class MitgliedDAOImpl extends AbstractDAOImpl<Mitglied, Long> implements
 		MitgliedDAO {
@@ -64,17 +68,26 @@ public class MitgliedDAOImpl extends AbstractDAOImpl<Mitglied, Long> implements
 
 	@Override
 	public int getAktive() {
-		Session session = this.getSession();
-                String hsql = "FROM Mitglied m where m.status.id = 1 ";
-		hsql += " and m.geloescht = :trueValue";
+            
+                EntityManager em = HibernateSession.getEM();
+            
+                
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+                CriteriaQuery<Mitglied> cr = cb.createQuery(Mitglied.class);
+                cr.from(Mitglied.class);
+                Root<Mitglied> root = cr.from(Mitglied.class);
+                
+                Predicate[] predicates = new Predicate[2];
+                predicates[0] = cb.equal(root.get("geloescht"), false);
+                predicates[1] = cb.equal(root.get("status"), 1);
+                
+                cr.select(root).where(predicates);
 
-		
-		
-		TypedQuery<Mitglied>  query = session.createQuery(hsql);
-		query.setParameter("trueValue", false);
+               
+                List<Mitglied> list = em.createQuery(cr).getResultList();
 				
 //		List<Mitglied> list = super.findByQueryString(hsql);
-		List<Mitglied> list = query.getResultList();
+		//List<Mitglied> list = query.getResultList();
 		
 		if (list.size() > 0) {
 			return list.size();

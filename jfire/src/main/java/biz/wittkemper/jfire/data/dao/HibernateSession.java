@@ -13,14 +13,15 @@ import org.hibernate.service.ServiceRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import biz.wittkemper.jfire.Start;
 import biz.wittkemper.jfire.forms.ferror.FError;
 import biz.wittkemper.jfire.utils.SystemUtils;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
 
 @SuppressWarnings("deprecation")
 public class HibernateSession {
 
-	private static final Logger log = LoggerFactory.getLogger(HibernateSession.class);
+        private static final Logger log = LoggerFactory.getLogger(HibernateSession.class);
 	private static SystemUtils systemUtils = new SystemUtils();
 
 	private static SessionFactory sessionFactory;
@@ -75,6 +76,7 @@ public class HibernateSession {
 		ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
 				.applySettings(configuration.getProperties()).build();
 		sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+                
 		if (initDB) {
 			try {
 				systemUtils.initDB();
@@ -130,7 +132,11 @@ public class HibernateSession {
 	public static Session getCurrentSession() {
 		return sessionFactory.getCurrentSession();
 	}
-
+        
+        public static EntityManager getEM(){
+            EntityManagerFactory emf = HibernateSession.getCurrentSession().getEntityManagerFactory();
+            return emf.createEntityManager();
+        }
 	/**
 	 * closes the session factory
 	 */
