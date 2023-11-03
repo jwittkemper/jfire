@@ -27,13 +27,16 @@ import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.view.JasperViewer;
 
+import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.jdbc.Work;
 import org.jfree.ui.ExtensionFileFilter;
 
-import biz.wittkemper.jfire.data.dao.HibernateSession;
+import biz.wittkemper.jfire.data.dao.JPAEntityManager;
 import biz.wittkemper.jfire.data.entity.Report;
 import biz.wittkemper.jfire.utils.DateUtils;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
 
 public class ReportService {
 	public enum REPORTS {
@@ -56,9 +59,6 @@ public class ReportService {
 		JasperDesign jasperDesign = JRXmlLoader.load(stream);
 		final JasperReport jasperReport = JasperCompileManager
 				.compileReport(jasperDesign);
-
-		Transaction tx = HibernateSession.getInstance().getCurrentSession()
-				.beginTransaction();
 
 		int res;
 		if (aktion == null) {
@@ -84,8 +84,11 @@ public class ReportService {
 
 		switch (res) {
 		case JOptionPane.YES_OPTION:
-			HibernateSession.openSession().doWork(new Work() {
-
+			EntityManager em = JPAEntityManager.getCurrentEntityManager();
+			Session session = em.unwrap(Session.class);
+			
+			session.doWork(new Work() {
+			
 				@Override
 				public void execute(Connection con) throws SQLException {
 					try {
@@ -99,7 +102,9 @@ public class ReportService {
 
 			break;
 		case JOptionPane.NO_OPTION:
-			HibernateSession.openSession().doWork(new Work() {
+			EntityManager em1 = JPAEntityManager.getCurrentEntityManager();
+			Session session1 = em1.unwrap(Session.class);
+			session1.doWork(new Work() {
 
 				@Override
 				public void execute(Connection con) throws SQLException {
@@ -115,7 +120,6 @@ public class ReportService {
 			break;
 		default:
 		}
-		tx.commit();
 	}
 
 	private static Map fillMap(Report report, Map refMap) {

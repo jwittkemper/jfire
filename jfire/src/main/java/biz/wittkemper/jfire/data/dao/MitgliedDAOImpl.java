@@ -2,16 +2,15 @@ package biz.wittkemper.jfire.data.dao;
 
 import java.util.Date;
 import java.util.List;
-import org.hibernate.Session;
 
 import biz.wittkemper.jfire.data.entity.Mitglied;
 import biz.wittkemper.jfire.utils.ParameterUtils;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
-import org.hibernate.query.Query;
 
 
 public class MitgliedDAOImpl extends AbstractDAOImpl<Mitglied, Long> implements
@@ -69,40 +68,40 @@ public class MitgliedDAOImpl extends AbstractDAOImpl<Mitglied, Long> implements
 	@Override
 	public int getAktive() {
             
-                EntityManager em = HibernateSession.getEM();
-            
-                
-		CriteriaBuilder cb = em.getCriteriaBuilder();
-                CriteriaQuery<Mitglied> cr = cb.createQuery(Mitglied.class);
-                cr.from(Mitglied.class);
-                Root<Mitglied> root = cr.from(Mitglied.class);
-                
-                Predicate[] predicates = new Predicate[2];
-                predicates[0] = cb.equal(root.get("geloescht"), false);
-                predicates[1] = cb.equal(root.get("status"), 1);
-                
-                cr.select(root).where(predicates);
-
-               
-                List<Mitglied> list = em.createQuery(cr).getResultList();
-				
-//		List<Mitglied> list = super.findByQueryString(hsql);
-		//List<Mitglied> list = query.getResultList();
-		
-		if (list.size() > 0) {
-			return list.size();
-		}
+//                EntityManager em = HibernateSession.getEM();
+//            
+//                
+//		CriteriaBuilder cb = em.getCriteriaBuilder();
+//                CriteriaQuery<Mitglied> cr = cb.createQuery(Mitglied.class);
+//                cr.from(Mitglied.class);
+//                Root<Mitglied> root = cr.from(Mitglied.class);
+//                
+//                Predicate[] predicates = new Predicate[2];
+//                predicates[0] = cb.equal(root.get("geloescht"), false);
+//                predicates[1] = cb.equal(root.get("status"), 1);
+//                
+//                cr.select(root).where(predicates);
+//
+//               
+//                List<Mitglied> list = em.createQuery(cr).getResultList();
+//				
+////		List<Mitglied> list = super.findByQueryString(hsql);
+//		//List<Mitglied> list = query.getResultList();
+//		
+//		if (list.size() > 0) {
+//			return list.size();
+//		}
 		return 0;
 	}
 
 	@Override
 	public int getReserve() {
-		Session session = this.getSession();
+		EntityManager em = this.getEntityManager();
                 
-                String hsql = "FROM Mitglied m where m.status.id = 2 ";
+        String hsql = "FROM Mitglied m where m.status.id = 2 ";
 		hsql += " and m.geloescht = :trueValue";
                 
-                TypedQuery<Mitglied> query = session.createQuery(hsql);
+        Query query = em.createQuery(hsql, Mitglied.class);
 		query.setParameter("trueValue", false);
                 
 		List<Mitglied> list = query.getResultList();
@@ -197,11 +196,11 @@ public class MitgliedDAOImpl extends AbstractDAOImpl<Mitglied, Long> implements
 
 	@Override
 	public void resetEdit() {
-		String hql = "";
-
-		hql += "Update Mitglied set edit=0 where edit =1";
-
-		Query query = HibernateSession.getCurrentSession().createQuery(hql);
-		query.executeUpdate();
+//		String hql = "";
+//
+//		hql += "Update Mitglied set edit=0 where edit =1";
+//
+//		Query query = HibernateSession.getCurrentSession().createQuery(hql);
+//		query.executeUpdate();
 	}
 }

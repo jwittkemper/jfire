@@ -13,7 +13,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import biz.wittkemper.jfire.data.dao.DAOFactory;
-import biz.wittkemper.jfire.data.dao.HibernateSession;
 import biz.wittkemper.jfire.data.entity.FoerderMitglied;
 import biz.wittkemper.jfire.data.entity.Mitglied;
 import biz.wittkemper.jfire.data.validation.MitgliedValidator;
@@ -97,7 +96,6 @@ public class FMitgliederVerwaltungController {
 	private void loadData(Long id) throws Exception {
 
 		if (id != null && id > 0) {
-			HibernateSession.beginTransaction();
 			Mitglied mitglied = DAOFactory.getInstance().getMitgliedDAO()
 					.load(id);
 			if (mitglied != null) {
@@ -126,7 +124,6 @@ public class FMitgliederVerwaltungController {
 				view.enableImput(false);
 				model.getTableModel().fireTableDataChanged();
 			}
-			HibernateSession.commitTransaction();
 
 		}
 	}
@@ -182,7 +179,6 @@ public class FMitgliederVerwaltungController {
 
 	private void speicherMitglied() throws Exception {
 		view.trigger.triggerCommit();
-		HibernateSession.beginTransaction();
 		try {
 			if (viewmode == EDITMODE.NEW) {
 				DAOFactory.getInstance().getMitgliedDAO()
@@ -203,10 +199,8 @@ public class FMitgliederVerwaltungController {
 
 				}
 			}
-			HibernateSession.commitTransaction();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			HibernateSession.rollbackTransaction();
 		}
 	}
 
@@ -218,15 +212,11 @@ public class FMitgliederVerwaltungController {
 			id = model.getMitglied().getId();
 		}
 		if (richtung.equals("left")) {
-			HibernateSession.beginTransaction();
 			loadData(DAOFactory.getInstance().getMitgliedDAO().getPrev(id)
 					.getId());
-			HibernateSession.commitTransaction();
 		} else if (richtung.equals("right")) {
-			HibernateSession.beginTransaction();
 			loadData(DAOFactory.getInstance().getMitgliedDAO().getNext(id)
 					.getId());
-			HibernateSession.commitTransaction();
 		}
 		view.repaint();
 	}
@@ -247,10 +237,10 @@ public class FMitgliederVerwaltungController {
 							mitglied.setGeloescht(!mitglied.isGeloescht());
 							mitglied.setGeloeschtAM(delete.getAustittsDatum());
 							mitglied.setGeloeschtWeil(delete.getLoeschGrunf());
-							HibernateSession.beginTransaction();
+							
 							DAOFactory.getInstance().getMitgliedDAO()
 									.update(mitglied);
-							HibernateSession.commitTransaction();
+
 							delete.dispose();
 							view.trigger.triggerFlush();
 							switchViewMode(EDITMODE.NONE);
@@ -264,11 +254,10 @@ public class FMitgliederVerwaltungController {
 						mitglied.setGeloescht(!mitglied.isGeloescht());
 						mitglied.setGeloeschtAM(null);
 						mitglied.setGeloeschtWeil(null);
-						HibernateSession.beginTransaction();
+						
 						DAOFactory.getInstance().getMitgliedDAO()
 								.update(mitglied);
-						HibernateSession.commitTransaction();
-
+						
 						view.trigger.triggerFlush();
 						switchViewMode(EDITMODE.NONE);
 						view.trigger.triggerFlush();

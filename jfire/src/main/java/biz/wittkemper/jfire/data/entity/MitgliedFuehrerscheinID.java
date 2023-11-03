@@ -2,8 +2,8 @@ package biz.wittkemper.jfire.data.entity;
 
 import java.io.Serializable;
 
-import javax.persistence.Embeddable;
-import javax.persistence.ManyToOne;
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.ManyToOne;
 
 @Embeddable
 public class MitgliedFuehrerscheinID implements Serializable {

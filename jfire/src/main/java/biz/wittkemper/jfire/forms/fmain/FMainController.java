@@ -28,7 +28,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import biz.wittkemper.jfire.data.dao.DAOFactory;
-import biz.wittkemper.jfire.data.dao.HibernateSession;
 import biz.wittkemper.jfire.forms.fAdressliste.FAdressliste;
 import biz.wittkemper.jfire.forms.fanwesenheit.FAnwesenheit;
 import biz.wittkemper.jfire.forms.fdienstjubilaeum.FDienstjubilaeum;
@@ -66,10 +65,8 @@ public class FMainController {
 
 	private void loadMitgliederMeldung()  throws HibernateException{
 
-		HibernateSession.beginTransaction();
 		LoadData data = new LoadData();
 		data.start();
-		HibernateSession.commitTransaction();
 
 	}
 

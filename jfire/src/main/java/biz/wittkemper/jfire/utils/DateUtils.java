@@ -6,16 +6,13 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Locale;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import org.hibernate.Query;
-import org.hibernate.Session;
-
-import biz.wittkemper.jfire.data.dao.HibernateSession;
-import javax.persistence.TypedQuery;
-import org.hibernate.query.SelectionQuery;
+import biz.wittkemper.jfire.data.dao.JPAEntityManager;
+import jakarta.persistence.EntityManager;
 
 public class DateUtils {
 	static boolean wasrun = false;
@@ -107,21 +104,33 @@ public class DateUtils {
 	private String GetSQLData(String sql) throws Exception {
 
 		StringBuilder text = new StringBuilder();
-
-		HibernateSession.beginTransaction();
+		SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy", Locale.GERMAN);
+		
+		EntityManager em = JPAEntityManager.getCurrentEntityManager();
                 
-		Session session = HibernateSession.getCurrentSession();
-                List<Object[]> query  = session.createNativeQuery(sql).getResultList();
-                //SelectionQuery<Object> query = session.createSelectionQuery(sql,Object.class);
-		//TypedQuery query = session.createSQLQuery(sql);
-
-		List<Object> rows = query.toArray();
-		HibernateSession.commitTransaction();
-		for (Object row : rows) {
-			text.append(row[1].toString() + ", " + row[0].toString() + " "
-					+ "(" + getCurDateString((Date) row[2]) + ") wird: "
-					+ row[3].toString() + "\n");
-		}
+		List<Object[]> query  = (List<Object[]> ) em.createNativeQuery(sql).getResultList();
+		
+		Object[] rows = (Object[]) query.toArray();
+		
+		query.forEach(o ->{
+			String o0 = o[0].toString();
+			String o1 = o[1].toString();
+			String o2 = o[2].toString();
+			String o3 = o[3].toString();
+			try {
+				text.append(01 + ", " + o0 + " (" + getCurDateString(formatter.parse(o2)) + " ) wird: " + o3 +"\n");
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		});
+				
+//		for (Object[] row : rows) {
+//			String one = row[1];
+//			text.append(row[1].toString() + ", " + row[0].toString() + " "
+//					+ "(" + getCurDateString((Date) row[2]) + ") wird: "
+//					+ row[3].toString() + "\n");
+//		}
 		return text.toString();
 	}
 

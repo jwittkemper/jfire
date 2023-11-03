@@ -22,10 +22,13 @@ import org.slf4j.LoggerFactory;
 
 import biz.wittkemper.jfire.Start;
 import biz.wittkemper.jfire.data.dao.DAOFactory;
-import biz.wittkemper.jfire.data.dao.HibernateSession;
+import biz.wittkemper.jfire.data.dao.JPAEntityManager;
 import biz.wittkemper.jfire.data.entity.Anrede;
 import biz.wittkemper.jfire.data.entity.MitgliedStatus;
 import biz.wittkemper.jfire.data.entity.Parameter;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
+import jakarta.transaction.Transaction;
 
 public class SystemUtils {
 	
@@ -178,7 +181,8 @@ public class SystemUtils {
 
 	public void initDB() throws Exception {
 
-		HibernateSession.beginTransaction();
+		EntityTransaction tr = JPAEntityManager.getTransaction();
+		tr.begin();
 		Anrede frau = new Anrede();
 		frau.setAnrede("Frau");
 
@@ -213,7 +217,7 @@ public class SystemUtils {
 		DAOFactory.getInstance().getParameterDAO().save(dbtyp);
 		DAOFactory.getInstance().getParameterDAO().save(dbversion);
 
-		HibernateSession.commitTransaction();
+		tr.commit();
 	}
 
 	public void checkDB() throws JDBCException, Exception {
@@ -234,7 +238,8 @@ public class SystemUtils {
 	}
 
 	private void setVersion7() throws Exception {
-		HibernateSession.beginTransaction();
+		EntityTransaction tr = JPAEntityManager.getTransaction();
+		tr.begin();
 		try {
 			String sql = " CREATE TABLE APP.FUEHRERSCHEIN";
 			sql += " ( ";
@@ -286,9 +291,9 @@ public class SystemUtils {
 
 			setDBVersion(7);
 
-			HibernateSession.commitTransaction();
+			tr.commit();
 		} catch (Exception ex) {
-			HibernateSession.rollbackTransaction();
+			tr.rollback();
 			JOptionPane.showConfirmDialog(null,
 					"Update fehlgeschlagen!\n" + ex.getMessage(),
 					"Fehler beim Update", JOptionPane.ERROR_MESSAGE
@@ -297,8 +302,9 @@ public class SystemUtils {
 	}
 
 	private void setVersion6() throws Exception {
-
-		HibernateSession.beginTransaction();
+		EntityTransaction tr = JPAEntityManager.getTransaction();
+		tr.begin();
+	
 		try {
 
 			String sql = "";
@@ -306,10 +312,10 @@ public class SystemUtils {
 			executeSQL(sql);
 
 			setDBVersion(6);
-			HibernateSession.commitTransaction();
+			tr.commit();
 
 		} catch (Exception e) {
-			HibernateSession.rollbackTransaction();
+			tr.rollback();
 			JOptionPane.showConfirmDialog(null,
 					"Update fehlgeschlagen!\n" + e.getMessage(),
 					"Fehler beim Update", JOptionPane.ERROR_MESSAGE
@@ -319,7 +325,9 @@ public class SystemUtils {
 	}
 
 	private void setVersion5() throws Exception {
-		HibernateSession.beginTransaction();
+		EntityTransaction tr = JPAEntityManager.getTransaction();
+		tr.begin();
+
 		try {
 
 			String sql = "";
@@ -330,10 +338,10 @@ public class SystemUtils {
 			executeSQL(sql);
 
 			setDBVersion(5);
-			HibernateSession.commitTransaction();
+			tr.commit();
 
 		} catch (Exception e) {
-			HibernateSession.rollbackTransaction();
+			tr.rollback();
 			JOptionPane.showConfirmDialog(null,
 					"Update fehlgeschlagen!\n" + e.getMessage(),
 					"Fehler beim Update", JOptionPane.ERROR_MESSAGE
@@ -343,7 +351,9 @@ public class SystemUtils {
 	}
 
 	private void setVersion4() throws Exception {
-		HibernateSession.beginTransaction();
+		EntityTransaction tr = JPAEntityManager.getTransaction();
+		tr.begin();
+		
 		try {
 			String sql = " CREATE TABLE APP.MATERIAL";
 			sql += "( TYPE varchar(31) NOT NULL, ";
@@ -409,9 +419,9 @@ public class SystemUtils {
 			executeSQL(sql);
 
 			setDBVersion(4);
-			HibernateSession.commitTransaction();
+			tr.commit();
 		} catch (Exception e) {
-			HibernateSession.rollbackTransaction();
+			tr.rollback();
 			JOptionPane.showConfirmDialog(null,
 					"Update fehlgeschlagen!\n" + e.getMessage(),
 					"Fehler beim Update", JOptionPane.ERROR_MESSAGE
@@ -421,18 +431,18 @@ public class SystemUtils {
 	}
 
 	private void setVersion3() throws Exception {
-
-		HibernateSession.beginTransaction();
-
+		EntityTransaction tr = JPAEntityManager.getTransaction();
+		tr.begin();
+		
 		try {
 			String sql = "";
 			sql = "ALTER TABLE MITGLIED add edit SMALLINT NOT NULL DEFAULT 0";
 			executeSQL(sql);
 
 			setDBVersion(3);
-			HibernateSession.commitTransaction();
+			tr.commit();
 		} catch (SQLException e) {
-			HibernateSession.rollbackTransaction();
+			tr.rollback();
 			JOptionPane.showConfirmDialog(null,
 					"Update fehlgeschlagen!\n" + e.getMessage(),
 					"Fehler beim Update", JOptionPane.ERROR_MESSAGE
@@ -448,17 +458,17 @@ public class SystemUtils {
 	}
 
 	private void setVersion2() throws Exception {
-
-		HibernateSession.beginTransaction();
+		EntityTransaction tr = JPAEntityManager.getTransaction();
+		tr.begin();
 
 		try {
 			String sql = "";
 			sql = "ALTER TABLE MITGLIED add rettungsdienst SMALLINT NOT NULL DEFAULT 0";
 			executeSQL(sql);
 			setDBVersion(2);
-			HibernateSession.commitTransaction();
+			tr.commit();
 		} catch (SQLException e) {
-			HibernateSession.rollbackTransaction();
+			tr.rollback();
 			JOptionPane.showConfirmDialog(null,
 					"Update fehlgeschlagen!\n" + e.getMessage(),
 					"Fehler beim Update", JOptionPane.ERROR_MESSAGE
@@ -469,7 +479,8 @@ public class SystemUtils {
 
 	private void executeSQL(final String sql) throws SQLException {
 
-		Session session = HibernateSession.getCurrentSession();
+		EntityManager em = JPAEntityManager.getCurrentEntityManager();
+		Session session = em.unwrap(Session.class);
 
 		session.doWork(new Work() {
 

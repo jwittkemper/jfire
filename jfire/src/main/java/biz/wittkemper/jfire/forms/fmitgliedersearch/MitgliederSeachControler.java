@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import biz.wittkemper.jfire.data.dao.DAOFactory;
-import biz.wittkemper.jfire.data.dao.HibernateSession;
 import biz.wittkemper.jfire.data.entity.Mitglied;
 /**
  * 
@@ -52,10 +51,8 @@ public class MitgliederSeachControler {
 	}
 
 	private void searchData(String searchText, boolean nuraktive) throws Exception{
-		HibernateSession.beginTransaction();
 		pm.setData(DAOFactory.getInstance().getMitgliedDAO()
 				.searchByName(searchText.split(" "), nuraktive));
-		HibernateSession.commitTransaction();
 	}
 
 	class SearchListener implements KeyListener {

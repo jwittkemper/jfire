@@ -7,7 +7,6 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import biz.wittkemper.jfire.data.dao.DAOFactory;
-import biz.wittkemper.jfire.data.dao.HibernateSession;
 import biz.wittkemper.jfire.data.entity.Mitglied;
 import biz.wittkemper.jfire.data.entity.Mitglied_Fuehrerschein;
 import biz.wittkemper.jfire.utils.DateUtils;
@@ -17,7 +16,7 @@ public class MitgliederTest {
 	@Ignore
 	public void test() {
 		try{
-		HibernateSession.beginTransaction();
+		
 		// Fuehrerschein fs = DAOFactory.getInstance().getFuehrerscheinDAO()
 		// .load(4l);
 		Mitglied mitglied = DAOFactory.getInstance().getMitgliedDAO().load(2l);
@@ -32,7 +31,7 @@ public class MitgliederTest {
 		//
 		// mitglied.getFuehrerscheins().add(mf);
 		// DAOFactory.getInstance().getMitgliedDAO().update(mitglied);
-		HibernateSession.commitTransaction();
+		
 		}catch(Exception ex){
 			System.out.println(ex.getMessage());
 		}

@@ -2,26 +2,28 @@ package biz.wittkemper.jfire.data.dao;
 
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.TypedQuery;
-import org.hibernate.Session;
+
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 
 
 
 public abstract class AbstractDAOImpl<DomainObject extends Serializable, KeyTyp extends Serializable> {
-	private Session session;
+	
+	private EntityManager entityManager;
 	
 
 	protected abstract Class<DomainObject> getDomainClass();
 
-	protected Session getSession() {
-            return HibernateSession.getCurrentSession();
+	protected EntityManager getEntityManager() {
+            return JPAEntityManager.getInstance();
 	}
 
 	public DomainObject load(KeyTyp id) {
-		Object t = null;
-		session = this.getSession();
+		Object t = getDomainClass();
+		entityManager = this.getEntityManager();
 		try {
-			t = session.load(getDomainClass(), id);
+//			t = entityManager.find( t, id);
 		} catch (Exception ex) {
 			t = null;
 		}
@@ -29,34 +31,33 @@ public abstract class AbstractDAOImpl<DomainObject extends Serializable, KeyTyp 
 	}
 
 	public void update(DomainObject t) {
-		session = this.getSession();
-		session.update(t);
+		entityManager = this.getEntityManager();
+		entityManager.merge(t);
 	}
 
 	public void merge(DomainObject t) {
-		session = this.getSession();
-		session.merge(t);
+		this.update(t);
 	}
 
 	public void save(DomainObject t) {
 
-		session = this.getSession();
-		session.save(t);
+		entityManager = this.getEntityManager();
+		entityManager.persist(t);
 
 	}
 
 	public void delete(DomainObject object) {
 
-		session = this.getSession();
-		session.delete(object);
-
+		entityManager = this.getEntityManager();
+		entityManager.remove(object);
 	}
 
 	public List<DomainObject> findByQueryString(String hqlString) {
-
-		session = this.getSession();
-		TypedQuery<DomainObject> query = session.createQuery(hqlString);
-		List<DomainObject> list = query.getResultList();
+		entityManager = this.getEntityManager();
+        Query sq =  entityManager.createQuery(hqlString);
+                
+		//TypedQuery<DomainObject> query = session.createQuery(hqlString);
+		List<DomainObject> list = sq.getResultList();
 
 		return list;
 	}

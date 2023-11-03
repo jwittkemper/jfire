@@ -1,16 +1,13 @@
 package biz.wittkemper.jfire.data.entity;
 
-import javax.persistence.Column;
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
-
-import org.hibernate.annotations.Proxy;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 @DiscriminatorValue("Melder")
-@Proxy(lazy = false)
 public class MelderHistorie extends Historie {
 
 	private static final long serialVersionUID = 1L;
@@ -18,7 +15,7 @@ public class MelderHistorie extends Historie {
 	Melder melder;
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	@Column(name = "SCHLUESSEL", nullable = false)
+	@JoinColumn(name = "SCHLUESSEL", nullable = false)
 	public Melder getMelder() {
 		return melder;
 	}

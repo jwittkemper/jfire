@@ -3,6 +3,9 @@ package biz.wittkemper.jfire.data.dao;
 import java.util.List;
 
 import biz.wittkemper.jfire.data.entity.FoerderMitglied;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
+
 import javax.persistence.TypedQuery;
 import org.hibernate.Session;
 
@@ -26,10 +29,10 @@ public class FoerderMitgliedDAOImpl extends
         @Override
 	public List<FoerderMitglied> getAllList(){
             
-            Session session = this.getSession();
+        	EntityManager em = this.getEntityManager();
             String hsql = "FROM FoerderMitglied f where f.mitglied.geloescht = :trueValue ";
             
-            TypedQuery<FoerderMitglied> query = session.createQuery(hsql);
+            Query query = em.createQuery(hsql, FoerderMitglied.class);
             query.setParameter("trueValue", false);
             
             List<FoerderMitglied> list = query.getResultList();

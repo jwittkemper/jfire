@@ -2,14 +2,12 @@ package biz.wittkemper.jfire.data.entity;
 
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
-import org.hibernate.annotations.Proxy;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrimaryKeyJoinColumn;
 
 @Entity
-@Proxy(lazy = false)
 public class FoerderMitglied implements Serializable {
 
 	/**

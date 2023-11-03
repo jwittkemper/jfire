@@ -7,7 +7,6 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import biz.wittkemper.jfire.data.dao.DAOFactory;
-import biz.wittkemper.jfire.data.dao.HibernateSession;
 import biz.wittkemper.jfire.data.entity.FoerderMitglied;
 import biz.wittkemper.jfire.data.entity.Mitglied;
 import biz.wittkemper.jfire.data.entity.Replication;
@@ -18,7 +17,7 @@ public class ReplicationWriteWorkflow {
 	public void Excecute(File file, JFrame view) throws Exception {
 		Replication replication = new Replication();
 
-		HibernateSession.beginTransaction();
+	
 		try {
 			getdReplicationProperty(replication);
 			getMitglieder(replication);
@@ -27,12 +26,12 @@ public class ReplicationWriteWorkflow {
 			ReplicationWrite replicationWrite = new ReplicationWrite();
 
 			replicationWrite.WriteData(file, replication);
-			HibernateSession.commitTransaction();
+			
 			JOptionPane.showMessageDialog(view, "Daten erfolgreich exportiert",
 					"Datenexport", JOptionPane.INFORMATION_MESSAGE);
 
 		} catch (Exception e) {
-			HibernateSession.rollbackTransaction();
+			
 			JOptionPane.showMessageDialog(view, "Datenexport fehlgeschlagen!\n"
 					+ e.getMessage(), "Datenexport", JOptionPane.ERROR_MESSAGE);
 		}
