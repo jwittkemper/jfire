@@ -25,6 +25,9 @@ import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.export.SimpleExporterInput;
+import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
+import net.sf.jasperreports.export.SimpleXlsReportConfiguration;
 import net.sf.jasperreports.view.JasperViewer;
 
 import org.hibernate.Session;
@@ -146,18 +149,16 @@ public class ReportService {
 			JasperPrint jasperPrint = JasperFillManager.fillReport(
 					jasperReport, map, con);
 			JRXlsExporter exporter = new JRXlsExporter();
-			exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-			exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME,
-					destFile.toString());
-			exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET,
-					Boolean.FALSE);
-			exporter.setParameter(
-					JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND,
-					Boolean.FALSE);
-			exporter.setParameter(
-					JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS,
-					Boolean.TRUE);
-
+			
+			exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+			exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(destFile));
+			
+			SimpleXlsReportConfiguration configuration = new SimpleXlsReportConfiguration();
+			configuration.setOnePagePerSheet(true);
+			configuration.setWhitePageBackground(false);
+			configuration.setRemoveEmptySpaceBetweenRows(true);
+			
+			exporter.setConfiguration(configuration);
 			exporter.exportReport();
 		}
 	}
