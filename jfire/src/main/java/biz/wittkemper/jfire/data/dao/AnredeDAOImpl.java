@@ -17,11 +17,10 @@ public class AnredeDAOImpl extends AbstractDAOImpl<Anrede, Integer> implements
 	@Override
 	public Anrede getAnredeByText(String text) {
 		String hsql = "FROM Anrede a where a.anrede = '" + text + "' ";
-		List<Anrede> list = super.findByQueryString(hsql);
+		List<Anrede> list = super.findByQueryString(hsql, null);
 		if (list.size()> 0){
 			return list.get(0);
 		}
 		return null;
 	}
-
 }

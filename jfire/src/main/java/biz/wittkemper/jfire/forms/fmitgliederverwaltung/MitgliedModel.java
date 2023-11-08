@@ -259,7 +259,7 @@ public class MitgliedModel {
 	public List<Anrede> getAnreden() throws Exception {
 		
 		anreden = DAOFactory.getInstance().getAnredeDAO()
-				.findByQueryString("From Anrede a");
+				.findByQueryString("From Anrede a", null);
 		
 		return anreden;
 	}
@@ -267,7 +267,7 @@ public class MitgliedModel {
 	public List<MitgliedStatus> getMitgliedStatuse() throws Exception {
 		
 		mitgliedStatuse = DAOFactory.getInstance().getMitgliedStatusDAO()
-				.findByQueryString("From MitgliedStatus a");
+				.findByQueryString("From MitgliedStatus a", null);
 		
 		return mitgliedStatuse;
 	}

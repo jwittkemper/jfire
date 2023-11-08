@@ -1,8 +1,11 @@
 package biz.wittkemper.jfire.utils;
 
 import java.awt.Image;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 public class IconService {
@@ -19,7 +22,9 @@ public class IconService {
 	}
 
 	public Image getImage(ICONSERVICE picture) {
-		return getImageService(picture).getImage();
+		
+		Image img = getImageService(picture).getImage();
+		return img;
 	}
 
 	public ImageIcon getImageService(ICONSERVICE picture) {
@@ -53,11 +58,15 @@ public class IconService {
 			break;
 		}
 //		ClassLoader loader = Thread.currentThread().getContextClassLoader();
-//		URL img = loader.getResource("/picture/" + pic);
-		
+//		InputStream  inimg = loader.getResourceAsStream("/picture/" + pic);
+//		img = ImageIO.read(inimg);
 		URL img = this.getClass().getResource("/picture/" + pic);
 		if (img != null) {
-			ImageIcon im = new ImageIcon(img);
+			ImageIcon im= null;
+	
+				URL imageURL = getClass().getClassLoader().getResource("picture/" + pic);
+		        im = new ImageIcon(imageURL);
+
 			return im;
 		}else {
 			return null;

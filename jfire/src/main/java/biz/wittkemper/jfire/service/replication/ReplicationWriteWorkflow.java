@@ -40,7 +40,7 @@ public class ReplicationWriteWorkflow {
 	private void getFoederMitglieder(Replication replication) {
 		List<FoerderMitglied> foerderMitglieds = DAOFactory.getInstance()
 				.getFoerderMitgliedDAO()
-				.findByQueryString("From FoerderMitglied where 1=1");
+				.findByQueryString("From FoerderMitglied where 1=1", null);
 
 		replication.setFoerdermitglieder(foerderMitglieds);
 	}
@@ -49,12 +49,12 @@ public class ReplicationWriteWorkflow {
 		List<Mitglied> mitglieds;
 		if (ParameterUtils.isMasterDB() != true) {
 			mitglieds = DAOFactory.getInstance().getMitgliedDAO()
-					.findByQueryString("From Mitglied where edit=1");
+					.findByQueryString("From Mitglied where edit=1",null);
 
 		} else {
 
 			mitglieds = DAOFactory.getInstance().getMitgliedDAO()
-					.findByQueryString("From Mitglied where 1=1");
+					.findByQueryString("From Mitglied where 1=1",null);
 
 		}
 		replication.setMitglied(mitglieds);

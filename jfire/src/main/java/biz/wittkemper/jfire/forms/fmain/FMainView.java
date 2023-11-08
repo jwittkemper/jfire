@@ -1,6 +1,7 @@
 package biz.wittkemper.jfire.forms.fmain;
 
 import java.awt.BorderLayout;
+import java.awt.Image;
 import java.awt.event.ActionListener;
 import java.beans.PropertyVetoException;
 
@@ -67,7 +68,9 @@ public class FMainView extends JFrame {
 	public FMainView() {
 		setResizable(true);
 
-		super.setIconImage(iconService.getImage(ICONSERVICE.main));
+		Image img = iconService.getImage(ICONSERVICE.main);
+		if (img!= null)
+			super.setIconImage(img);
 		initForm();
 	}
 

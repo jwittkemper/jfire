@@ -1,22 +1,23 @@
 package biz.wittkemper.jfire.data.dao;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import org.apache.poi.ss.formula.functions.T;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 
+abstract class AbstractDAOImpl<DomainObject extends Serializable, KeyTyp extends Serializable> {
 
-
-public abstract class AbstractDAOImpl<DomainObject extends Serializable, KeyTyp extends Serializable> {
-	
 	private EntityManager entityManager;
-	
 
 	protected abstract Class<DomainObject> getDomainClass();
 
 	protected EntityManager getEntityManager() {
-            return JPAEntityManager.getInstance();
+		return JPAEntityManager.getInstance();
 	}
 
 	public DomainObject load(KeyTyp id) {
@@ -52,11 +53,18 @@ public abstract class AbstractDAOImpl<DomainObject extends Serializable, KeyTyp 
 		entityManager.remove(object);
 	}
 
-	public List<DomainObject> findByQueryString(String hqlString) {
+	public List<DomainObject> findByQueryString(String hqlString, HashMap<String, Boolean> map) {
 		entityManager = this.getEntityManager();
-        Query sq =  entityManager.createQuery(hqlString);
-                
-		//TypedQuery<DomainObject> query = session.createQuery(hqlString);
+		Query sq = entityManager.createQuery(hqlString, T.class);
+
+		if (map != null) {
+			Map<String, Boolean> map1 = map;
+			Map.Entry<String, Boolean> entry = map1.entrySet().iterator().next();
+
+			sq.setParameter(entry.getKey(), entry.getValue());
+		}
+
+		// TypedQuery<DomainObject> query = session.createQuery(hqlString);
 		List<DomainObject> list = sq.getResultList();
 
 		return list;

@@ -15,7 +15,7 @@ public class ParameterDAOImpl extends AbstractDAOImpl<Parameter, Long>
 	@Override
 	public String getParameter(String name) {
 		String sql = "From Parameter a Where a.bezeichnung = '" + name + "' ";
-		List<Parameter> parameter = super.findByQueryString(sql);
+		List<Parameter> parameter = super.findByQueryString(sql, null);
 		
 		if ( !parameter.isEmpty()){
 			

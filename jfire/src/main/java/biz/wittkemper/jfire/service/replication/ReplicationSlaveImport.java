@@ -69,7 +69,7 @@ public class ReplicationSlaveImport {
 				.getMitgliedDAO()
 				.findByQueryString(
 						" FROM Mitglied m WHERE m.masterId = "
-								+ mitglied.getId());
+								+ mitglied.getId(), null);
 		if (mg == null || mg.size() == 0 || mg.size() > 1) {
 
 		} else {

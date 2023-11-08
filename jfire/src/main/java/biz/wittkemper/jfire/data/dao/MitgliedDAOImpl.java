@@ -1,11 +1,15 @@
 package biz.wittkemper.jfire.data.dao;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 
 import biz.wittkemper.jfire.data.entity.Mitglied;
 import biz.wittkemper.jfire.utils.ParameterUtils;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.Parameter;
 import jakarta.persistence.Query;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -55,9 +59,12 @@ public class MitgliedDAOImpl extends AbstractDAOImpl<Mitglied, Long> implements
 		String hsql = "From Mitglied m ";
 		hsql += " Where m.name = '" + name + "' ";
 		hsql += "AND m.vorname = '" + vorname + "' ";
-		hsql += " AND a.geloescht = 0";
+		hsql += " AND a.geloescht = :geloescht";
 
-		List<Mitglied> list = super.findByQueryString(hsql);
+		HashMap<String, Boolean> map = new HashMap<String, Boolean>(); 
+		map.put("geloescht", false);
+		
+		List<Mitglied> list = super.findByQueryString(hsql, map);
 
 		if (list.size() > 0) {
 			return list.get(0);
@@ -67,30 +74,19 @@ public class MitgliedDAOImpl extends AbstractDAOImpl<Mitglied, Long> implements
 
 	@Override
 	public int getAktive() {
-            
-//                EntityManager em = HibernateSession.getEM();
-//            
-//                
-//		CriteriaBuilder cb = em.getCriteriaBuilder();
-//                CriteriaQuery<Mitglied> cr = cb.createQuery(Mitglied.class);
-//                cr.from(Mitglied.class);
-//                Root<Mitglied> root = cr.from(Mitglied.class);
-//                
-//                Predicate[] predicates = new Predicate[2];
-//                predicates[0] = cb.equal(root.get("geloescht"), false);
-//                predicates[1] = cb.equal(root.get("status"), 1);
-//                
-//                cr.select(root).where(predicates);
-//
-//               
-//                List<Mitglied> list = em.createQuery(cr).getResultList();
-//				
-////		List<Mitglied> list = super.findByQueryString(hsql);
-//		//List<Mitglied> list = query.getResultList();
-//		
-//		if (list.size() > 0) {
-//			return list.size();
-//		}
+		EntityManager em = this.getEntityManager();
+        
+        String hsql = "FROM Mitglied m where m.status.id = 1 ";
+		hsql += " and m.geloescht = :trueValue";
+                
+        Query query = em.createQuery(hsql, Mitglied.class);
+		query.setParameter("trueValue", false);
+                
+		List<Mitglied> list = query.getResultList();
+
+		if (list.size() > 0) {
+			return list.size();
+		}
 		return 0;
 	}
 
@@ -114,18 +110,28 @@ public class MitgliedDAOImpl extends AbstractDAOImpl<Mitglied, Long> implements
 
 	@Override
 	public Mitglied getNext(long id) {
+		EntityManager em = this.getEntityManager();
+		
 		String hql;
 
 		hql = "";
 		hql += " FROM Mitglied a where a.id >=" + id;
-		hql += " and a.geloescht = 0";
+		hql += " and a.geloescht = :trueValue ";
 		hql += " Order by id asc ";
-
-		List<Mitglied> list = super.findByQueryString(hql);
+		Query query = em.createQuery(hql, Mitglied.class);
+		query.setParameter("trueValue", false);
+		
+//		HashMap<String, Boolean> map = new HashMap<String, Boolean>(); 
+//		map.put("1", false);
+//		
+//		List<Mitglied> list = super.findByQueryString(hql, map);
+		List<Mitglied> list = query.getResultList();
 		if (list.size() > 1 && id > 0) {
 			return list.get(1);
 		} else if (list.size() > 1 && id == 0) {
 			return list.get(0);
+		}else if (list.size()== 0 ) {
+			return new Mitglied();
 		}
 		return list.get(0);
 	}
@@ -136,10 +142,14 @@ public class MitgliedDAOImpl extends AbstractDAOImpl<Mitglied, Long> implements
 
 		hql = "";
 		hql += " FROM Mitglied a where a.id <=" + id;
-		hql += " and a.geloescht = 0";
+		hql += " and a.geloescht = :geloescht";
 		hql += " Order by id desc ";
 
-		List<Mitglied> list = super.findByQueryString(hql);
+		HashMap<String, Boolean> map = new HashMap<String, Boolean>(); 
+		map.put("geloescht", false);
+		
+		List<Mitglied> list = super.findByQueryString(hql, map);
+	
 		if (list.size() > 1) {
 			return list.get(1);
 		}
@@ -168,11 +178,14 @@ public class MitgliedDAOImpl extends AbstractDAOImpl<Mitglied, Long> implements
 					+ names[0].trim().toLowerCase() + "%') ";
 		}
 		if (onlyaktiv) {
-			hql += " AND a.geloescht = 0";
+			hql += " AND a.geloescht = :geloescht";
 		}
 		hql += " Order by vorname, name desc ";
-
-		List<Mitglied> list = super.findByQueryString(hql);
+		
+		HashMap<String, Boolean> map = new HashMap<String, Boolean>(); 
+		map.put("geloescht", false);
+		
+		List<Mitglied> list = super.findByQueryString(hql, map);
 
 		return list;
 
@@ -185,7 +198,7 @@ public class MitgliedDAOImpl extends AbstractDAOImpl<Mitglied, Long> implements
 		hql = "";
 		hql += " FROM Mitglied a WHERE a.masterId = " + id;
 
-		List<Mitglied> list = super.findByQueryString(hql);
+		List<Mitglied> list = super.findByQueryString(hql, null);
 
 		if (list == null || list.size() <= 0 || list.size() > 1) {
 			return null;
@@ -196,11 +209,11 @@ public class MitgliedDAOImpl extends AbstractDAOImpl<Mitglied, Long> implements
 
 	@Override
 	public void resetEdit() {
-//		String hql = "";
-//
-//		hql += "Update Mitglied set edit=0 where edit =1";
-//
-//		Query query = HibernateSession.getCurrentSession().createQuery(hql);
-//		query.executeUpdate();
+		String hql = "";
+
+		hql += "Update Mitglied set edit=0 where edit =1";
+
+		Query query = super.getEntityManager().createQuery(hql);
+		query.executeUpdate();
 	}
 }
