@@ -10,7 +10,7 @@
 	<parameter name="typ" class="java.lang.String"/>
 	<parameter name="whereand" class="java.lang.String"/>
 	<queryString language="SQL">
-		<![CDATA[Select * from Mitglied Where status_id = 1 and geloescht = 0 and $P!{whereand}  Order by lower(Name), lower(Vorname)]]>
+		<![CDATA[Select * from Mitglied Where status_id = 1 and geloescht = 'N' and $P!{whereand}  Order by lower(Name), lower(Vorname)]]>
 	</queryString>
 	<field name="VORNAME" class="java.lang.String"/>
 	<field name="NAME" class="java.lang.String"/>

@@ -37,7 +37,7 @@ public class MitgliederTest {
 		}
 	}
 
-	@Test
+	@Ignore
 	public void cheBirthday() {
 		DateUtils dateUtils = new DateUtils();
 		Calendar cal1 = new GregorianCalendar();

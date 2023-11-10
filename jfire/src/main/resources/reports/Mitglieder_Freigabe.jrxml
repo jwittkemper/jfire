@@ -10,7 +10,7 @@
 	<parameter name="mitgliedstatus" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[Select m.NAME, m.VORNAME, m.STRASSENR, m.PLZ, m.ORT, m.EMAIL, m.GEBDATUM, m.TELEFONPRIVATFEST, m.TELEFONPRIVATMOBIL, m.TELEFONDIENST from MITGLIED m
-        where m.GELOESCHT = 0
+        where m.GELOESCHT = 'N'
         AND m.STATUS_ID IN ( $P!{mitgliedstatus})
         AND m.DATENFREIGABE = 1
         ORDER BY lower(m.NAME), lower(m.VORNAME)]]>

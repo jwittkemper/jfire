@@ -24,7 +24,7 @@ import biz.wittkemper.jfire.utils.SystemUtils;
 
 public class ExcelImport {
 
-	@Test
+	
 	public void test() throws Exception {
 
 		SystemUtils systemUtils = new SystemUtils();

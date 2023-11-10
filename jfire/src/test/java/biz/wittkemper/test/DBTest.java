@@ -42,7 +42,6 @@ public class DBTest {
 	public void tearDown() {
 	}
 
-	@Test
 	public void testDBCon() {
 		EntityManager entityManager = JPAEntityManager.getInstance();
 

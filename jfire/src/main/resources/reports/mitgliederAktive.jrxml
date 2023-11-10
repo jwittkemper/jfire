@@ -10,7 +10,7 @@
 	<parameter name="mitgliedstatus" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[Select a.ANREDE, m.NAME, m.VORNAME, m.STRASSENR, m.PLZ, m.ORT from MITGLIED m INNER JOIN ANREDE a on m.ANREDE_ID = a.ID
-        where m.GELOESCHT = 0
+        where m.GELOESCHT = 'N'
         AND m.STATUS_ID IN ( $P!{mitgliedstatus})
         ORDER BY lower(m.NAME), lower(m.VORNAME)]]>
 	</queryString>

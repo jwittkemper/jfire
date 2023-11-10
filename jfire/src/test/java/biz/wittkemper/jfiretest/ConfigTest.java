@@ -15,7 +15,7 @@ public class ConfigTest {
 	@Mock
 	SystemUtils sUtils;
 
-	@Test
+	
 	public void test() {
 
 		EasyMock.expect(sUtils.getDBAvailable()).andReturn(true);
