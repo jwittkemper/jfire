@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="mitgliederAktive" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+<!-- Created with Jaspersoft Studio version 6.20.6.final using JasperReports Library version 6.20.6-5c96b6aa8a39ac1dc6b6bea4b81168e16dd39231  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="mitgliederAktive" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d010067c-5ded-4539-8345-e9372007f49f">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -10,7 +11,7 @@
 	<parameter name="mitgliedstatus" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[Select m.NAME, m.VORNAME, m.STRASSENR, m.PLZ, m.ORT, m.EMAIL, m.GEBDATUM, m.TELEFONPRIVATFEST, m.TELEFONPRIVATMOBIL, m.TELEFONDIENST from MITGLIED m
-        where m.GELOESCHT = 'N'
+        where m.GELOESCHT = 0
         AND m.STATUS_ID IN ( $P!{mitgliedstatus})
         AND m.DATENFREIGABE = 1
         ORDER BY lower(m.NAME), lower(m.VORNAME)]]>
@@ -31,7 +32,7 @@
 	<title>
 		<band height="34">
 			<textField isBlankWhenNull="true">
-				<reportElement x="0" y="0" width="802" height="20"/>
+				<reportElement x="0" y="0" width="802" height="20" uuid="43164da1-7aea-4aa6-8e44-1df89b33201f"/>
 				<textElement textAlignment="Center">
 					<font size="14" isBold="true"/>
 				</textElement>
@@ -45,176 +46,174 @@
 	<columnHeader>
 		<band height="23">
 			<staticText>
-				<reportElement x="1" y="0" width="87" height="20"/>
+				<reportElement x="1" y="0" width="87" height="20" uuid="915b6ea7-1bf1-4dd4-bd07-acb0490b6880"/>
 				<textElement>
 					<font size="8" isBold="true" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[VORNAME, Name]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="111" y="0" width="75" height="20"/>
+				<reportElement x="111" y="0" width="75" height="20" uuid="97b975c1-d0a0-4662-91a6-b912237368d8"/>
 				<textElement>
 					<font size="8" isBold="true" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[PLZ-Ort]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="190" y="0" width="87" height="20"/>
+				<reportElement x="190" y="0" width="87" height="20" uuid="6467412b-2b53-44ea-b075-ceb9c90122a0"/>
 				<textElement>
 					<font size="8" isBold="true" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[Strasse]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="446" y="0" width="73" height="20"/>
+				<reportElement x="446" y="0" width="73" height="20" uuid="4c2abe05-1c9c-4a5c-bd67-ab0fd0f47165"/>
 				<textElement>
 					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[GEBDATUM]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="522" y="0" width="127" height="20"/>
+				<reportElement x="522" y="0" width="127" height="20" uuid="287c0026-b569-46f3-86ee-6ee42b28fbbc"/>
 				<textElement>
 					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Privat Telefon]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="654" y="0" width="118" height="20"/>
+				<reportElement x="654" y="0" width="118" height="20" uuid="0b2ac926-3a6e-4de0-b3b2-27cf1587486d"/>
 				<textElement>
 					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Gesch Telefon]]></text>
 			</staticText>
 			<line>
-				<reportElement x="1" y="21" width="796" height="1"/>
+				<reportElement x="1" y="21" width="796" height="1" uuid="369bfcf4-68ea-4a03-9424-65a968a57c46"/>
 			</line>
 			<line>
-				<reportElement x="0" y="-1" width="796" height="1"/>
+				<reportElement x="0" y="-1" width="796" height="1" uuid="9c387eee-70ed-4122-87c0-b87fb1671085"/>
 			</line>
 			<line>
-				<reportElement x="107" y="0" width="1" height="23"/>
+				<reportElement x="107" y="0" width="1" height="23" uuid="8f716363-da1b-4af8-b682-336d6f1d3bb9"/>
 			</line>
 			<line>
-				<reportElement x="0" y="0" width="1" height="23"/>
+				<reportElement x="0" y="0" width="1" height="23" uuid="67941cc5-c24b-4729-bc92-eba89024dbc9"/>
 			</line>
 			<line>
-				<reportElement x="188" y="0" width="1" height="23"/>
+				<reportElement x="188" y="0" width="1" height="23" uuid="94b8ec4b-4d4d-4e2d-8300-c51a3a9cdca1"/>
 			</line>
 			<line>
-				<reportElement x="289" y="0" width="1" height="23"/>
+				<reportElement x="289" y="0" width="1" height="23" uuid="711d8b7e-32dc-4356-9e2a-b6ccabfe3f8e"/>
 			</line>
 			<staticText>
-				<reportElement x="307" y="1" width="73" height="20"/>
+				<reportElement x="307" y="1" width="73" height="20" uuid="f421405e-216e-4aca-a8d7-af2a497e53af"/>
 				<textElement>
 					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[E-Mail]]></text>
 			</staticText>
 			<line>
-				<reportElement x="445" y="0" width="1" height="23"/>
+				<reportElement x="445" y="0" width="1" height="23" uuid="49827034-ac9d-4596-a90f-39953f0000d7"/>
 			</line>
 			<line>
-				<reportElement x="519" y="-1" width="1" height="23"/>
+				<reportElement x="519" y="-1" width="1" height="23" uuid="bb5b938c-3f45-48c6-bb21-b92e9b9b5a0c"/>
 			</line>
 			<line>
-				<reportElement x="651" y="0" width="1" height="23"/>
+				<reportElement x="651" y="0" width="1" height="23" uuid="883a1e36-42c9-45b7-bb03-62054a25c619"/>
 			</line>
 			<line>
-				<reportElement x="796" y="-1" width="1" height="23"/>
+				<reportElement x="796" y="-1" width="1" height="23" uuid="4b1aafcd-8d21-43b5-b9e5-545cd20cdcd3"/>
 			</line>
 		</band>
 	</columnHeader>
 	<detail>
 		<band height="23" splitType="Stretch">
 			<textField>
-				<reportElement x="1" y="2" width="106" height="20"/>
+				<reportElement x="1" y="2" width="106" height="20" uuid="3f2812e5-e729-40a9-9fb4-32937f1bce0a"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{VORNAME} + " " + $F{NAME}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="111" y="2" width="75" height="20"/>
+				<reportElement x="111" y="2" width="75" height="20" uuid="d48b94de-9cf4-4126-b909-7a3af58ea5ac"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{PLZ}.toString() +"-" + $F{ORT}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="190" y="2" width="100" height="20"/>
+				<reportElement x="190" y="2" width="100" height="20" uuid="d7c50a14-2730-4124-bca8-8a707a1ba9b2"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{STRASSENR}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="292" y="2" width="154" height="20"/>
+				<reportElement x="292" y="2" width="154" height="20" uuid="795c3126-fc31-4c6d-af02-44e649bbafe2"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{EMAIL}]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd.MM.yyyy">
-				<reportElement x="446" y="2" width="73" height="20"/>
+				<reportElement x="446" y="2" width="73" height="20" uuid="d4316531-d781-4078-9751-d0b74d5a67bf"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{GEBDATUM}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="522" y="2" width="127" height="20"/>
+				<reportElement x="522" y="2" width="127" height="20" uuid="c0efc77b-66c0-4cef-8bd0-0f6b7471f037"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{TELEFONPRIVATFEST}+"/"+$F{TELEFONPRIVATMOBIL}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="654" y="2" width="100" height="20"/>
+				<reportElement x="654" y="2" width="100" height="20" uuid="a43f6719-b4f2-4145-8e2e-9bff4f0c3e3c"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{TELEFONDIENST}]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement x="1" y="21" width="796" height="1"/>
+				<reportElement x="1" y="21" width="796" height="1" uuid="d4c0ac2a-e150-4f88-88c9-ec794f9e5ca4"/>
 			</line>
 			<line>
-				<reportElement x="107" y="-1" width="1" height="22"/>
+				<reportElement x="107" y="-1" width="1" height="22" uuid="a4f8b49b-e25c-4f21-81b0-6833e5a50ab5"/>
 			</line>
 			<line>
-				<reportElement x="0" y="0" width="1" height="22"/>
+				<reportElement x="0" y="0" width="1" height="22" uuid="8b379489-e1fc-4e78-94b1-bcc6d3543355"/>
 			</line>
 			<line>
-				<reportElement x="188" y="-1" width="1" height="22"/>
+				<reportElement x="188" y="-1" width="1" height="22" uuid="9dbaa014-53cf-4348-b15c-44e09bed2f07"/>
 			</line>
 			<line>
-				<reportElement x="289" y="-1" width="1" height="22"/>
+				<reportElement x="289" y="-1" width="1" height="22" uuid="138a9d20-93cc-4d5c-a7cc-03852c6c8f8b"/>
 			</line>
 			<line>
-				<reportElement x="445" y="0" width="1" height="22"/>
+				<reportElement x="445" y="0" width="1" height="22" uuid="a96f0375-c759-46e7-bc8a-24e88c535b5f"/>
 			</line>
 			<line>
-				<reportElement x="519" y="-1" width="1" height="22"/>
+				<reportElement x="519" y="-1" width="1" height="22" uuid="e310cbf4-0145-4ea1-b8aa-d8b0753f89bb"/>
 			</line>
 			<line>
-				<reportElement x="651" y="-1" width="1" height="22"/>
+				<reportElement x="651" y="-1" width="1" height="22" uuid="781deb0f-06a0-4f8e-a4c8-3690cc67274b"/>
 			</line>
 			<line>
-				<reportElement x="796" y="-1" width="1" height="22"/>
+				<reportElement x="796" y="-1" width="1" height="22" uuid="378dba7a-e26d-4782-9e28-6e5f10fcf18d"/>
 			</line>
 		</band>
 	</detail>
 	<pageFooter>
 		<band height="54" splitType="Stretch">
 			<staticText>
-				<reportElement x="566" y="27" width="60" height="20"/>
-				<textElement/>
+				<reportElement x="566" y="27" width="60" height="20" uuid="0860524b-976a-4672-b55a-c9eacc81108b"/>
 				<text><![CDATA[Stand vom:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="626" y="27" width="171" height="20"/>
-				<textElement/>
+				<reportElement x="626" y="27" width="171" height="20" uuid="0d551b07-c9ec-4c79-a1ae-62b45edf083f"/>
 				<textFieldExpression><![CDATA[$P{STAND}]]></textFieldExpression>
 			</textField>
 		</band>

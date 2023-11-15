@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 5.6.2.final using JasperReports Library version 5.6.1  -->
-<!-- 2014-11-29T07:51:51 -->
+<!-- Created with Jaspersoft Studio version 6.20.6.final using JasperReports Library version 6.20.6-5c96b6aa8a39ac1dc6b6bea4b81168e16dd39231  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="AnwesenheitUebung" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ef5e594a-90aa-4aee-9724-16d6883a39a9">
 	<property name="ireport.zoom" value="3.0"/>
 	<property name="ireport.x" value="333"/>
@@ -10,7 +9,7 @@
 	<parameter name="typ" class="java.lang.String"/>
 	<parameter name="whereand" class="java.lang.String"/>
 	<queryString language="SQL">
-		<![CDATA[Select * from Mitglied Where status_id = 1 and geloescht = 'N' and $P!{whereand}  Order by lower(Name), lower(Vorname)]]>
+		<![CDATA[Select * from Mitglied Where status_id = 1 and geloescht = 0 and $P!{whereand}  Order by lower(Name), lower(Vorname)]]>
 	</queryString>
 	<field name="VORNAME" class="java.lang.String"/>
 	<field name="NAME" class="java.lang.String"/>

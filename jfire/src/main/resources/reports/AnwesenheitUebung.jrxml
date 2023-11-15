@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 5.6.2.final using JasperReports Library version 5.6.1  -->
-<!-- 2014-11-26T20:08:37 -->
+<!-- Created with Jaspersoft Studio version 6.20.6.final using JasperReports Library version 6.20.6-5c96b6aa8a39ac1dc6b6bea4b81168e16dd39231  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="AnwesenheitUebung" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9117c9dd-ab88-4b3a-b13e-52b6be61e5e1">
 	<property name="ireport.zoom" value="3.0"/>
 	<property name="ireport.x" value="27"/>
@@ -9,8 +8,11 @@
 	<parameter name="DATUM" class="java.lang.String"/>
 	<parameter name="THEMA" class="java.lang.String"/>
 	<parameter name="LEITUNG" class="java.lang.String"/>
+	<parameter name="geloescht" class="java.lang.Boolean">
+		<defaultValueExpression><![CDATA["false"]]></defaultValueExpression>
+	</parameter>
 	<queryString language="SQL">
-		<![CDATA[Select * from Mitglied Where status_id = 1 and geloescht = 'N' Order by lower(Name), lower(Vorname)]]>
+		<![CDATA[Select * from Mitglied Where status_id = 1 and geloescht = 0 Order by lower(Name), lower(Vorname)]]>
 	</queryString>
 	<field name="VORNAME" class="java.lang.String"/>
 	<field name="NAME" class="java.lang.String"/>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Telefonliste" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+<!-- Created with Jaspersoft Studio version 6.20.6.final using JasperReports Library version 6.20.6-5c96b6aa8a39ac1dc6b6bea4b81168e16dd39231  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Telefonliste" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c5e27a49-a2a2-4ecd-a32a-3ac819bf9ac5">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -12,7 +13,7 @@
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString language="SQL">
-		<![CDATA[Select * from Mitglied where status_id in ( $P!{Auswahl}) and geloescht = 'N' Order by status_id, lower(Name), lower(Vorname)]]>
+		<![CDATA[Select * from Mitglied where status_id in ( $P!{Auswahl}) and geloescht = 0 Order by status_id, lower(Name), lower(Vorname)]]>
 	</queryString>
 	<field name="NAME" class="java.lang.String"/>
 	<field name="VORNAME" class="java.lang.String"/>
@@ -25,14 +26,14 @@
 	<title>
 		<band height="56" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="0" width="453" height="25"/>
+				<reportElement x="0" y="0" width="453" height="25" uuid="502a3581-41f5-4d2f-842d-6e7e8410aef1"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="16" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Feuerwehr Hamm - Einsatzbereich Werries]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="35" y="30" width="418" height="20"/>
+				<reportElement x="35" y="30" width="418" height="20" uuid="442e0e8e-e8ac-42b3-993a-7c8f413fe697"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="14"/>
 				</textElement>
@@ -46,41 +47,41 @@
 	<columnHeader>
 		<band height="21" splitType="Stretch">
 			<line>
-				<reportElement x="31" y="3" width="483" height="1"/>
+				<reportElement x="31" y="3" width="483" height="1" uuid="e34df42b-2fb0-4950-bff5-2440ac230068"/>
 				<graphicElement>
 					<pen lineWidth="0.5"/>
 				</graphicElement>
 			</line>
 			<staticText>
-				<reportElement positionType="Float" x="35" y="3" width="69" height="18"/>
+				<reportElement positionType="Float" x="35" y="3" width="69" height="18" uuid="3adee2ee-2b2f-44ef-9522-7f5a0f562d69"/>
 				<textElement verticalAlignment="Middle">
 					<font isBold="true" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[NAME]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="100" y="3" width="73" height="18"/>
+				<reportElement x="100" y="3" width="73" height="18" uuid="8b56b15b-6106-407f-88ce-e2edebd2875c"/>
 				<textElement verticalAlignment="Middle">
 					<font isBold="true" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[VORNAME]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="184" y="3" width="100" height="18"/>
+				<reportElement x="184" y="3" width="100" height="18" uuid="45404c02-5a74-445d-87e1-4e0955046c3e"/>
 				<textElement verticalAlignment="Middle">
 					<font isBold="true" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[Privat]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="284" y="3" width="100" height="18"/>
+				<reportElement x="284" y="3" width="100" height="18" uuid="841dadd8-126d-4fb8-b944-392c909fbc90"/>
 				<textElement verticalAlignment="Middle">
 					<font isBold="true" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[Handy]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="384" y="3" width="100" height="18"/>
+				<reportElement x="384" y="3" width="100" height="18" uuid="d963b474-a0b9-4de2-8d4d-7e5e393282f9"/>
 				<textElement verticalAlignment="Middle">
 					<font isBold="true" isItalic="true"/>
 				</textElement>
@@ -91,37 +92,37 @@
 	<detail>
 		<band height="16" splitType="Stretch">
 			<textField isBlankWhenNull="true">
-				<reportElement x="35" y="0" width="65" height="16"/>
+				<reportElement x="35" y="0" width="65" height="16" uuid="067276b4-d976-44f9-8ddb-cf342568915b"/>
 				<textElement verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{NAME}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="100" y="0" width="73" height="16"/>
+				<reportElement x="100" y="0" width="73" height="16" uuid="13766fc3-eb2b-4e8b-93ea-1b79860c3be0"/>
 				<textElement verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{VORNAME}]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement x="35" y="0" width="483" height="1"/>
+				<reportElement x="35" y="0" width="483" height="1" uuid="281389f1-dd96-4a5f-ad29-b09169674719"/>
 				<graphicElement>
 					<pen lineWidth="0.5"/>
 				</graphicElement>
 			</line>
 			<textField isBlankWhenNull="true">
-				<reportElement x="184" y="0" width="100" height="16"/>
+				<reportElement x="184" y="0" width="100" height="16" uuid="2b14fe5a-f4cf-4ca7-8426-9eabf842f104"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{TELEFONPRIVATFEST}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="284" y="0" width="100" height="16"/>
+				<reportElement x="284" y="0" width="100" height="16" uuid="b3920acd-61eb-4886-b6c4-a76d44c552fd"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{TELEFONPRIVATMOBIL}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="384" y="0" width="100" height="16"/>
+				<reportElement x="384" y="0" width="100" height="16" uuid="d3dbabcc-dddd-44a2-b89f-2381c4d35d1a"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{TELEFONDIENST}]]></textFieldExpression>
 			</textField>
@@ -133,18 +134,16 @@
 	<pageFooter>
 		<band height="20" splitType="Stretch">
 			<textField>
-				<reportElement x="194" y="0" width="80" height="20"/>
+				<reportElement x="194" y="0" width="80" height="20" uuid="62e8854a-545b-4e43-963e-a56468d8940d"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA["Seite "+$V{PAGE_NUMBER}+" von"]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
-				<reportElement x="284" y="0" width="40" height="20"/>
-				<textElement/>
+				<reportElement x="284" y="0" width="40" height="20" uuid="47391e8e-1d12-4e24-a2f9-d32dc0f2d277"/>
 				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="455" y="0" width="100" height="20"/>
-				<textElement/>
+				<reportElement x="455" y="0" width="100" height="20" uuid="2f5ee5a0-0f40-4f21-a73c-bb1dd8fdebc7"/>
 				<textFieldExpression><![CDATA[$P{STAND}]]></textFieldExpression>
 			</textField>
 		</band>
