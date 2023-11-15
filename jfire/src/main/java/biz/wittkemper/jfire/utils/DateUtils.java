@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -57,8 +58,7 @@ public class DateUtils {
 
 			}
 
-			JOptionPane.showMessageDialog(frame, text.toString(),
-					"Geburtstage in diesem und dem nächsten Monat:",
+			JOptionPane.showMessageDialog(frame, text.toString(), "Geburtstage in diesem und dem nächsten Monat:",
 					JOptionPane.INFORMATION_MESSAGE);
 
 		}
@@ -67,77 +67,63 @@ public class DateUtils {
 	private StringBuilder getBirthDayData(int monat) throws Exception {
 
 		int monat1 = monat;
-		int monat2 = monat1 +1;
-		
+		int monat2 = monat1 + 1;
+
 		StringBuilder text = new StringBuilder();
 		String sql = "";
 
 		sql = "Select VORNAME , NAME , GEBDATUM , YEAR(CURRENT_DATE) - YEAR(GEBDATUM) From Mitglied m ";
-		sql += "where m.STATUS_ID IN (1,2) AND MONTH(GEBDATUM) IN (" + monat1
-				+ ", " + monat2
-				+ ") ORDER BY MONTH (GEBDATUM), DAY (GEBDATUM)";
-		text.append(GetSQLData(sql));
+		sql += "where m.STATUS_ID IN (1,2) AND MONTH(GEBDATUM) IN (" + monat1 + ", " + monat2
+				+ ") AND m.geloescht = :geloescht ORDER BY MONTH (GEBDATUM), DAY (GEBDATUM)";
+		text.append(GetSQLData(sql, false));
 
 		return text;
 	}
 
-	private StringBuilder getDecemberData() throws Exception{
+	private StringBuilder getDecemberData() throws Exception {
 
 		StringBuilder text = new StringBuilder();
 		String sql = "";
 
 		sql = "Select VORNAME , NAME , GEBDATUM , YEAR(CURRENT_DATE) - YEAR(GEBDATUM) From Mitglied m ";
 		sql += "where m.STATUS_ID IN (1,2) AND MONTH(GEBDATUM) IN (" + 12
-				+ ") ORDER BY MONTH (GEBDATUM) ,DAY (GEBDATUM)";
+				+ ") AND m.geloescht = :geloescht ORDER BY MONTH (GEBDATUM) ,DAY (GEBDATUM)";
 
-		text.append(GetSQLData(sql));
+		text.append(GetSQLData(sql, false));
 
 		sql = "Select VORNAME , NAME , GEBDATUM , (YEAR(CURRENT_DATE)+1) - YEAR(GEBDATUM) From Mitglied m ";
 		sql += "where m.STATUS_ID IN (1,2) AND MONTH(GEBDATUM) IN (" + 1
-				+ ") ORDER BY MONTH (GEBDATUM) ,DAY (GEBDATUM)";
+				+ ") AND m.geloescht = :geloescht ORDER BY MONTH (GEBDATUM) ,DAY (GEBDATUM)";
 
-		text.append(GetSQLData(sql));
+		text.append(GetSQLData(sql, false));
 
 		return text;
 	}
 
-	private String GetSQLData(String sql) throws Exception {
+	private String GetSQLData(String sql, boolean geloescht) throws Exception {
 
 		StringBuilder text = new StringBuilder();
-		SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy", Locale.GERMAN);
+		HashMap<String, Boolean> map = new HashMap<String, Boolean>(); 
+		map.put("geloescht", geloescht);
 		
 		EntityManager em = JPAEntityManager.getCurrentEntityManager();
-                
-		List<Object[]> query  = (List<Object[]> ) em.createNativeQuery(sql).getResultList();
 		
-		Object[] rows = (Object[]) query.toArray();
-		
-		query.forEach(o ->{
-			String o0 = o[0].toString();
-			String o1 = o[1].toString();
-			String o2 = o[2].toString();
-			String o3 = o[3].toString();
-			try {
-				text.append(01 + ", " + o0 + " (" + getCurDateString(formatter.parse(o2)) + " ) wird: " + o3 +"\n");
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		List<Object[]> results = (List<Object[]>) em.createNativeQuery(sql).setParameter("geloescht", geloescht) .getResultList();
+
+		results.stream().forEach((record) -> {
+			String o0 = record[0].toString();
+			String o1 = record[1].toString();
+			Date o2 = (Date) record[2];
+			String o3 = record[3].toString();
+
+			text.append(o1 + ", " + o0 + " (" + getCurDateString(o2) + " ) wird: " + o3 + "\n");
 		});
-				
-//		for (Object[] row : rows) {
-//			String one = row[1];
-//			text.append(row[1].toString() + ", " + row[0].toString() + " "
-//					+ "(" + getCurDateString((Date) row[2]) + ") wird: "
-//					+ row[3].toString() + "\n");
-//		}
 		return text.toString();
 	}
 
 	public String getAlter(Calendar cal1, Calendar cal2) {
 		if (cal1.get(Calendar.MONTH) >= 11) {
-			return (cal2.get(Calendar.YEAR)) - cal1.get(Calendar.YEAR)
-					+ " alt.";
+			return (cal2.get(Calendar.YEAR)) - cal1.get(Calendar.YEAR) + " alt.";
 		} else {
 			return cal2.get(Calendar.YEAR) - cal1.get(Calendar.YEAR) + " alt.";
 		}

@@ -13,13 +13,13 @@ import java.util.zip.ZipInputStream;
 
 import javax.crypto.CipherInputStream;
 import javax.crypto.NoSuchPaddingException;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
 
 import biz.wittkemper.jfire.data.entity.Replication;
 import biz.wittkemper.jfire.service.replication.SecurityTools.SECURITYTOOLS;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBElement;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Unmarshaller;
 
 public class ReplicationRead {
 

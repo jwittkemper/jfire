@@ -14,17 +14,21 @@ abstract class AbstractDAOImpl<DomainObject extends Serializable, KeyTyp extends
 
 	private EntityManager entityManager;
 
+	
+	protected Class<DomainObject> entityClass;
 	protected abstract Class<DomainObject> getDomainClass();
-
+	
 	protected EntityManager getEntityManager() {
 		return JPAEntityManager.getInstance();
 	}
 
 	public DomainObject load(KeyTyp id) {
+
 		Object t = getDomainClass();
+		
 		entityManager = this.getEntityManager();
 		try {
-//			t = entityManager.find( t, id);
+			t = entityManager.find( getDomainClass(), id);
 		} catch (Exception ex) {
 			t = null;
 		}

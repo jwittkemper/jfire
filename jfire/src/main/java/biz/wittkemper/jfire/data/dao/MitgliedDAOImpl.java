@@ -211,9 +211,21 @@ public class MitgliedDAOImpl extends AbstractDAOImpl<Mitglied, Long> implements
 	public void resetEdit() {
 		String hql = "";
 
-		hql += "Update Mitglied set edit=0 where edit =1";
+		HashMap<String, Boolean> map = new HashMap<String, Boolean>(); 
+		map.put("one", true);
+		
+		hql ="FROM Mitglied a WHERE a.edit= :one";
+		
+		List<Mitglied> list = super.findByQueryString(hql, map);
+		
+		for (Mitglied m: list) {
+			m.setEdit(false);
+			super.merge(m);
+		}
+		
+//		hql += "Update Mitglied set edit= :1 where edit =:2";
 
-		Query query = super.getEntityManager().createQuery(hql);
-		query.executeUpdate();
+//		Query query = super.getEntityManager().createQuery(hql);
+//		query.executeUpdate();
 	}
 }

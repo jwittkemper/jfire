@@ -8,7 +8,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
 import javax.crypto.NoSuchPaddingException;
-import javax.xml.bind.JAXBException;
 
 import org.junit.Ignore;
 
@@ -17,6 +16,7 @@ import biz.wittkemper.jfire.service.replication.ReplicationRead;
 import biz.wittkemper.jfire.service.replication.ReplicationReadWorkFlow;
 import biz.wittkemper.jfire.service.replication.ReplicationWrite;
 import biz.wittkemper.jfire.service.replication.ReplicationWriteWorkflow;
+import jakarta.xml.bind.JAXBException;
 
 public class ReplicationTest {
 

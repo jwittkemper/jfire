@@ -12,12 +12,12 @@ import javax.crypto.NoSuchPaddingException;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.xml.bind.JAXBException;
 
 import biz.wittkemper.jfire.data.entity.Replication;
 import biz.wittkemper.jfire.utils.DateUtils;
 import biz.wittkemper.jfire.utils.ParameterUtils;
 import biz.wittkemper.jfire.utils.SystemUtils;
+import jakarta.xml.bind.JAXBException;
 
 public class ReplicationReadWorkFlow {
 

@@ -6,8 +6,9 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry including="*" kind="src" path="src/main/resources/picture"/>
 	<classpathentry exported="true" kind="lib" path="picture"/>
-	<classpathentry excluding="**|picture/" kind="src" output="target/classes" path="src/main/resources">
+	<classpathentry excluding="**|picture/|picture/" kind="src" output="target/classes" path="src/main/resources">
 		<attributes>
 			<attribute name="maven.pomderived" value="true"/>
 			<attribute name="optional" value="true"/>

@@ -13,12 +13,12 @@ import java.util.zip.ZipOutputStream;
 
 import javax.crypto.CipherOutputStream;
 import javax.crypto.NoSuchPaddingException;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
 
 import biz.wittkemper.jfire.data.entity.Replication;
 import biz.wittkemper.jfire.service.replication.SecurityTools.SECURITYTOOLS;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Marshaller;
 
 public class ReplicationWrite {
 
