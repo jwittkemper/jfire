@@ -15,12 +15,15 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
 import jakarta.transaction.Transaction;
+import jakarta.transaction.Transactional;
 
+@Transactional
 public class JPAEntityManager {
 
     private static final Logger log = LoggerFactory.getLogger(JPAEntityManager.class);
     private static SystemUtils systemUtils = new SystemUtils();
 	private static EntityManagerFactory emf;
+
     private static EntityManager entityManager;
     
 	static {

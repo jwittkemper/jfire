@@ -9,7 +9,9 @@ import org.apache.poi.ss.formula.functions.T;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
+import jakarta.transaction.Transactional;
 
+@Transactional
 abstract class AbstractDAOImpl<DomainObject extends Serializable, KeyTyp extends Serializable> {
 
 	private EntityManager entityManager;
@@ -37,17 +39,22 @@ abstract class AbstractDAOImpl<DomainObject extends Serializable, KeyTyp extends
 
 	public void update(DomainObject t) {
 		entityManager = this.getEntityManager();
+		entityManager.getTransaction().begin();
 		entityManager.merge(t);
+		entityManager.getTransaction().commit();
 	}
 
 	public void merge(DomainObject t) {
+		
 		this.update(t);
 	}
 
 	public void save(DomainObject t) {
 
 		entityManager = this.getEntityManager();
+		entityManager.getTransaction().begin();
 		entityManager.persist(t);
+		entityManager.getTransaction().commit();
 
 	}
 

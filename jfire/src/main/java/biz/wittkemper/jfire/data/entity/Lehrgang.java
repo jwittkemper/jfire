@@ -12,6 +12,7 @@ public class Lehrgang implements Serializable{
 	int id;
 	String bezeichnung;
 	boolean agt=false;
+	int laufbahnrank;
 	
 	
 	public int getId() {
@@ -31,6 +32,13 @@ public class Lehrgang implements Serializable{
 	}
 	public void setAgt(boolean agt) {
 		this.agt = agt;
+	}
+	
+	public int getLaufbahnrank() {
+		return laufbahnrank;
+	}
+	public void setLaufbahnrank(int laufbahnrank) {
+		this.laufbahnrank = laufbahnrank;
 	}
 	
 	@Override

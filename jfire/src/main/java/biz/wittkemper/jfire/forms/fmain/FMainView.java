@@ -59,7 +59,7 @@ public class FMainView extends JFrame {
 	JMenuItem mnAdressliste;
 	
 	JMenu mnStammdaten;
-	JMenuItem mnLehrgang;
+//	JMenuItem mnLehrgang;
 	JMenuItem mnFueherschein;
 	
 	/**
@@ -155,11 +155,11 @@ public class FMainView extends JFrame {
 		mnAdressListen.add(mntmMitgliederFoerderverein);
 
 		mnStammdaten = new JMenu("Einstellungen");
-		mnLehrgang = new JMenuItem("Lehrgänge");
+//		mnLehrgang = new JMenuItem("Lehrgänge");
 		
 		mnFueherschein = new JMenuItem("Führerscheine");
 		
-		mnStammdaten.add(mnLehrgang);
+//		mnStammdaten.add(mnLehrgang);
 		mnStammdaten.add(mnFueherschein);
 		
 		menuBar.add(mnStammdaten);
@@ -195,6 +195,8 @@ public class FMainView extends JFrame {
 		mnDatenImport.addActionListener(al);
 		mnDatenExport.addActionListener(al);
 		mnAdressliste.addActionListener(al);
+		mnFueherschein.addActionListener(al);
+//		mnLehrgang.addActionListener(al);
 	}
 
 	protected void setBeendenListener(ActionListener al) {
